@@ -1,11 +1,17 @@
 package v1.oo;
+import java.io.Serializable;
 
-public class Cell {
+public class Cell implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Cell link1,link2,link3,link4;
 	private int Criticalmass;
-	private String color;
-	private int Owner;
+	private String color;		//extra hai
+	private int Owner; 			
 	private int orbs;
+	
 	
 	public int getOrbs() {
 		return orbs;
@@ -17,19 +23,54 @@ public class Cell {
 
 	public Cell(int cm){
 		this.Criticalmass=cm;
+		this.Owner=0;
 	}
 	
 	public void addORB(){
 		this.orbs++;
 		if(this.isFull()){
 			this.explode();
-			this.orbs=0;
 		}
 	}
 	
 	public void explode() {
 		// TODO Auto-generated method stub
-		
+		if (this.Criticalmass==2){
+			this.orbs=0;
+			int temp=Owner;
+			this.Owner=0;
+			this.link1.setOwner(temp);
+			this.link1.addORB();
+			this.link2.setOwner(temp);
+			this.link2.addORB();
+		}
+		else if(this.Criticalmass==3){
+			this.orbs=0;
+			int temp=Owner;
+			this.Owner=0;
+			this.link1.setOwner(temp);
+			this.link1.addORB();
+			this.link2.setOwner(temp);
+			this.link2.addORB();
+			this.link3.setOwner(temp);
+			this.link3.addORB();
+		}
+		else if(this.Criticalmass==4){
+			this.orbs=0;
+			int temp=Owner;
+			this.Owner=0;
+			this.link1.setOwner(temp);
+			this.link1.addORB();
+			this.link2.setOwner(temp);
+			this.link2.addORB();
+			this.link3.setOwner(temp);
+			this.link3.addORB();
+			this.link4.setOwner(temp);
+			this.link4.addORB();
+		}
+		else{
+			System.out.println("Code Gdbd hai");
+		}
 	}
 	
 	public boolean isOwnedBy(int i){
@@ -39,17 +80,13 @@ public class Cell {
 		return false;
 	}
 
-	
-	
 	public boolean isFull(){
 		if (this.Criticalmass==this.orbs){
 			return true;
 		}
 		return false;
 	}
-	
-	
-	
+		
 	public Cell getLink1() {
 		return link1;
 	}
