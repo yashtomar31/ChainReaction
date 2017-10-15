@@ -1,4 +1,3 @@
-package v1.oo;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
@@ -10,8 +9,21 @@ public class Matrix implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int counter;
 	public Cell[][] board;
+	
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+	public Cell[][] getBoard() {
+		return board;
+	}
 	private int m,n;
-	private int currentplayer;
+	
+	public int getM() {
+		return m;
+	}
+	public int getN() {
+		return n;
+	}
 	Matrix(int m,int n){
 		this.m=m;
 		this.n=n;
@@ -34,6 +46,7 @@ public class Matrix implements Serializable {
 		board[m-1][0]=new Cell(2);
 		board[m-1][n-1]=new Cell(2);
 		
+		//linking of Cells
 		for(int i=1;i<m-1;i++){
 			for(int j=1;j<n-1;j++){
 				board[i][j].setLink1(board[i][j-1]);
