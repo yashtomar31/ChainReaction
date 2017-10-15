@@ -1,4 +1,3 @@
-package v1.oo;
 import java.io.Serializable;
 
 public class Cell implements Serializable {
@@ -8,8 +7,7 @@ public class Cell implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Cell link1,link2,link3,link4;
 	private int Criticalmass;
-	private String color;		//extra hai
-	private int Owner; 			
+	private String color;		
 	private int orbs;
 	
 	
@@ -23,7 +21,7 @@ public class Cell implements Serializable {
 
 	public Cell(int cm){
 		this.Criticalmass=cm;
-		this.Owner=0;
+		this.color="Black";
 	}
 	
 	public void addORB(){
@@ -37,35 +35,35 @@ public class Cell implements Serializable {
 		// TODO Auto-generated method stub
 		if (this.Criticalmass==2){
 			this.orbs=0;
-			int temp=Owner;
-			this.Owner=0;
-			this.link1.setOwner(temp);
+			String temp=this.color;
+			this.color="Black";
+			this.link1.setColor(temp);
 			this.link1.addORB();
-			this.link2.setOwner(temp);
+			this.link2.setColor(temp);
 			this.link2.addORB();
 		}
 		else if(this.Criticalmass==3){
 			this.orbs=0;
-			int temp=Owner;
-			this.Owner=0;
-			this.link1.setOwner(temp);
+			String temp=this.color;
+			this.color="Black";
+			this.link1.setColor(temp);
 			this.link1.addORB();
-			this.link2.setOwner(temp);
+			this.link2.setColor(temp);
 			this.link2.addORB();
-			this.link3.setOwner(temp);
+			this.link3.setColor(temp);
 			this.link3.addORB();
 		}
 		else if(this.Criticalmass==4){
 			this.orbs=0;
-			int temp=Owner;
-			this.Owner=0;
-			this.link1.setOwner(temp);
+			String temp=this.color;
+			this.color="Black";
+			this.link1.setColor(temp);
 			this.link1.addORB();
-			this.link2.setOwner(temp);
+			this.link2.setColor(temp);
 			this.link2.addORB();
-			this.link3.setOwner(temp);
+			this.link3.setColor(temp);
 			this.link3.addORB();
-			this.link4.setOwner(temp);
+			this.link4.setColor(temp);
 			this.link4.addORB();
 		}
 		else{
@@ -73,8 +71,8 @@ public class Cell implements Serializable {
 		}
 	}
 	
-	public boolean isOwnedBy(int i){
-		if( i==this.Owner){
+	public boolean isOwnedBy(Player p){
+		if( p.getColor().equals(this.color)){
 			return true;
 		}
 		return false;
@@ -116,12 +114,6 @@ public class Cell implements Serializable {
 	}
 	public void setColor(String color) {
 		this.color = color;
-	}
-	public int getOwner() {
-		return Owner;
-	}
-	public void setOwner(int owner) {
-		Owner = owner;
 	}
 	public int getCriticalmass() {
 		return Criticalmass;
