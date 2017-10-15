@@ -13,7 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -21,41 +24,53 @@ public class main extends Application {
 	private Matrix a;
 	static Stage thestage;
 	static int noofplayer;
-	static ChoiceBox ncb;
+	static ChoiceBox<String> ncb;
+	static ChoiceBox<String> gridbox;
+	static String grid;
+	static int m,n;
 	 public static void main(String[] args) {
 	        launch(args);
 	    }
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-//		Scanner scan = new Scanner(System.in);
-//		int m=scan.nextInt();
-//		int n=scan.nextInt();
-//		a =new Matrix(m,n);
-//		for(int i=0;i<m;i++){
-//			for(int j=0;j<m;j++){
-//				pane.add(a.board[i][j],j,i);
-//				
-//			}
-//		}
-//		BorderPane borderpane=new BorderPane();
-//		borderpane.setCenter(pane);
-//		Scene scene=new Scene(borderpane,450,300); 
-//		primaryStage.setTitle("init");
 		menupaine(primaryStage);
 		
 	}
 	 public static void ButtonClicked(javafx.event.ActionEvent e){
 		 noofplayer=Integer.parseInt((ncb.getValue().toString())); 
+		 grid=gridbox.getValue().toString();
+		 if(grid.equals("15x10")){
+			 m=15;
+			 n=10;
+		 }
+		 else{
+			 m=9;
+			 n=6;
+		 }
+		 
 		 settings();
+	 }
+	 public static void ngame(javafx.event.ActionEvent e){
+		 noofplayer=Integer.parseInt((ncb.getValue().toString())); 
+		 grid=gridbox.getValue().toString();
+		 if(grid.equals("15x10")){
+			 m=15;
+			 n=10;
+		 }
+		 else{
+			 m=9;
+			 n=6;
+		 }
+		 game();
 	 }
 	 public static void menupaine(Stage primaryStage){
 		 thestage=primaryStage;
 		 GridPane gridPane=new GridPane();
-		ncb = new ChoiceBox(); 
+		ncb = new ChoiceBox<String>(); 
 	      ncb.getItems().addAll ("2","3" ,"4", "5", "6", "7","8");
 	    Text namegameplayer=new Text("No. of players");
 	    Text gridsize=new Text("Choose grid size");
-	    ChoiceBox gridbox=new ChoiceBox();
+	    gridbox=new ChoiceBox<String>();
 	    gridbox.getItems().addAll("9x6","15x10");
 	    Button Ngame = new Button("Start Game");
 	    Button Rgame = new Button("Resume Game");
@@ -77,6 +92,7 @@ public class main extends Application {
 		primaryStage.setScene(SceneMenu	);
 		primaryStage.show();
 		Settings.setOnAction(e->ButtonClicked(e));
+		Ngame.setOnAction(e->ngame(e));
 		
 		
 		
@@ -89,7 +105,7 @@ public class main extends Application {
 		 gridPane.setAlignment(Pos.CENTER);
 		 for(int i=0;i<nplayer;i++){
 			 Text pc=new Text("Choose colour for " +i);
-		 ChoiceBox ccb = new ChoiceBox(); 
+		 ChoiceBox<String> ccb = new ChoiceBox<String>(); 
 	      ccb.getItems().addAll ("red", "blue", "green", "orange", "yellow","black");
 	      gridPane.add(ccb,1,i);
 	      gridPane.add(pc,0,i);
@@ -102,57 +118,83 @@ public class main extends Application {
 		 thestage.setScene(SceneSettings);
 		 thestage.show();
 	 }
+	 private static void game(){
+		 Pane root=new Pane();
+		 main akla=new main();
+		 root.setPrefSize(n*100,m*100);
+		 for(int i=0;i<m;i++){
+			 for(int j=0;j<n;j++){
+				 tile a=akla.new tile();
+				 a.setTranslateX(j*100);
+				 a.setTranslateY(i*100);
+				 root.getChildren().add(a);
+			 }	
+		 }
+		 Scene scgame = new Scene(root);
+		 thestage.setScene(scgame);
+		 thestage.show();
+		 
+	 }
+	 class tile extends StackPane{
+		 public tile(){
+			 Rectangle border=new Rectangle(100,100);
+			 border.setFill(null);
+			 border.setStroke(Color.BLACK);
+			 setAlignment(Pos.CENTER);
+			 getChildren().addAll(border);
+		 }
+	 }
 	 
 
 }
-class switchpane extends Application{
-	 Button btnscene1, btnscene2;
-	    Label lblscene1, lblscene2;
-	    FlowPane pane1, pane2;
-	    Scene scene1, scene2;
-	    Stage thestage;
-	 
-	    public static void main(String[] args) {
-	        launch(args);
-	    }
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		 thestage=primaryStage;
-	        //can now use the stage in other methods
-	       
-	        //make things to put on panes
-	        btnscene1=new Button("Click to go to Other Scene");
-	        btnscene2=new Button("Click to go back to First Scene");
-	        btnscene1.setOnAction(e-> ButtonClicked(e));
-	        btnscene2.setOnAction(e-> ButtonClicked(e));
-	        lblscene1=new Label();
-	        lblscene2=new Label();
-	        //make 2 Panes
-	        pane1=new FlowPane();
-	        pane2=new FlowPane();
-	        pane1.setVgap(10);
-	        pane2.setVgap(10);
-	        //set background color of each Pane
-	        pane1.setStyle("-fx-background-color: tan;-fx-padding: 10px;");
-	        pane2.setStyle("-fx-background-color: red;-fx-padding: 10px;");
-	           
-	        //add everything to panes
-	        pane1.getChildren().addAll(lblscene1, btnscene1);
-	        pane2.getChildren().addAll(lblscene2, btnscene2);
-	        scene1 = new Scene(pane1, 200, 100);
-	        scene2 = new Scene(pane2, 200, 100);
-	        
-	        primaryStage.setTitle("Hello World!");
-	        primaryStage.setScene(scene1);
-	        primaryStage.show();
-		
-	}
-	 public void ButtonClicked(javafx.event.ActionEvent e)
-	    {
-	        if (e.getSource()==btnscene1)
-	            thestage.setScene(scene2);
-	        else
-	            thestage.setScene(scene1);
-	    }
-
-}
+//class switchpane extends Application{
+//	 Button btnscene1, btnscene2;
+//	    Label lblscene1, lblscene2;
+//	    FlowPane pane1, pane2;
+//	    Scene scene1, scene2;
+//	    Stage thestage;
+//	 
+//	    public static void main(String[] args) {
+//	        launch(args);
+//	    }
+//	@Override
+//	public void start(Stage primaryStage) throws Exception {
+//		 thestage=primaryStage;
+//	        //can now use the stage in other methods
+//	       
+//	        //make things to put on panes
+//	        btnscene1=new Button("Click to go to Other Scene");
+//	        btnscene2=new Button("Click to go back to First Scene");
+//	        btnscene1.setOnAction(e-> ButtonClicked(e));
+//	        btnscene2.setOnAction(e-> ButtonClicked(e));
+//	        lblscene1=new Label();
+//	        lblscene2=new Label();
+//	        //make 2 Panes
+//	        pane1=new FlowPane();
+//	        pane2=new FlowPane();
+//	        pane1.setVgap(10);
+//	        pane2.setVgap(10);
+//	        //set background color of each Pane
+//	        pane1.setStyle("-fx-background-color: tan;-fx-padding: 10px;");
+//	        pane2.setStyle("-fx-background-color: red;-fx-padding: 10px;");
+//	           
+//	        //add everything to panes
+//	        pane1.getChildren().addAll(lblscene1, btnscene1);
+//	        pane2.getChildren().addAll(lblscene2, btnscene2);
+//	        scene1 = new Scene(pane1, 200, 100);
+//	        scene2 = new Scene(pane2, 200, 100);
+//	        
+//	        primaryStage.setTitle("Hello World!");
+//	        primaryStage.setScene(scene1);
+//	        primaryStage.show();
+//		
+//	}
+//	 public void ButtonClicked(javafx.event.ActionEvent e)
+//	    {
+//	        if (e.getSource()==btnscene1)
+//	            thestage.setScene(scene2);
+//	        else
+//	            thestage.setScene(scene1);
+//	    }
+//
+//}
