@@ -9,7 +9,7 @@ public class Matrix implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int counter;
-	Cell[][] board;
+	public Cell[][] board;
 	private int m,n;
 	private int currentplayer;
 	Matrix(int m,int n){
@@ -25,7 +25,7 @@ public class Matrix implements Serializable {
 			board[0][i]=new Cell(3);
 			board[m-1][i]=new Cell(3);
 		}
-		for(int i=1;i<n-1;i++){
+		for(int i=1;i<m-1;i++){
 			board[i][0]=new Cell(3);
 			board[i][n-1]=new Cell(3);
 		}
@@ -53,7 +53,7 @@ public class Matrix implements Serializable {
 			board[i][n-1].setLink1(board[i][n-2]);
 		}
 		
-		for(int i=0;i<n-1;i++){
+		for(int i=1;i<n-1;i++){
 			board[0][i].setLink1(board[0][i-1]);
 			board[0][i].setLink2(board[1][i]);
 			board[0][i].setLink3(board[0][i+1]);
