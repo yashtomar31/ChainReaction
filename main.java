@@ -2,6 +2,8 @@ package v1.oo;
 import java.util.Scanner;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,6 +20,8 @@ import javafx.stage.Stage;
 public class main extends Application {
 	private Matrix a;
 	static Stage thestage;
+	static int noofplayer;
+	static ChoiceBox ncb;
 	 public static void main(String[] args) {
 	        launch(args);
 	    }
@@ -41,13 +45,14 @@ public class main extends Application {
 		
 	}
 	 public static void ButtonClicked(javafx.event.ActionEvent e){
+		 noofplayer=Integer.parseInt((ncb.getValue().toString())); 
 		 settings();
 	 }
 	 public static void menupaine(Stage primaryStage){
 		 thestage=primaryStage;
 		 GridPane gridPane=new GridPane();
-		 ChoiceBox ncb = new ChoiceBox(); 
-	      ncb.getItems().addAll ("2", "4", "5", "6", "7","8");
+		ncb = new ChoiceBox(); 
+	      ncb.getItems().addAll ("2","3" ,"4", "5", "6", "7","8");
 	    Text namegameplayer=new Text("No. of players");
 	    Text gridsize=new Text("Choose grid size");
 	    ChoiceBox gridbox=new ChoiceBox();
@@ -71,20 +76,22 @@ public class main extends Application {
 	    Scene SceneMenu = new Scene(gridPane); 
 		primaryStage.setScene(SceneMenu	);
 		primaryStage.show();
-		Settings.setOnAction(e-> ButtonClicked(e));
+		Settings.setOnAction(e->ButtonClicked(e));
+		
+		
 		
 	 }
 	 public static void settings(){
 		 GridPane gridPane=new GridPane();
-		 int nplayer=6;
+		 int nplayer=noofplayer;
 		  gridPane.setMinSize(500, 500);
 		 gridPane.setPadding(new Insets(10, 10, 10, 10)); 
 		 gridPane.setAlignment(Pos.CENTER);
 		 for(int i=0;i<nplayer;i++){
 			 Text pc=new Text("Choose colour for " +i);
-		 ChoiceBox ncb = new ChoiceBox(); 
-	      ncb.getItems().addAll ("red", "blue", "green", "orange", "yellow","black");
-	      gridPane.add(ncb,1,i);
+		 ChoiceBox ccb = new ChoiceBox(); 
+	      ccb.getItems().addAll ("red", "blue", "green", "orange", "yellow","black");
+	      gridPane.add(ccb,1,i);
 	      gridPane.add(pc,0,i);
 	      
 	      }
