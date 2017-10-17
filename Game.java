@@ -1,7 +1,13 @@
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -36,10 +42,38 @@ class Reader {			//reader class for to take input in faster manner
 }
 
 
-public class Game {
+public class Game implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static Game obj;
+	
+	private static final long serialVersionUID = 1L;
 	private	ArrayList<Player> Players;
 	private Matrix matrix;
+	
+	public static void serialize() throws FileNotFoundException, IOException{
+		ObjectOutputStream out=null;
+		try{
+			out=new ObjectOutputStream(new FileOutputStream("out.txt"));
+			out.writeObject(obj);
+		}
+		finally{
+			out.close();
+		}
+	}
+	
+	public static void deserialize() throws FileNotFoundException, IOException, ClassNotFoundException{
+		ObjectInputStream in=null;
+		try{
+			in=new ObjectInputStream(new FileInputStream("out.txt"));
+			obj= (Game) in.readObject();
+		}
+		finally{
+			in.close();
+		}
+	}
 	
 	public Game() throws IOException{
 		System.out.println("Select grid");
@@ -59,9 +93,19 @@ public class Game {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Reader.init(System.in);
-		Game obj=new Game();
-		obj.show();
-		obj.start();
+		obj=new Game();
+		while(!obj.isWinner()){
+			for(int i=0;i<obj.Players.size();i++){
+				serialize();
+				obj.Players.get(i).takeTurn();
+				obj.checkplayers();
+				obj.show();
+				if(obj.Players.size()==1){
+					break;
+				}
+			}
+		}
+		System.out.println(obj.Players.get(0).getColor());
 	}
 	
 	private boolean isWinner(){
@@ -74,19 +118,12 @@ public class Game {
 	private void show(){
 		for(int j=0;j<matrix.getM();j++){
 			for(int k=0;k<matrix.getN();k++){
-				System.out.print(matrix.getBoard()[j][k].getColor().charAt(0) +" ");
+				System.out.print(matrix.getBoard()[j][k].getColor().charAt(0)+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
 			}
 			System.out.println();
 		}
 	}
 	
-	private void chance(){
-		for(int i=0;i<Players.size();i++){
-			Players.get(i).takeTurn();
-			checkplayers();
-			show();
-		}
-	}
 	
 	private void checkplayers() {
 		// TODO Auto-generated method stub
@@ -97,14 +134,6 @@ public class Game {
 			}
 		}
 		Players=jugaad;
-	}
-
-	private void start() {
-		// TODO Auto-generated method stub
-		while(!isWinner()){
-			chance();
-		}
-		
 	}
 
 }
