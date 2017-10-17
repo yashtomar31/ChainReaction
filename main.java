@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -16,7 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -28,6 +31,7 @@ public class main extends Application {
 	static ChoiceBox<String> gridbox;
 	static String grid;
 	static int m,n;
+	static GridPane gp;
 	 public static void main(String[] args) {
 	        launch(args);
 	    }
@@ -119,29 +123,45 @@ public class main extends Application {
 		 thestage.show();
 	 }
 	 private static void game(){
-		 Pane root=new Pane();
-		 main akla=new main();
-		 root.setPrefSize(n*100,m*100);
-		 for(int i=0;i<m;i++){
-			 for(int j=0;j<n;j++){
-				 tile a=akla.new tile();
-				 a.setTranslateX(j*100);
-				 a.setTranslateY(i*100);
-				 root.getChildren().add(a);
-			 }	
-		 }
-		 Scene scgame = new Scene(root);
-		 thestage.setScene(scgame);
-		 thestage.show();
+			Pane root=new Pane();
+			 gp=new GridPane();
+			 main akla=new main();
+			 gp.setMinSize(m*50,(n+1)*50);
+			 gp.setAlignment(Pos.CENTER);
+			 for(int i=0;i<m;i++){
+				 for(int j=0;j<n;j++){
+					 tile a=akla.new tile();
+					 root.getChildren().add(a);
+					 gp.add(a,j,i);
+				 }	
+			 }
+			 ChoiceBox<String> ccb = new ChoiceBox<String>(); 
+		      ccb.getItems().addAll ("Start game", "Exit");
+		      gp.add(ccb,n+1,0);
+			 Scene scgame = new Scene(gp);
+			 thestage.setScene(scgame);
+			 thestage.show();
 		 
 	 }
 	 class tile extends StackPane{
 		 public tile(){
-			 Rectangle border=new Rectangle(100,100);
+			 final PhongMaterial redMaterial = new PhongMaterial();
+		        redMaterial.setDiffuseColor(Color.DARKRED);
+		        redMaterial.setSpecularColor(Color.RED);
+			 Rectangle border=new Rectangle(50,50);
 			 border.setFill(null);
 			 border.setStroke(Color.BLACK);
 			 setAlignment(Pos.CENTER);
 			 getChildren().addAll(border);
+			 setOnMouseClicked(event->{
+				 Sphere sphere = new Sphere();
+				 sphere.setRadius(10);
+				 sphere.setMaterial(redMaterial);
+				 getChildren().addAll(sphere);
+				 int x=gp.getColumnIndex(this);
+				 int y=gp.getRowIndex(this);
+				 System.out.println(x+" "+y);
+			 });
 		 }
 	 }
 	 
