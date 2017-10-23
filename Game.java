@@ -47,13 +47,21 @@ public class Game implements Serializable {
 	/**
 	 * 
 	 */
-	private static Game obj;
+	//private static Game obj;
 	
 	private static final long serialVersionUID = 1L;
 	private	ArrayList<Player> Players;
 	private Matrix matrix;
 	
-	public static void serialize() throws FileNotFoundException, IOException{
+	public ArrayList<Player> getPlayers() {
+		return Players;
+	}
+
+	public Matrix getMatrix() {
+		return matrix;
+	}
+
+	public static void serialize(Game obj) throws FileNotFoundException, IOException{
 		ObjectOutputStream out=null;
 		try{
 			out=new ObjectOutputStream(new FileOutputStream("out.txt"));
@@ -64,8 +72,9 @@ public class Game implements Serializable {
 		}
 	}
 	
-	public static void deserialize() throws FileNotFoundException, IOException, ClassNotFoundException{
+	public static Game deserialize() throws FileNotFoundException, IOException, ClassNotFoundException{
 		ObjectInputStream in=null;
+		Game obj;
 		try{
 			in=new ObjectInputStream(new FileInputStream("out.txt"));
 			obj= (Game) in.readObject();
@@ -73,30 +82,31 @@ public class Game implements Serializable {
 		finally{
 			in.close();
 		}
+		return obj;
 	}
 	
-	public Game() throws IOException{
-		System.out.println("Select grid");
-		int m=Reader.nextInt();
-		int n=Reader.nextInt();
+	public Game(int m,int n,int k) {
 		matrix=new Matrix(m,n);
 		System.out.println("Select no. of players");
-		int k=Reader.nextInt();
 		matrix.setCounter(k);
 		Players=new ArrayList<Player>(k);
 		System.out.println("Enter Color of Players");
 		for(int i=0;i<k;i++){
-			Players.add(i, new Player(Reader.next(),matrix));
+			Players.add(i, new Player("A"+i,matrix));
 		}	
 	}
 	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Reader.init(System.in);
-		obj=new Game();
+		System.out.println("Select grid");
+		int x=Reader.nextInt();
+		int y=Reader.nextInt();
+		int play=Reader.nextInt();
+		Game obj=new Game(x,y,play);
 		while(!obj.isWinner()){
 			for(int i=0;i<obj.Players.size();i++){
-				serialize();
+				serialize(obj);
 				obj.Players.get(i).takeTurn();
 				obj.checkplayers();
 				obj.show();
@@ -108,14 +118,14 @@ public class Game implements Serializable {
 		System.out.println(obj.Players.get(0).getColor());
 	}
 	
-	private boolean isWinner(){
+	public boolean isWinner(){
 		if (Players.size()==1){
 			return true;
 		}
 		return false;
 	}
 
-	private void show(){
+	public void show(){
 		for(int j=0;j<matrix.getM();j++){
 			for(int k=0;k<matrix.getN();k++){
 				System.out.print(matrix.getBoard()[j][k].getColor().charAt(0)+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
@@ -125,7 +135,7 @@ public class Game implements Serializable {
 	}
 	
 	
-	private void checkplayers() {
+	public void checkplayers() {
 		// TODO Auto-generated method stub
 		ArrayList<Player> jugaad=new ArrayList<Player>();
 		for(int i=0;i<Players.size();i++){
