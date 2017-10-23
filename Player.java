@@ -1,5 +1,5 @@
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.Scanner;
 
 public class Player implements Serializable {
 	
@@ -16,13 +16,11 @@ public class Player implements Serializable {
 		this.curr=c;
 	}
 
-	public void takeTurn(){
+	public void takeTurn() throws IOException{
 		boolean flag=true;
 		while(flag){
-			@SuppressWarnings("resource")
-			Scanner s=new Scanner(System.in);
-			int x=s.nextInt();
-			int y=s.nextInt();
+			int x= Reader.nextInt();
+			int y= Reader.nextInt();
 			if(this.curr.board[x][y].getColor().equals(color) || this.curr.board[x][y].getColor().equals("Black")){
 				this.curr.board[x][y].setColor(color);
 				this.curr.board[x][y].addORB();
