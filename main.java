@@ -1,18 +1,21 @@
-package v1.oo;
-import java.util.Scanner;
+//import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+//import javafx.beans.value.ChangeListener;
+//import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
+//import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
+//import javafx.scene.control.Label;
+//import javafx.scene.layout.BorderPane;
+//import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -23,8 +26,21 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class main extends Application {
-	private Matrix a;
+public class Main extends Application {
+//	private Matrix a;
+	
+	public static void serialize(Game obj) throws FileNotFoundException, IOException{
+		ObjectOutputStream out=null;
+		try{
+			out=new ObjectOutputStream(new FileOutputStream("out.txt"));
+			out.writeObject(obj);
+		}
+		finally{
+			out.close();
+		}
+	}
+	
+	private static Game g=null;
 	static Stage thestage;
 	static int noofplayer;
 	static ChoiceBox<String> ncb;
@@ -65,6 +81,7 @@ public class main extends Application {
 			 m=9;
 			 n=6;
 		 }
+		 g=new Game(m,n,noofplayer);
 		 game();
 	 }
 	 public static void menupaine(Stage primaryStage){
@@ -125,7 +142,7 @@ public class main extends Application {
 	 private static void game(){
 			Pane root=new Pane();
 			 gp=new GridPane();
-			 main akla=new main();
+			 Main akla=new Main();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
 			 for(int i=0;i<m;i++){
@@ -143,7 +160,10 @@ public class main extends Application {
 			 thestage.show();
 		 
 	 }
+	 private int clicks=0;
 	 class tile extends StackPane{
+		 
+		 
 		 public tile(){
 			 final PhongMaterial redMaterial = new PhongMaterial();
 		        redMaterial.setDiffuseColor(Color.DARKRED);
@@ -158,8 +178,20 @@ public class main extends Application {
 				 sphere.setRadius(10);
 				 sphere.setMaterial(redMaterial);
 				 getChildren().addAll(sphere);
+				 try {
+					serialize(g);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				 int x=gp.getColumnIndex(this);
 				 int y=gp.getRowIndex(this);
+				 //g.getPlayers().get(clicks%g.getPlayers().size()).takeTurn();
+				 g.checkplayers();
+				 g.show();
 				 System.out.println(x+" "+y);
 			 });
 		 }
