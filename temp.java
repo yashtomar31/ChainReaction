@@ -5,9 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 //import javafx.beans.value.ChangeListener;
@@ -29,13 +26,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-public class Main extends Application {
-//	private Matix a;
+public class temp extends Application {
+//	private Matrix a;
 	
 	public static void serialize(Game obj) throws FileNotFoundException, IOException{
 		ObjectOutputStream out=null;
@@ -150,7 +145,7 @@ public class Main extends Application {
 	 private static void game(){
 			Pane root=new Pane();
 			 gp=new GridPane();
-			 Main akla=new Main();
+			 temp akla=new temp();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
 			 for(int i=0;i<m;i++){
@@ -253,50 +248,4 @@ public class Main extends Application {
 	 }
 	 
 
-}
-
-
-class animation{
-	Group a;
-	RotateTransition rt;
-	animation(Group a){
-		this.a=a;
-		this.rt=new RotateTransition(Duration.millis(2000), a);
-	}
-	void setcoordinates(){
-		int size=a.getChildren().size();
-		System.out.println(size);
-		if(size==2){
-			a.getChildren().get(1).setTranslateX(10);
-			a.getChildren().get(1).setTranslateY(10);
-			this.rt=new RotateTransition(Duration.millis(2000), a);
-		}
-		if(size==3){
-			a.getChildren().get(0).setTranslateX(20);
-			a.getChildren().get(0).setTranslateY(20);
-			a.getChildren().get(1).setTranslateX(5);
-			a.getChildren().get(1).setTranslateY(5);
-			a.getChildren().get(2).setTranslateX(15);
-			a.getChildren().get(2).setTranslateY(15);
-			
-		}
-	}
-	void addanimation(){
-		 rt.setFromAngle(0);
-		 rt.setCycleCount(RotateTransition.INDEFINITE);
-		 rt.setInterpolator(Interpolator.EASE_BOTH);
-		 rt.setByAngle(360);
-	     rt.play();
-	 }
-
-	
-	
-}
-class orb{
-	Sphere s;
-	orb(PhongMaterial pc){
-		 s= new Sphere();
-		 s.setRadius(10);
-		 s.setMaterial(pc);
-	}
 }

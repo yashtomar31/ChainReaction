@@ -1,5 +1,8 @@
+package v1.oo;
 import java.io.IOException;
 import java.io.Serializable;
+
+import javafx.scene.paint.Color;
 
 public class Player implements Serializable {
 	
@@ -7,21 +10,19 @@ public class Player implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String color;
+	private Color color;
 	private Matrix curr;
 	private int count=0;
 	
-	Player(String color,Matrix c){
-		this.color=color;
+	Player(Color c2,Matrix c){
+		this.color=c2;
 		this.curr=c;
 	}
 
-	public void takeTurn() throws IOException{
+	public void takeTurn(int x,int y) throws IOException{
 		boolean flag=true;
 		while(flag){
-			int x= Reader.nextInt();
-			int y= Reader.nextInt();
-			if(this.curr.board[x][y].getColor().equals(color) || this.curr.board[x][y].getColor().equals("Black")){
+			if(this.curr.board[x][y].getColor().equals(color) || this.curr.board[x][y].getColor().equals(Color.BLACK)){
 				this.curr.board[x][y].setColor(color);
 				this.curr.board[x][y].addORB();
 				flag=false;
@@ -47,11 +48,11 @@ public class Player implements Serializable {
 		}
 	}
 
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
 
-	public void setColor(String color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 }
