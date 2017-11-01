@@ -20,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.input.MouseEvent;
 //import javafx.scene.control.Label;
 //import javafx.scene.layout.BorderPane;
 //import javafx.scene.layout.FlowPane;
@@ -142,6 +143,8 @@ public class Main extends Application {
 		 thestage.setScene(SceneSettings);
 		 thestage.show();
 	 }
+	 static int clicks;
+	 static int grid_tile_row,grid_tile_coloumn;
 	 private static void game(){
 			Pane root=new Pane();
 			 GridPane gp=new GridPane();
@@ -151,6 +154,7 @@ public class Main extends Application {
 				 for(int j=0;j<n;j++){
 					 g.getMatrix().board[i][j].setColor(Color.BLACK);
 					 tile a=new tile(g.getMatrix().board[i][j],g,g.getMatrix().board[i][j].getCriticalmass());
+					 a.setOnMouseClicked(e->Buttonclick(e,a));
 					 root.getChildren().add(a);
 					 gp.add(a,j,i);
 					 
@@ -166,6 +170,32 @@ public class Main extends Application {
 			 thestage.setScene(scgame);
 			 thestage.show();
 		 
+	 }
+	 static void Buttonclick(MouseEvent e,tile a){
+		 grid_tile_coloumn=GridPane.getColumnIndex(a);
+		 grid_tile_row=GridPane.getRowIndex(a);
+		 System.out.println(grid_tile_row+" "+grid_tile_coloumn);
+		 try {
+				g.getPlayers().get(clicks%g.getPlayers().size()).takeTurn(grid_tile_row,grid_tile_coloumn);
+			} catch (IOException f) {
+				// TODO Auto-generated catch block
+			}
+			 g.checkplayers();
+			 g.show();
+		 int porbs=g.getMatrix().board[grid_tile_row][ grid_tile_coloumn].getOrbs();
+		 System.out.println("orbs no."+porbs);
+		 if(porbs==1){
+			 animation b=new animation(Color.BROWN,1);
+			 a.getChildren().add(b.a);
+		 }
+		 else{
+			 //System.out.println(getChildren().size());
+			 a.getChildren().remove(1);
+			 animation b=new animation(Color.BISQUE,porbs);
+			 b.setcoordinates();
+			 b.addanimation();
+			 a.getChildren().addAll(b.a);
+		 }
 	 }
 	 static void setlinks(GridPane gp){
 			Main akla=new Main();

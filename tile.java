@@ -93,7 +93,8 @@ class tile extends StackPane{
 			}
 		}
 		public void addORB(){
-			System.out.println(GridPane.getColumnIndex(this));;
+			System.out.println(GridPane.getColumnIndex(this));
+			
 			this.orbs++;
 			if(this.isFull()){
 				this.explode();
