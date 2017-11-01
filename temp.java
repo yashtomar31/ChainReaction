@@ -11,7 +11,6 @@ import javafx.collections.ObservableList;
 //import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 //import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,16 +21,11 @@ import javafx.scene.control.ChoiceBox;
 //import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class temp extends Application {
-//	private Matrix a;
-	
 	public static void serialize(Game obj) throws FileNotFoundException, IOException{
 		ObjectOutputStream out=null;
 		try{
@@ -43,14 +37,13 @@ public class temp extends Application {
 		}
 	}
 	
-	private static Game g=null;
+	static Game g;
 	static Stage thestage;
 	static int noofplayer;
 	static ChoiceBox<String> ncb;
 	static ChoiceBox<String> gridbox;
 	static String grid;
 	static int m,n;
-	static GridPane gp;
 	 public static void main(String[] args) {
 	        launch(args);
 	    }
@@ -144,13 +137,12 @@ public class temp extends Application {
 	 }
 	 private static void game(){
 			Pane root=new Pane();
-			 gp=new GridPane();
-			 temp akla=new temp();
+			 GridPane gp=new GridPane();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
 			 for(int i=0;i<m;i++){
 				 for(int j=0;j<n;j++){
-					 tile a=akla.new tile(g.getMatrix().board[i][j]);
+					 tile a=new tile(g.getMatrix().board[i][j],g,g.getMatrix().board[i][j].getCriticalmass());
 					 g.getMatrix().board[i][j].setColor(Color.BLACK);
 					 root.getChildren().add(a);
 					 gp.add(a,j,i);
@@ -168,7 +160,7 @@ public class temp extends Application {
 			 thestage.show();
 		 
 	 }
-	 static void changegridcolour(Color g){
+	 static void changegridcolour(Color g,GridPane gp){
 		 ObservableList<Node> children = gp.getChildren();
 		 for(Node node:children){
 			 try{
@@ -180,72 +172,9 @@ public class temp extends Application {
 			 }
 		 }
 	 }
-	 private int clicks=0;
-	 class tile extends StackPane{
-		 Rectangle border;
-		 public tile(Cell k){
-			 final PhongMaterial redMaterial = new PhongMaterial();
-		        redMaterial.setDiffuseColor(Color.DARKRED);
-		        redMaterial.setSpecularColor(Color.RED);
-			 border=new Rectangle(50,50);
-			 border.setFill(Color.BLACK);
-			 border.setStroke(Color.RED);
-			 getChildren().addAll(border);
-			 setOnMouseClicked(event->{
-				 int x=GridPane.getColumnIndex(this);
-				 int y=GridPane.getRowIndex(this);
-				 g.getMatrix().board[y][x].setOrbs(g.getMatrix().board[y][x].getOrbs()+1);
-				 int porbs=g.getMatrix().board[y][x].getOrbs();
-				 Group	ak=new Group();
-				 System.out.println("orbs no."+porbs);
-				 if(porbs==1){
-					 changegridcolour(Color.BLUE);
-					 orb o1= new orb(redMaterial);
-					 ak.getChildren().add(o1.s);
-					 animation a=new animation(ak);
-					 getChildren().add(a.a);
-				 }
-				 else if(porbs==2){
-					 changegridcolour(Color.RED);
-					 getChildren().remove(1);
-					 Group g1=new Group();
-					 orb o1= new orb(redMaterial);
-					 orb o2= new orb(redMaterial);
-					 g1.getChildren().add(o1.s);
-					 g1.getChildren().add(o2.s);
-					 animation a=new animation(g1);
-					 a.setcoordinates();
-					 a.addanimation();
-					 getChildren().addAll(a.a);
-				 }
-				 else if(porbs==3){
-					 //System.out.println(getChildren().size());
-					 changegridcolour(Color.BLUE);
-					 getChildren().remove(1);
-					 orb o1= new orb(redMaterial);
-					 orb o2= new orb(redMaterial);
-					 orb o3=new orb(redMaterial);
-					 ak.getChildren().add(o1.s);
-					 ak.getChildren().add(o2.s);
-					 ak.getChildren().add(o3.s);
-					 animation a=new animation(ak);
-					 a.setcoordinates();
-					 a.addanimation();
-					 getChildren().addAll(a.a);
-					 
-				 }			
-//				 try {
-//					 System.out.println("orbs no.1"+porbs);
-//					 
-//					//g.getPlayers().get(clicks%g.getPlayers().size()).takeTurn(y,x);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//				}
-				 g.checkplayers();
-//				 g.show();
-			 });
-		 }
-	 }
+	// private int clicks=0
 	 
 
 }
+
+

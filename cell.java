@@ -1,14 +1,7 @@
 package v1.oo;
-import java.io.Serializable;
-
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class Cell extends Pane implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Cell{
 	private Cell link1,link2,link3,link4;
 	private int Criticalmass;
 	private Color color;		//extra hai

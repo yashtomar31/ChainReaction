@@ -19,16 +19,13 @@ public class Player implements Serializable {
 		this.curr=c;
 	}
 
-	public void takeTurn(int x,int y) throws IOException{
-		boolean flag=true;
-		while(flag){
-			if(this.curr.board[x][y].getColor().equals(color) || this.curr.board[x][y].getColor().equals(Color.BLACK)){
+	public boolean takeTurn(int x,int y) throws IOException{
+			if(this.curr.board[x][y].getColor().equals(Color.BLACK)||this.curr.board[x][y].getColor().equals(color) ){
 				this.curr.board[x][y].setColor(color);
 				this.curr.board[x][y].addORB();
-				flag=false;
+				return false;
 			}
-		}
-		count++;
+			return true;
 	}
 	
 	public boolean isActive() {

@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 class Reader {			//reader class for to take input in faster manner
@@ -51,12 +52,13 @@ public class Game implements Serializable {
 	/**
 	 * 
 	 */
-	//private static Game obj;
-	
 	private static final long serialVersionUID = 1L;
 	private	ArrayList<Player> Players;
 	private Matrix matrix;
-	
+	GridPane g;
+	void setgridpane(GridPane g){
+		this.g=g;
+	}
 	public ArrayList<Player> getPlayers() {
 		return Players;
 	}
@@ -91,10 +93,8 @@ public class Game implements Serializable {
 	
 	public Game(int m,int n,int k) {
 		matrix=new Matrix(m,n);
-		System.out.println("Select no. of players");
 		matrix.setCounter(k);
 		Players=new ArrayList<Player>(k);
-		System.out.println("Enter Color of Players");
 //		for(int i=0;i<k;i++){
 //			Players.add(i, new Player("A"+i,matrix));
 //		}	
@@ -111,12 +111,24 @@ public class Game implements Serializable {
 //		int y=Reader.nextInt();
 //		int play=Reader.nextInt();
 //		Game obj=new Game(x,y,play);
+//		for(int i=0;i<x;i++){
+//			for(int j=0;j<y;j++){
+//				obj.matrix.board[i][j].setColor(Color.BLACK);
+//			}
+//		}
+//		obj.addplayer(Color.RED);
+//		obj.addplayer(Color.BLUE);
 //		while(!obj.isWinner()){
 //			for(int i=0;i<obj.Players.size();i++){
-//				serialize(obj);
-//				obj.Players.get(i).takeTurn();
+//				//serialize(obj);
+//				boolean flag=true;
+//				while(flag){
+//				int a=Reader.nextInt();
+//				int b=Reader.nextInt();
+//				flag=obj.Players.get(i).takeTurn(a,b);
+//				}
 //				obj.checkplayers();
-//				//obj.show();
+//				obj.show();
 //				if(obj.Players.size()==1){
 //					break;
 //				}
@@ -124,7 +136,7 @@ public class Game implements Serializable {
 //		}
 //		System.out.println(obj.Players.get(0).getColor());
 //	}
-	
+//	
 	public boolean isWinner(){
 		if (Players.size()==1){
 			return true;
@@ -132,15 +144,15 @@ public class Game implements Serializable {
 		return false;
 	}
 
-//	public void show(){
-//		for(int j=0;j<matrix.getM();j++){
-//			for(int k=0;k<matrix.getN();k++){
-//				System.out.print(matrix.getBoard()[j][k].getColor().charAt(0)+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
-//			}
-//			System.out.println();
-//		}
-//	}
-//	
+	public void show(){
+		for(int j=0;j<matrix.getM();j++){
+			for(int k=0;k<matrix.getN();k++){
+				System.out.print(matrix.getBoard()[j][k].getColor()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
+			}
+			System.out.println();
+		}
+	}
+	
 	
 	public void checkplayers() {
 		// TODO Auto-generated method stub
