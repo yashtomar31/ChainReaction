@@ -34,6 +34,7 @@ public class Cell{
 		if (this.Criticalmass==2){
 			this.orbs=0;
 			Color temp=this.color;
+			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
 			this.link2.setOwner(temp);
@@ -42,6 +43,7 @@ public class Cell{
 		else if(this.Criticalmass==3){
 			this.orbs=0;
 			Color temp=this.color;
+			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
 			System.out.println("orbs no."+this.orbs);
@@ -53,6 +55,7 @@ public class Cell{
 		else if(this.Criticalmass==4){
 			this.orbs=0;
 			Color temp=this.color;
+			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
 			this.link2.setOwner(temp);

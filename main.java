@@ -145,9 +145,10 @@ public class Main extends Application {
 	 }
 	 static int clicks;
 	 static int grid_tile_row,grid_tile_coloumn;
+	 static GridPane gp;
 	 private static void game(){
 			Pane root=new Pane();
-			 GridPane gp=new GridPane();
+			 gp=new GridPane();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
 			 for(int i=0;i<m;i++){
@@ -180,6 +181,7 @@ public class Main extends Application {
 		 if(g.getPlayers().peek().getColor()==a.getOwner()||a.getOwner()==Color.BLACK){
 //			 g.checkplayers();
 //			 g.show();
+			 
 		 g.getMatrix().board[grid_tile_row][grid_tile_coloumn].setOwner(g.getPlayers().peek().getColor());;
 		 Player temp=g.getPlayers().remove();
 //		 System.out.println(temp.getColor()+" Color "+Color.RED);
@@ -187,6 +189,7 @@ public class Main extends Application {
 		 a.setOwner(temp.getColor());
 		 g.getPlayers().add(temp);
 		 a.addORB();
+		 changegridcolour(g.getPlayers().peek().getColor(),gp);
 		 }
 	 }
 	 static void setlinks(GridPane gp){
@@ -246,7 +249,7 @@ public class Main extends Application {
 		    return result;
 		}
 	 
-	 static void changegridcolour(Color g,GridPane gp){
+	  static void changegridcolour(Color g,GridPane gp){
 		 ObservableList<Node> children = gp.getChildren();
 		 for(Node node:children){
 			 try{

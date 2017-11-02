@@ -33,7 +33,9 @@ class tile extends StackPane{
 			// TODO Auto-generated method stub
 			if (this.Criticalmass==2){
 				this.orbs=0;
-				Color temp=this.color;
+				Color temp=this.Owner;
+				this.Owner=Color.BLACK;
+				getChildren().remove(1);
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
@@ -41,7 +43,9 @@ class tile extends StackPane{
 			}
 			else if(this.Criticalmass==3){
 				this.orbs=0;
-				Color temp=this.color;
+				Color temp=this.Owner;
+				this.Owner=Color.BLACK;
+				getChildren().remove(1);
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				System.out.println("orbs no."+this.orbs);
@@ -52,7 +56,9 @@ class tile extends StackPane{
 			}
 			else if(this.Criticalmass==4){
 				this.orbs=0;
-				Color temp=this.color;
+				Color temp=this.Owner;
+				this.Owner=Color.BLACK;
+				getChildren().remove(1);
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
@@ -82,9 +88,9 @@ class tile extends StackPane{
 			}
 			getChildren().add(addorb.a);
 			
-//			if(this.isFull()){
-//				this.explode();
-//			}
+			if(this.isFull()){
+				this.explode();
+			}
 		}
 		public boolean isOwnedBy(Color i){
 			if( i==this.Owner){
