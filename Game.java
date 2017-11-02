@@ -10,7 +10,8 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 import javafx.scene.layout.GridPane;
@@ -53,13 +54,13 @@ public class Game implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private	ArrayList<Player> Players;
+	private	Queue<Player> Players;
 	private Matrix matrix;
 	GridPane g;
 	void setgridpane(GridPane g){
 		this.g=g;
 	}
-	public ArrayList<Player> getPlayers() {
+	public Queue<Player> getPlayers() {
 		return Players;
 	}
 
@@ -94,11 +95,19 @@ public class Game implements Serializable {
 	public Game(int m,int n,int k) {
 		matrix=new Matrix(m,n);
 		matrix.setCounter(k);
-		Players=new ArrayList<Player>(k);
+		Players=new LinkedList<Player>();
+		int x=m;
+		int y=n;
+		for(int i=0;i<x;i++){
+		for(int j=0;j<y;j++){
+			this.matrix.board[i][j].setColor(Color.BLACK);
+		}
+	}
+	}
 //		for(int i=0;i<k;i++){
 //			Players.add(i, new Player("A"+i,matrix));
 //		}	
-	}
+	
 	public void addplayer(Color c){
 		Players.add(new Player(c,matrix));
 	}
@@ -112,10 +121,6 @@ public class Game implements Serializable {
 //		int play=Reader.nextInt();
 //		Game obj=new Game(x,y,play);
 //		for(int i=0;i<x;i++){
-//			for(int j=0;j<y;j++){
-//				obj.matrix.board[i][j].setColor(Color.BLACK);
-//			}
-//		}
 //		obj.addplayer(Color.RED);
 //		obj.addplayer(Color.BLUE);
 //		while(!obj.isWinner()){
@@ -156,10 +161,11 @@ public class Game implements Serializable {
 	
 	public void checkplayers() {
 		// TODO Auto-generated method stub
-		ArrayList<Player> jugaad=new ArrayList<Player>();
+		Queue<Player> jugaad=new LinkedList<Player>();
 		for(int i=0;i<Players.size();i++){
-			if(Players.get(i).isActive()){
-				jugaad.add(Players.get(i));
+			Player temp=Players.poll();
+			if(temp.isActive()){
+				jugaad.add(temp);
 			}
 		}
 		Players=jugaad;

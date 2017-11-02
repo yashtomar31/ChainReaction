@@ -1,6 +1,5 @@
 package v1.oo;
 
-import java.io.IOException;
 
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
@@ -21,6 +20,7 @@ class tile extends StackPane{
 		private int orbs;
 		
 	 public tile(Cell k,Game g,int cmass){
+		 this.Owner=Color.BLACK;
 		 this.g=g;
 		 border=new Rectangle(50,50);
 		 border.setFill(Color.BLACK);
@@ -28,32 +28,6 @@ class tile extends StackPane{
 		 this.Owner=null;
 		 this.Criticalmass=cmass;
 		 getChildren().addAll(border);
-		 setOnMouseClicked(event->{
-			 int x=GridPane.getColumnIndex(this);
-			 int y=GridPane.getRowIndex(this);
-			 System.out.println(x+" "+y);
-			 try {
-					g.getPlayers().get(clicks%g.getPlayers().size()).takeTurn(y,x);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-				}
-				 g.checkplayers();
-				 g.show();
-			 int porbs=g.getMatrix().board[y][x].getOrbs();
-			 System.out.println("orbs no."+porbs);
-			 if(porbs==1){
-				 animation a=new animation(Color.BROWN,1);
-				 getChildren().add(a.a);
-			 }
-			 else{
-				 //System.out.println(getChildren().size());
-				 getChildren().remove(1);
-				 animation a=new animation(Color.BISQUE,porbs);
-				 a.setcoordinates();
-				 a.addanimation();
-				 getChildren().addAll(a.a);
-			 }
-		 });
 	 }
 		public void explode() {
 			// TODO Auto-generated method stub
@@ -94,11 +68,23 @@ class tile extends StackPane{
 		}
 		public void addORB(){
 			System.out.println(GridPane.getColumnIndex(this));
-			
+			animation addorb;
 			this.orbs++;
-			if(this.isFull()){
-				this.explode();
+			try{
+			getChildren().remove(1);
+			addorb=new animation(this.Owner,this.orbs);
+			addorb.setcoordinates();
+			addorb.addanimation();
 			}
+			catch(Exception e){
+			 addorb=new animation(this.Owner,this.orbs);
+			 System.out.println(this.orbs +" present orbs");
+			}
+			getChildren().add(addorb.a);
+			
+//			if(this.isFull()){
+//				this.explode();
+//			}
 		}
 		public boolean isOwnedBy(Color i){
 			if( i==this.Owner){
