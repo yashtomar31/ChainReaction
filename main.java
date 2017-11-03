@@ -302,7 +302,7 @@ class animation{
 	void addanimation(){
 		 rt.setFromAngle(0);
 		 rt.setCycleCount(RotateTransition.INDEFINITE);
-		 rt.setInterpolator(Interpolator.EASE_BOTH);
+		 rt.setInterpolator(Interpolator.LINEAR);
 		 rt.setByAngle(360);
 	     rt.play();
 	 }

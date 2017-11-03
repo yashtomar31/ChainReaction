@@ -42,15 +42,15 @@ class tile extends StackPane{
 			catch(Exception e){
 				
 			}
+			Color temp=this.Owner;
+			this.Owner=Color.BLACK;
 			if (this.Criticalmass==2){
-				Color temp=this.Owner;
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
 				((tile) this.link2).addORB();
 			}
 			else if(this.Criticalmass==3){
-				Color temp=this.Owner;
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				System.out.println("orbs no."+this.orbs);
@@ -60,7 +60,6 @@ class tile extends StackPane{
 				((tile) this.link3).addORB();
 			}
 			else if(this.Criticalmass==4){
-				Color temp=this.Owner;
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
@@ -107,12 +106,13 @@ class tile extends StackPane{
 //            m1.setOnFinished(e -> {
 //            	System.out.println("done");
 //            });
+			//System.out.println("size of neighbour "+this.getnbrs().size());
 			if(this.isFull()){
 				ArrayList<tile> neighbouringCells=this.getnbrs();
 				ArrayList<orb> allSpheres =this.createorblist();
 				this.orbs=0;
 				ParallelTransition mainTransition = new ParallelTransition();
-				System.out.println("size of neighbours"+getChildren().size());
+				//System.out.println("size of neighbours"+getChildren().size());
 				getChildren().remove(1);
 				for (int i=0;i<neighbouringCells.size();i++)
 	            {	
@@ -123,9 +123,10 @@ class tile extends StackPane{
 	                move.setNode(cur.s);
 	                int moveX = GridPane.getRowIndex(neighbour)- GridPane.getRowIndex(this);
 	                int moveY = GridPane.getColumnIndex(neighbour)- GridPane.getColumnIndex(this);
-	                System.out.println("movex "+moveX);
-	                move.setToX(moveX*50);
-	                move.setToY(moveY*50);
+	                System.out.println("moveX "+moveX);
+	                System.out.println("moveY "+moveY);
+	                move.setToX(moveY*50);
+	                move.setToY(moveX*50);
 	                mainTransition.getChildren().add(move);
 	                neighbour.toBack();
 	                this.getChildren().add(cur.s);

@@ -166,16 +166,16 @@ public class Game implements Serializable {
 			//System.out.println("size "+Players.size());
 			Player temp=Players.remove();
 			if(isActive(temp)){
-				System.out.println("in loop "+temp.getColor()+" "+i);
+				//System.out.println("in loop "+temp.getColor()+" "+i);
 				jugaad.add(temp);
 			}
 		}
 		Players=jugaad;
-		System.out.println("Start no. of colors");
-		for (Player element : jugaad) {
-			  System.out.println(element.getColor());
-			}
-		System.out.println("end no. of colors");
+//		System.out.println("Start no. of colors");
+//		for (Player element : jugaad) {
+//			  System.out.println(element.getColor());
+//			}
+//		System.out.println("end no. of colors");
 	}
 	boolean isActive(Player temp){
 		int points=0;
