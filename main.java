@@ -1,11 +1,7 @@
-package v1.oo;
 
 //import java.util.Scanner;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
@@ -34,16 +30,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	public static void serialize(Game obj) throws FileNotFoundException, IOException{
-		ObjectOutputStream out=null;
-		try{
-			out=new ObjectOutputStream(new FileOutputStream("out.txt"));
-			out.writeObject(obj);
-		}
-		finally{
-			out.close();
-		}
-	}
+	
 	
 	static Game g;
 	static Stage thestage;
@@ -143,19 +130,39 @@ public class Main extends Application {
 		 thestage.setScene(SceneSettings);
 		 thestage.show();
 	 }
-	 static int clicks;
+	 
 	 static int grid_tile_row,grid_tile_coloumn;
+	 static GridPane gp;
+	 
+	 
 	 private static void game(){
 			Pane root=new Pane();
-			 GridPane gp=new GridPane();
+			 gp=new GridPane();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
+			 Button undo=new Button("UNDO");
+			 gp.add(undo, n+1, 1);
+			 undo.setOnMouseClicked(e -> {
+				try {
+					Undo();
+				} catch (Exception e1) {}
+			});
 			 for(int i=0;i<m;i++){
 				 for(int j=0;j<n;j++){
-					 g.getMatrix().board[i][j].setColor(Color.BLACK);
+					 g.getMatrix().board[i][j].setOwner(Color.BLACK);
 					 tile a=new tile(g.getMatrix().board[i][j],g,g.getMatrix().board[i][j].getCriticalmass());
 					 a.setOwner(Color.BLACK);
-					 a.setOnMouseClicked(e->Buttonclick(e,a));
+					 a.setOnMouseClicked(e->{
+						try {
+							Buttonclick(e,a);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					});
 					 root.getChildren().add(a);
 					 gp.add(a,j,i);
 					 
@@ -165,28 +172,44 @@ public class Main extends Application {
 			 g.addplayer(Color.RED);
 			 g.addplayer(Color.BLUE);
 			 ChoiceBox<String> ccb = new ChoiceBox<String>(); 
-		      ccb.getItems().addAll ("Start game", "Exit");
-		      gp.add(ccb,n+1,0);
+		     ccb.getItems().addAll ("Start game", "Exit");		     
+		     gp.add(ccb,n+1,0);
 			 Scene scgame = new Scene(gp);
 			 thestage.setScene(scgame);
-			 thestage.show();
-			 
-	 
+			 thestage.show();	 
 	 }
-	 static void Buttonclick(MouseEvent e,tile a){
+	 
+	 private static Object Undo() throws FileNotFoundException, ClassNotFoundException, IOException {
+		// TODO Auto-generated method stub
+		Game previous=Game.deserialize();
+		previous.show();
+		return null;
+	}
+
+	static int nm=0;
+	 static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
+		 Game.serialize(g);
 		 grid_tile_coloumn=GridPane.getColumnIndex(a);
 		 grid_tile_row=GridPane.getRowIndex(a);
+		// System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		// System.out.println(a.getOwner()+" "+Color.BLACK);
 		 if(g.getPlayers().peek().getColor()==a.getOwner()||a.getOwner()==Color.BLACK){
-//			 g.checkplayers();
-//			 g.show();
-		 g.getMatrix().board[grid_tile_row][grid_tile_coloumn].setOwner(g.getPlayers().peek().getColor());;
 		 Player temp=g.getPlayers().remove();
-//		 System.out.println(temp.getColor()+" Color "+Color.RED);
-//		 System.out.println(g.getPlayers().peek().getColor()+" Color "+Color.BLUE);
 		 a.setOwner(temp.getColor());
+		 try {
+			temp.takeTurn(grid_tile_row, grid_tile_coloumn);
+		} catch (IOException e1) {
+			System.out.println("taketurn error");
+		}
 		 g.getPlayers().add(temp);
+		 System.out.println("size a a aa a "+g.getPlayers().size());
 		 a.addORB();
+		 if(nm>1){//add no.ofplayers-1
+			 g.checkplayers();
+			 }
+			//g.show();
+		 nm++;
+		 changegridcolour(g.getPlayers().peek().getColor(),gp);
 		 }
 	 }
 	 static void setlinks(GridPane gp){
@@ -206,8 +229,8 @@ public class Main extends Application {
 				((tile) akla.getNode(i,0,gp)).setLink3(akla.getNode(i-1,0,gp));//i-1,0,3
 				//i,n-1  
 				((tile) akla.getNode(i,n-1,gp)).setLink1(akla.getNode(i-1,n-1,gp));//i-1,n-1
-				((tile) akla.getNode(i,n-1,gp)).setLink2(akla.getNode(i+1,n-1,gp));//i+1,n-1
-				((tile) akla.getNode(i,n-1,gp)).setLink3(akla.getNode(i,n-2,gp));//i,n-2
+				((tile) akla.getNode(i,n-1,gp)).setLink2(akla.getNode(i,n-2,gp));//i+1,n-1
+				((tile) akla.getNode(i,n-1,gp)).setLink3(akla.getNode(i+1,n-1,gp));//i,n-2
 			}
 			
 			for(int i=1;i<n-1;i++){//0,i
@@ -216,8 +239,8 @@ public class Main extends Application {
 				((tile) akla.getNode(0,i,gp)).setLink3(akla.getNode(0,i+1,gp));//0,i+1
 				//m-1,i
 				((tile) akla.getNode(m-1,i,gp)).setLink1(akla.getNode(m-1,i-1,gp));//m-1,i-1
-				((tile) akla.getNode(m-1,i,gp)).setLink2(akla.getNode(m-1,i+1,gp));//m-1,i+1
-				((tile) akla.getNode(m-1,i,gp)).setLink3(akla.getNode(m-1,i,gp));//m-1,i
+				((tile) akla.getNode(m-1,i,gp)).setLink2(akla.getNode(m-2,i,gp));//m-1,i+1
+				((tile) akla.getNode(m-1,i,gp)).setLink3(akla.getNode(m-1,i+1,gp));//m-1,i
 			}
 			
 			((tile) akla.getNode(0,0,gp)).setLink1(akla.getNode(1,0,gp));//
@@ -230,7 +253,7 @@ public class Main extends Application {
 			((tile) akla.getNode(0,n-1,gp)).setLink2(akla.getNode(1,n-1,gp));
 			
 			((tile) akla.getNode(m-1,n-1,gp)).setLink1(akla.getNode(m-1,n-2,gp));
-			((tile) akla.getNode(m-1,n-1,gp)).setLink1(akla.getNode(m-2,n-1,gp));
+			((tile) akla.getNode(m-1,n-1,gp)).setLink2(akla.getNode(m-2,n-1,gp));
 	 }
 	  Node getNode (final int row, final int column, GridPane gridPane) {
 		    Node result = null;
@@ -246,11 +269,10 @@ public class Main extends Application {
 		    return result;
 		}
 	 
-	 static void changegridcolour(Color g,GridPane gp){
+	  static void changegridcolour(Color g,GridPane gp){
 		 ObservableList<Node> children = gp.getChildren();
 		 for(Node node:children){
 			 try{
-			 
 				 tile a=(tile)node;
 				 a.border.setStroke(g);
 			}
@@ -263,11 +285,12 @@ public class Main extends Application {
 class animation{
 	Group a;
 	RotateTransition rt;
+	
 	animation(Color c,int no){
 		this.a=new Group();
 		for(int i=0;i<no;i++){
 			orb o=new orb(c);
-			a.getChildren().add(o.s);
+			a.getChildren().add(o.getS());
 		}
 		this.rt=new RotateTransition(Duration.millis(2000), a);
 	}
@@ -301,12 +324,21 @@ class animation{
 	
 }
 class orb{
-	Sphere s;
+	
+	private Sphere s;
+	
 	orb(Color c){
 		final PhongMaterial mat = new PhongMaterial();
         mat.setDiffuseColor(c);
-		 s= new Sphere();
-		 s.setRadius(10);
-		 s.setMaterial(mat);
+		 setS(new Sphere());
+		 getS().setRadius(10);
+		 getS().setMaterial(mat);
+	}
+	
+	public Sphere getS() {
+		return s;
+	}
+	public void setS(Sphere s) {
+		this.s = s;
 	}
 }

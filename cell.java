@@ -1,11 +1,16 @@
-package v1.oo;
+import java.io.Serializable;
+
 import javafx.scene.paint.Color;
 
-public class Cell{
+public class Cell implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Cell link1,link2,link3,link4;
-	private int Criticalmass;
-	private Color color;		//extra hai
-	private Color Owner; 			
+	private int Criticalmass;	
+	transient private Color Owner=Color.BLACK;
+	private String Ownstr="Black";
 	private int orbs;
 	
 	
@@ -33,7 +38,8 @@ public class Cell{
 		// TODO Auto-generated method stub
 		if (this.Criticalmass==2){
 			this.orbs=0;
-			Color temp=this.color;
+			Color temp=this.Owner;
+			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
 			this.link2.setOwner(temp);
@@ -41,7 +47,8 @@ public class Cell{
 		}
 		else if(this.Criticalmass==3){
 			this.orbs=0;
-			Color temp=this.color;
+			Color temp=this.Owner;
+			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
 			System.out.println("orbs no."+this.orbs);
@@ -52,7 +59,8 @@ public class Cell{
 		}
 		else if(this.Criticalmass==4){
 			this.orbs=0;
-			Color temp=this.color;
+			Color temp=this.Owner;
+			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
 			this.link2.setOwner(temp);
@@ -105,19 +113,22 @@ public class Cell{
 	public void setLink4(Cell link4) {
 		this.link4 = link4;
 	}
-	public Color getColor() {
-		return color;
-	}
-	public void setColor(Color color2) {
-		this.color = color2;
-	}
 	public Color getOwner() {
 		return Owner;
 	}
 	public void setOwner(Color temp) {
+		Ownstr=temp.toString();
 		Owner = temp;
 	}
 	public int getCriticalmass() {
 		return Criticalmass;
+	}
+
+	public String getOwnstr() {
+		return Ownstr;
+	}
+
+	public void setOwnstr(String ownstr) {
+		Ownstr = ownstr;
 	}
 }

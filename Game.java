@@ -1,4 +1,3 @@
-package v1.oo;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -14,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-import javafx.scene.layout.GridPane;
+//import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 class Reader {			//reader class for to take input in faster manner
@@ -56,10 +55,16 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private	Queue<Player> Players;
 	private Matrix matrix;
-	GridPane g;
-	void setgridpane(GridPane g){
-		this.g=g;
-	}
+//	private GridPane g;
+//	
+//	public void setgridpane(GridPane g){
+//		this.g=g;
+//	}
+//	
+//	public GridPane getGridPane(){
+//		return g;
+//	}
+//	
 	public Queue<Player> getPlayers() {
 		return Players;
 	}
@@ -71,7 +76,7 @@ public class Game implements Serializable {
 	public static void serialize(Game obj) throws FileNotFoundException, IOException{
 		ObjectOutputStream out=null;
 		try{
-			out=new ObjectOutputStream(new FileOutputStream("out.txt"));
+			out=new ObjectOutputStream(new FileOutputStream("out.ser"));
 			out.writeObject(obj);
 		}
 		finally{
@@ -83,7 +88,7 @@ public class Game implements Serializable {
 		ObjectInputStream in=null;
 		Game obj;
 		try{
-			in=new ObjectInputStream(new FileInputStream("out.txt"));
+			in=new ObjectInputStream(new FileInputStream("out.ser"));
 			obj= (Game) in.readObject();
 		}
 		finally{
@@ -91,18 +96,18 @@ public class Game implements Serializable {
 		}
 		return obj;
 	}
-	
+	int x,y;
 	public Game(int m,int n,int k) {
 		matrix=new Matrix(m,n);
 		matrix.setCounter(k);
 		Players=new LinkedList<Player>();
-		int x=m;
-		int y=n;
+		x=m;
+		y=n;
 		for(int i=0;i<x;i++){
-		for(int j=0;j<y;j++){
-			this.matrix.board[i][j].setColor(Color.BLACK);
+			for(int j=0;j<y;j++){
+				this.matrix.board[i][j].setOwner(Color.BLACK);
+			}
 		}
-	}
 	}
 //		for(int i=0;i<k;i++){
 //			Players.add(i, new Player("A"+i,matrix));
@@ -110,6 +115,19 @@ public class Game implements Serializable {
 	
 	public void addplayer(Color c){
 		Players.add(new Player(c,matrix));
+	}
+	
+	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException{
+		Game obj=new Game(9,6,2);
+		serialize(obj);
+		obj.addplayer(Color.BLUE);
+		obj.addplayer(Color.RED);
+		obj.getPlayers().peek().takeTurn(1, 2);
+		serialize(obj);
+		Game dese=deserialize();
+		if( dese.getMatrix().getM()==obj.getMatrix().getM()){
+			System.out.println("yo");
+		}
 	}
 	
 //	public static void main(String[] args) throws IOException {
@@ -152,7 +170,7 @@ public class Game implements Serializable {
 	public void show(){
 		for(int j=0;j<matrix.getM();j++){
 			for(int k=0;k<matrix.getN();k++){
-				System.out.print(matrix.getBoard()[j][k].getColor()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
+				System.out.print(matrix.getBoard()[j][k].getOwner()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
 			}
 			System.out.println();
 		}
@@ -160,15 +178,39 @@ public class Game implements Serializable {
 	
 	
 	public void checkplayers() {
-		// TODO Auto-generated method stub
 		Queue<Player> jugaad=new LinkedList<Player>();
-		for(int i=0;i<Players.size();i++){
-			Player temp=Players.poll();
-			if(temp.isActive()){
+		int loop=Players.size();
+		for(int i=0;i<loop;i++){
+			//System.out.println("size "+Players.size());
+			Player temp=Players.remove();
+			if(isActive(temp)){
+				System.out.println("in loop "+temp.getColor()+" "+i);
 				jugaad.add(temp);
 			}
 		}
 		Players=jugaad;
+		System.out.println("Start no. of colors");
+		for (Player element : jugaad) {
+			  System.out.println(element.getColor());
+			}
+		System.out.println("end no. of colors");
+	}
+	boolean isActive(Player temp){
+		int points=0;
+		for (int i=0;i<x;i++){
+			for(int j=0;j<y;j++){
+				if(this.getMatrix().getBoard()[i][j].getOwner().equals(temp.getColor())){
+					points++;
+				}
+			}
+		}
+		if(points>0){
+			return true;
+		}
+		else{
+			return false;
+		}
+		
 	}
 
 }

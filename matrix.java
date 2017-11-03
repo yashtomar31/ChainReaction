@@ -1,4 +1,3 @@
-package v1.oo;
 import java.io.Serializable;
 
 
@@ -62,8 +61,8 @@ public class Matrix implements Serializable {
 			board[i][0].setLink3(board[i-1][0]);
 			
 			board[i][n-1].setLink1(board[i-1][n-1]);
-			board[i][n-1].setLink1(board[i+1][n-1]);
-			board[i][n-1].setLink1(board[i][n-2]);
+			board[i][n-1].setLink2(board[i+1][n-1]);
+			board[i][n-1].setLink3(board[i][n-2]);
 		}
 		
 		for(int i=1;i<n-1;i++){
@@ -73,7 +72,7 @@ public class Matrix implements Serializable {
 			
 			board[m-1][i].setLink1(board[m-1][i-1]);
 			board[m-1][i].setLink2(board[m-1][i+1]);
-			board[m-1][i].setLink3(board[m-1][i]);
+			board[m-1][i].setLink3(board[m-2][i]);
 		}
 		
 		board[0][0].setLink1(board[1][0]);

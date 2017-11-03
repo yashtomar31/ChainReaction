@@ -1,24 +1,26 @@
-package v1.oo;
-
-
+import java.util.ArrayList;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 class tile extends StackPane{
-	 Rectangle border;Game g;
-	 int clicks=0;
-	 Node link1;
-	Node link2;
-	Node link3;
+	
+	Rectangle border;
+	Game g;
+	private Node link1;
+	private Node link2;
+	private Node link3;
 	private Node link4;
-		private int Criticalmass;
-		private Color color;		//extra hai
-		private Color Owner; 			
-		private int orbs;
+	private int Criticalmass;
+	transient private Color Owner;
+	private int orbs;
 		
+
 	 public tile(Cell k,Game g,int cmass){
 		 this.Owner=Color.BLACK;
 		 this.g=g;
@@ -29,30 +31,37 @@ class tile extends StackPane{
 		 this.Criticalmass=cmass;
 		 getChildren().addAll(border);
 	 }
-		public void explode() {
+	 
+	public void explode() {
 			// TODO Auto-generated method stub
+			try{
+				getChildren().remove(1);
+				}
+			catch(Exception e){
+				
+			}
 			if (this.Criticalmass==2){
-				this.orbs=0;
-				Color temp=this.color;
+				Color temp=this.Owner;
+				this.Owner=Color.BLACK;
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
 				((tile) this.link2).addORB();
 			}
 			else if(this.Criticalmass==3){
-				this.orbs=0;
-				Color temp=this.color;
+				Color temp=this.Owner;
+				this.Owner=Color.BLACK;
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
-				System.out.println("orbs no."+this.orbs);
+				//System.out.println("orbs no."+this.orbs);
 				((tile) this.link2).setOwner(temp);
 				((tile) this.link2).addORB();
 				((tile) this.link3).setOwner(temp);
 				((tile) this.link3).addORB();
 			}
 			else if(this.Criticalmass==4){
-				this.orbs=0;
-				Color temp=this.color;
+				Color temp=this.Owner;
+				this.Owner=Color.BLACK;
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
@@ -66,8 +75,14 @@ class tile extends StackPane{
 				System.out.println("Code Gdbd hai");
 			}
 		}
+		ArrayList<orb> createorblist(){
+			ArrayList<orb> a=new ArrayList<orb>();
+			for(int i=0;i<4;i++){
+				a.add(new orb(getOwner()));
+			}
+			return a;
+		}
 		public void addORB(){
-			System.out.println(GridPane.getColumnIndex(this));
 			animation addorb;
 			this.orbs++;
 			try{
@@ -77,14 +92,67 @@ class tile extends StackPane{
 			addorb.addanimation();
 			}
 			catch(Exception e){
-			 addorb=new animation(this.Owner,this.orbs);
-			 System.out.println(this.orbs +" present orbs");
+			addorb=new animation(this.Owner,this.orbs);
+			 
+			// System.out.println(this.orbs +" present orbs");
 			}
 			getChildren().add(addorb.a);
+//			orb b=new orb(Color.RED);
+//			TranslateTransition m1 = new TranslateTransition();
+//			b.s.toFront();
+//			m1.setDuration(Duration.seconds(1));
+//            m1.setNode(b.s);
+//            m1.setToX(60);
+//            m1.setToY(0);
+//            m1.play();
+//            m1.setOnFinished(e -> {
+//            	System.out.println("done");
+//            });
+			if(this.isFull()){
+				ArrayList<tile> neighbouringCells=this.getnbrs();
+				ArrayList<orb> allSpheres =this.createorblist();
+				this.orbs=0;
+				ParallelTransition mainTransition = new ParallelTransition();
+				System.out.println("size of neighbours"+getChildren().size());
+				getChildren().remove(1);
+				for (int i=0;i<neighbouringCells.size();i++)
+	            {	
+					orb cur=allSpheres.get(i);
+	                tile neighbour = neighbouringCells.get(i);
+	                TranslateTransition move = new TranslateTransition();
+	                move.setDuration(Duration.seconds(0.25));
+	                move.setNode(cur.getS());
+	                int moveX = GridPane.getRowIndex(neighbour)- GridPane.getRowIndex(this);
+	                int moveY = GridPane.getColumnIndex(neighbour)- GridPane.getColumnIndex(this);
+	                System.out.println("movex "+moveX);
+	                move.setToX(moveX*50);
+	                move.setToY(moveY*50);
+	                mainTransition.getChildren().add(move);
+	                neighbour.toBack();
+	                this.getChildren().add(cur.getS());
+	            }
+	            mainTransition.play();
+	            mainTransition.setOnFinished(e->{
+	            	this.getChildren().remove(1, this.getChildren().size());;
+	            	this.explode();});
+			}
+		}
+		ArrayList<tile> getnbrs(){
+			ArrayList<tile> a =new ArrayList<tile>();
+			if(this.link1!=null){
+				a.add((tile) link1);
+			}
+			if(this.link2!=null){
+				a.add((tile) link2);
+			}
+			if(this.link3!=null){
+				a.add((tile) link3);
+			}
+			if(this.link4!=null){
+				a.add((tile) link4);
+			}
+			return a;
 			
-//			if(this.isFull()){
-//				this.explode();
-//			}
 		}
 		public boolean isOwnedBy(Color i){
 			if( i==this.Owner){
@@ -123,12 +191,6 @@ class tile extends StackPane{
 		}
 		public void setLink4(Node node) {
 			this.link4 = node;
-		}
-		public Color getColor() {
-			return color;
-		}
-		public void setColor(Color color2) {
-			this.color = color2;
 		}
 		public Color getOwner() {
 			return Owner;
