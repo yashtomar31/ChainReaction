@@ -3,8 +3,7 @@ import javafx.scene.paint.Color;
 
 public class Cell{
 	private Cell link1,link2,link3,link4;
-	private int Criticalmass;
-	private Color color;		//extra hai
+	private int Criticalmass;		//extra hai
 	private Color Owner; 			
 	private int orbs;
 	
@@ -33,7 +32,7 @@ public class Cell{
 		// TODO Auto-generated method stub
 		if (this.Criticalmass==2){
 			this.orbs=0;
-			Color temp=this.color;
+			Color temp=this.Owner;
 			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
@@ -42,7 +41,7 @@ public class Cell{
 		}
 		else if(this.Criticalmass==3){
 			this.orbs=0;
-			Color temp=this.color;
+			Color temp=this.Owner;
 			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
@@ -54,7 +53,7 @@ public class Cell{
 		}
 		else if(this.Criticalmass==4){
 			this.orbs=0;
-			Color temp=this.color;
+			Color temp=this.Owner;
 			this.Owner=Color.BLACK;
 			this.link1.setOwner(temp);
 			this.link1.addORB();
@@ -107,12 +106,6 @@ public class Cell{
 	}
 	public void setLink4(Cell link4) {
 		this.link4 = link4;
-	}
-	public Color getColor() {
-		return color;
-	}
-	public void setColor(Color color2) {
-		this.color = color2;
 	}
 	public Color getOwner() {
 		return Owner;

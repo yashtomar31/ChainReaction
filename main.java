@@ -153,7 +153,7 @@ public class Main extends Application {
 			 gp.setAlignment(Pos.CENTER);
 			 for(int i=0;i<m;i++){
 				 for(int j=0;j<n;j++){
-					 g.getMatrix().board[i][j].setColor(Color.BLACK);
+					 g.getMatrix().board[i][j].setOwner(Color.BLACK);
 					 tile a=new tile(g.getMatrix().board[i][j],g,g.getMatrix().board[i][j].getCriticalmass());
 					 a.setOwner(Color.BLACK);
 					 a.setOnMouseClicked(e->Buttonclick(e,a));
@@ -174,21 +174,28 @@ public class Main extends Application {
 			 
 	 
 	 }
+	 static int nm=0;
 	 static void Buttonclick(MouseEvent e,tile a){
 		 grid_tile_coloumn=GridPane.getColumnIndex(a);
 		 grid_tile_row=GridPane.getRowIndex(a);
+		// System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		// System.out.println(a.getOwner()+" "+Color.BLACK);
 		 if(g.getPlayers().peek().getColor()==a.getOwner()||a.getOwner()==Color.BLACK){
-//			 g.checkplayers();
-//			 g.show();
-			 
-		 g.getMatrix().board[grid_tile_row][grid_tile_coloumn].setOwner(g.getPlayers().peek().getColor());;
 		 Player temp=g.getPlayers().remove();
-//		 System.out.println(temp.getColor()+" Color "+Color.RED);
-//		 System.out.println(g.getPlayers().peek().getColor()+" Color "+Color.BLUE);
 		 a.setOwner(temp.getColor());
+		 try {
+			temp.takeTurn(grid_tile_row, grid_tile_coloumn);
+		} catch (IOException e1) {
+			System.out.println("taketurn error");
+		}
 		 g.getPlayers().add(temp);
+		 System.out.println("size a a aa a "+g.getPlayers().size());
 		 a.addORB();
+		 if(nm>1){//add no.ofplayers-1
+			 g.checkplayers();
+			 }
+			//g.show();
+		 nm++;
 		 changegridcolour(g.getPlayers().peek().getColor(),gp);
 		 }
 	 }
@@ -209,8 +216,8 @@ public class Main extends Application {
 				((tile) akla.getNode(i,0,gp)).setLink3(akla.getNode(i-1,0,gp));//i-1,0,3
 				//i,n-1  
 				((tile) akla.getNode(i,n-1,gp)).setLink1(akla.getNode(i-1,n-1,gp));//i-1,n-1
-				((tile) akla.getNode(i,n-1,gp)).setLink2(akla.getNode(i+1,n-1,gp));//i+1,n-1
-				((tile) akla.getNode(i,n-1,gp)).setLink3(akla.getNode(i,n-2,gp));//i,n-2
+				((tile) akla.getNode(i,n-1,gp)).setLink2(akla.getNode(i,n-2,gp));//i+1,n-1
+				((tile) akla.getNode(i,n-1,gp)).setLink3(akla.getNode(i+1,n-1,gp));//i,n-2
 			}
 			
 			for(int i=1;i<n-1;i++){//0,i
@@ -219,8 +226,8 @@ public class Main extends Application {
 				((tile) akla.getNode(0,i,gp)).setLink3(akla.getNode(0,i+1,gp));//0,i+1
 				//m-1,i
 				((tile) akla.getNode(m-1,i,gp)).setLink1(akla.getNode(m-1,i-1,gp));//m-1,i-1
-				((tile) akla.getNode(m-1,i,gp)).setLink2(akla.getNode(m-1,i+1,gp));//m-1,i+1
-				((tile) akla.getNode(m-1,i,gp)).setLink3(akla.getNode(m-1,i,gp));//m-1,i
+				((tile) akla.getNode(m-1,i,gp)).setLink2(akla.getNode(m-2,i,gp));//m-1,i+1
+				((tile) akla.getNode(m-1,i,gp)).setLink3(akla.getNode(m-1,i+1,gp));//m-1,i
 			}
 			
 			((tile) akla.getNode(0,0,gp)).setLink1(akla.getNode(1,0,gp));//
@@ -233,7 +240,7 @@ public class Main extends Application {
 			((tile) akla.getNode(0,n-1,gp)).setLink2(akla.getNode(1,n-1,gp));
 			
 			((tile) akla.getNode(m-1,n-1,gp)).setLink1(akla.getNode(m-1,n-2,gp));
-			((tile) akla.getNode(m-1,n-1,gp)).setLink1(akla.getNode(m-2,n-1,gp));
+			((tile) akla.getNode(m-1,n-1,gp)).setLink2(akla.getNode(m-2,n-1,gp));
 	 }
 	  Node getNode (final int row, final int column, GridPane gridPane) {
 		    Node result = null;

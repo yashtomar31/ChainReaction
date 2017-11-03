@@ -12,7 +12,6 @@ public class Player implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Color color;
 	private Matrix curr;
-	private int count=0;
 	
 	Player(Color c2,Matrix c){
 		this.color=c2;
@@ -20,29 +19,12 @@ public class Player implements Serializable {
 	}
 
 	public boolean takeTurn(int x,int y) throws IOException{
-			if(this.curr.board[x][y].getColor().equals(Color.BLACK)||this.curr.board[x][y].getColor().equals(color) ){
-				this.curr.board[x][y].setColor(color);
+			if(this.curr.board[x][y].getOwner().equals(Color.BLACK)||this.curr.board[x][y].getOwner().equals(color) ){
+				this.curr.board[x][y].setOwner(color);
 				this.curr.board[x][y].addORB();
 				return false;
 			}
 			return true;
-	}
-	
-	public boolean isActive() {
-		int points=0;
-		for (int i=0;i<curr.getM();i++){
-			for(int j=0;j<curr.getN();j++){
-				if(curr.getBoard()[i][j].getColor().equals(color)){
-					points++;
-				}
-			}
-		}
-		if(points>0 || count==0){
-			return true;
-		}
-		else{
-			return false;
-		}
 	}
 
 	public Color getColor() {

@@ -91,16 +91,16 @@ public class Game implements Serializable {
 		}
 		return obj;
 	}
-	
+	int x,y;
 	public Game(int m,int n,int k) {
 		matrix=new Matrix(m,n);
 		matrix.setCounter(k);
 		Players=new LinkedList<Player>();
-		int x=m;
-		int y=n;
+		x=m;
+		y=n;
 		for(int i=0;i<x;i++){
 		for(int j=0;j<y;j++){
-			this.matrix.board[i][j].setColor(Color.BLACK);
+			this.matrix.board[i][j].setOwner(Color.BLACK);
 		}
 	}
 	}
@@ -152,7 +152,7 @@ public class Game implements Serializable {
 	public void show(){
 		for(int j=0;j<matrix.getM();j++){
 			for(int k=0;k<matrix.getN();k++){
-				System.out.print(matrix.getBoard()[j][k].getColor()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
+				System.out.print(matrix.getBoard()[j][k].getOwner()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
 			}
 			System.out.println();
 		}
@@ -160,15 +160,39 @@ public class Game implements Serializable {
 	
 	
 	public void checkplayers() {
-		// TODO Auto-generated method stub
 		Queue<Player> jugaad=new LinkedList<Player>();
-		for(int i=0;i<Players.size();i++){
-			Player temp=Players.poll();
-			if(temp.isActive()){
+		int loop=Players.size();
+		for(int i=0;i<loop;i++){
+			//System.out.println("size "+Players.size());
+			Player temp=Players.remove();
+			if(isActive(temp)){
+				System.out.println("in loop "+temp.getColor()+" "+i);
 				jugaad.add(temp);
 			}
 		}
 		Players=jugaad;
+		System.out.println("Start no. of colors");
+		for (Player element : jugaad) {
+			  System.out.println(element.getColor());
+			}
+		System.out.println("end no. of colors");
+	}
+	boolean isActive(Player temp){
+		int points=0;
+		for (int i=0;i<x;i++){
+			for(int j=0;j<y;j++){
+				if(this.getMatrix().getBoard()[i][j].getOwner().equals(temp.getColor())){
+					points++;
+				}
+			}
+		}
+		if(points>0){
+			return true;
+		}
+		else{
+			return false;
+		}
+		
 	}
 
 }
