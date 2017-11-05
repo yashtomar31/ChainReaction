@@ -133,8 +133,11 @@ public class Main extends Application {
 	 
 	 static int grid_tile_row,grid_tile_coloumn;
 	 static GridPane gp;
+<<<<<<< HEAD
 	 
 	 
+=======
+>>>>>>> f5587501c1dde75848ad30310ae140931737a179
 	 private static void game(){
 			Pane root=new Pane();
 			 gp=new GridPane();
@@ -178,6 +181,7 @@ public class Main extends Application {
 			 thestage.setScene(scgame);
 			 thestage.show();	 
 	 }
+<<<<<<< HEAD
 	 
 	 private static Object Undo() throws FileNotFoundException, ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
@@ -189,6 +193,10 @@ public class Main extends Application {
 	static int nm=0;
 	 static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		 Game.serialize(g);
+=======
+	 static int nm=0;
+	 static void Buttonclick(MouseEvent e,tile a){
+>>>>>>> f5587501c1dde75848ad30310ae140931737a179
 		 grid_tile_coloumn=GridPane.getColumnIndex(a);
 		 grid_tile_row=GridPane.getRowIndex(a);
 		// System.out.println(grid_tile_coloumn+" "+grid_tile_row);
@@ -315,7 +323,7 @@ class animation{
 	void addanimation(){
 		 rt.setFromAngle(0);
 		 rt.setCycleCount(RotateTransition.INDEFINITE);
-		 rt.setInterpolator(Interpolator.EASE_BOTH);
+		 rt.setInterpolator(Interpolator.LINEAR);
 		 rt.setByAngle(360);
 	     rt.play();
 	 }
