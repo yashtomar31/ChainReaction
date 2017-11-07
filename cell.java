@@ -4,21 +4,17 @@ import javafx.scene.paint.Color;
 
 public class Cell implements Serializable{
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Cell link1,link2,link3,link4;
-<<<<<<< HEAD
-	private int Criticalmass;	
+	private int Criticalmass;
 	transient private Color Owner=Color.BLACK;
 	private String Ownstr="Black";
-=======
-	private int Criticalmass;		//extra hai
-	private Color Owner; 			
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
+
 	private int orbs;
-	
-	
+
+
 	public int getOrbs() {
 		return orbs;
 	}
@@ -31,14 +27,14 @@ public class Cell implements Serializable{
 		this.Criticalmass=cm;
 		this.Owner=null;
 	}
-	
+
 	public void addORB(){
 		this.orbs++;
 		if(this.isFull()){
 			this.explode();
 		}
 	}
-	
+
 	public void explode() {
 		// TODO Auto-generated method stub
 		if (this.Criticalmass==2){
@@ -79,7 +75,7 @@ public class Cell implements Serializable{
 			System.out.println("Code Gdbd hai");
 		}
 	}
-	
+
 	public boolean isOwnedBy(Color i){
 		if( i==this.Owner){
 			return true;
@@ -93,7 +89,7 @@ public class Cell implements Serializable{
 		}
 		return false;
 	}
-		
+
 	public Cell getLink1() {
 		return link1;
 	}

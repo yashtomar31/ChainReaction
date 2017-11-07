@@ -30,8 +30,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	
-	
+
+
 	static Game g;
 	static Stage thestage;
 	static int noofplayer;
@@ -45,10 +45,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		menupaine(primaryStage);
-		
+
 	}
 	 public static void ButtonClicked(javafx.event.ActionEvent e){
-		 noofplayer=Integer.parseInt((ncb.getValue().toString())); 
+		 noofplayer=Integer.parseInt((ncb.getValue().toString()));
 		 grid=gridbox.getValue().toString();
 		 if(grid.equals("15x10")){
 			 m=15;
@@ -58,11 +58,11 @@ public class Main extends Application {
 			 m=9;
 			 n=6;
 		 }
-		 
+
 		 settings();
 	 }
 	 public static void ngame(javafx.event.ActionEvent e){
-		 noofplayer=Integer.parseInt((ncb.getValue().toString())); 
+		 noofplayer=Integer.parseInt((ncb.getValue().toString()));
 		 grid=gridbox.getValue().toString();
 		 if(grid.equals("15x10")){
 			 m=15;
@@ -78,7 +78,7 @@ public class Main extends Application {
 	 public static void menupaine(Stage primaryStage){
 		 thestage=primaryStage;
 		 GridPane gridPane=new GridPane();
-		ncb = new ChoiceBox<String>(); 
+		ncb = new ChoiceBox<String>();
 	      ncb.getItems().addAll ("2","3" ,"4", "5", "6", "7","8");
 	    Text namegameplayer=new Text("No. of players");
 	    Text gridsize=new Text("Choose grid size");
@@ -88,7 +88,7 @@ public class Main extends Application {
 	    Button Rgame = new Button("Resume Game");
 	    Button Settings = new Button("Settings");
 	    gridPane.setMinSize(500, 500);
-	    gridPane.setPadding(new Insets(10, 10, 10, 10)); 
+	    gridPane.setPadding(new Insets(10, 10, 10, 10));
 	    gridPane.setAlignment(Pos.CENTER);
 	    gridPane.add(namegameplayer,0,0);
 	    gridPane.add(ncb,1,0);
@@ -97,31 +97,31 @@ public class Main extends Application {
 	    gridPane.add(Ngame,0,2);
 	    gridPane.add(Rgame,1,2);
 	    gridPane.add(Settings,2,2);
-	      gridPane.setVgap(5); 
+	      gridPane.setVgap(5);
 	      gridPane.setHgap(5);
-	      gridPane.setStyle("-fx-background-color: BEIGE;");  
-	    Scene SceneMenu = new Scene(gridPane); 
+	      gridPane.setStyle("-fx-background-color: BEIGE;");
+	    Scene SceneMenu = new Scene(gridPane);
 		primaryStage.setScene(SceneMenu	);
 		primaryStage.show();
 		Settings.setOnAction(e->ButtonClicked(e));
 		Ngame.setOnAction(e->ngame(e));
-		
-		
-		
+
+
+
 	 }
 	 public static void settings(){
 		 GridPane gridPane=new GridPane();
 		 int nplayer=noofplayer;
 		  gridPane.setMinSize(500, 500);
-		 gridPane.setPadding(new Insets(10, 10, 10, 10)); 
+		 gridPane.setPadding(new Insets(10, 10, 10, 10));
 		 gridPane.setAlignment(Pos.CENTER);
 		 for(int i=0;i<nplayer;i++){
 			 Text pc=new Text("Choose colour for " +i);
-		 ChoiceBox<String> ccb = new ChoiceBox<String>(); 
+		 ChoiceBox<String> ccb = new ChoiceBox<String>();
 	      ccb.getItems().addAll ("red", "blue", "green", "orange", "yellow","black");
 	      gridPane.add(ccb,1,i);
 	      gridPane.add(pc,0,i);
-	      
+
 	      }
 		 gridPane.setVgap(5);
 		 gridPane.setHgap(5);
@@ -130,14 +130,10 @@ public class Main extends Application {
 		 thestage.setScene(SceneSettings);
 		 thestage.show();
 	 }
-	 
+
 	 static int grid_tile_row,grid_tile_coloumn;
 	 static GridPane gp;
-<<<<<<< HEAD
-	 
-	 
-=======
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
+
 	 private static void game(){
 			Pane root=new Pane();
 			 gp=new GridPane();
@@ -168,21 +164,20 @@ public class Main extends Application {
 					});
 					 root.getChildren().add(a);
 					 gp.add(a,j,i);
-					 
-				 }	
+
+				 }
 			 }
 			 setlinks(gp);
 			 g.addplayer(Color.RED);
 			 g.addplayer(Color.BLUE);
-			 ChoiceBox<String> ccb = new ChoiceBox<String>(); 
-		     ccb.getItems().addAll ("Start game", "Exit");		     
+			 ChoiceBox<String> ccb = new ChoiceBox<String>();
+		     ccb.getItems().addAll ("Start game", "Exit");
 		     gp.add(ccb,n+1,0);
 			 Scene scgame = new Scene(gp);
 			 thestage.setScene(scgame);
-			 thestage.show();	 
+			 thestage.show();
 	 }
-<<<<<<< HEAD
-	 
+
 	 private static Object Undo() throws FileNotFoundException, ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
 		Game previous=Game.deserialize();
@@ -193,10 +188,6 @@ public class Main extends Application {
 	static int nm=0;
 	 static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		 Game.serialize(g);
-=======
-	 static int nm=0;
-	 static void Buttonclick(MouseEvent e,tile a){
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 		 grid_tile_coloumn=GridPane.getColumnIndex(a);
 		 grid_tile_row=GridPane.getRowIndex(a);
 		// System.out.println(grid_tile_coloumn+" "+grid_tile_row);
@@ -230,17 +221,17 @@ public class Main extends Application {
 					((tile) akla.getNode(i,j, gp)).setLink4(akla.getNode(i-1,j,gp));//i-1,j
 				}
 			}
-			
+
 			for(int i=1;i<m-1;i++){//i,0
 				((tile) akla.getNode(i,0,gp)).setLink1(akla.getNode(i+1,0,gp));//i+1,0,1
 				((tile) akla.getNode(i,0,gp)).setLink2(akla.getNode(i,1,gp));//i,1,2
 				((tile) akla.getNode(i,0,gp)).setLink3(akla.getNode(i-1,0,gp));//i-1,0,3
-				//i,n-1  
+				//i,n-1
 				((tile) akla.getNode(i,n-1,gp)).setLink1(akla.getNode(i-1,n-1,gp));//i-1,n-1
 				((tile) akla.getNode(i,n-1,gp)).setLink2(akla.getNode(i,n-2,gp));//i+1,n-1
 				((tile) akla.getNode(i,n-1,gp)).setLink3(akla.getNode(i+1,n-1,gp));//i,n-2
 			}
-			
+
 			for(int i=1;i<n-1;i++){//0,i
 				((tile) akla.getNode(0,i,gp)).setLink1(akla.getNode(0,i-1,gp));//0,i-1
 				((tile) akla.getNode(0,i,gp)).setLink2(akla.getNode(1,i,gp));//1,i
@@ -250,16 +241,16 @@ public class Main extends Application {
 				((tile) akla.getNode(m-1,i,gp)).setLink2(akla.getNode(m-2,i,gp));//m-1,i+1
 				((tile) akla.getNode(m-1,i,gp)).setLink3(akla.getNode(m-1,i+1,gp));//m-1,i
 			}
-			
+
 			((tile) akla.getNode(0,0,gp)).setLink1(akla.getNode(1,0,gp));//
 			((tile) akla.getNode(0,0,gp)).setLink2(akla.getNode(0,1,gp));
-			
+
 			((tile) akla.getNode(m-1,0,gp)).setLink1(akla.getNode(m-1,1,gp));
 			((tile) akla.getNode(m-1,0,gp)).setLink2(akla.getNode(m-2,0,gp));
-			
+
 			((tile) akla.getNode(0,n-1,gp)).setLink1(akla.getNode(0,n-2,gp));
 			((tile) akla.getNode(0,n-1,gp)).setLink2(akla.getNode(1,n-1,gp));
-			
+
 			((tile) akla.getNode(m-1,n-1,gp)).setLink1(akla.getNode(m-1,n-2,gp));
 			((tile) akla.getNode(m-1,n-1,gp)).setLink2(akla.getNode(m-2,n-1,gp));
 	 }
@@ -276,7 +267,7 @@ public class Main extends Application {
 
 		    return result;
 		}
-	 
+
 	  static void changegridcolour(Color g,GridPane gp){
 		 ObservableList<Node> children = gp.getChildren();
 		 for(Node node:children){
@@ -293,7 +284,7 @@ public class Main extends Application {
 class animation{
 	Group a;
 	RotateTransition rt;
-	
+
 	animation(Color c,int no){
 		this.a=new Group();
 		for(int i=0;i<no;i++){
@@ -317,7 +308,7 @@ class animation{
 			a.getChildren().get(1).setTranslateY(-3.3333);
 			a.getChildren().get(2).setTranslateX(-6.666);
 			a.getChildren().get(2).setTranslateY(-3.3333);
-			
+
 		}
 	}
 	void addanimation(){
@@ -328,13 +319,13 @@ class animation{
 	     rt.play();
 	 }
 
-	
-	
+
+
 }
 class orb{
-	
+
 	private Sphere s;
-	
+
 	orb(Color c){
 		final PhongMaterial mat = new PhongMaterial();
         mat.setDiffuseColor(c);
@@ -342,7 +333,7 @@ class orb{
 		 getS().setRadius(10);
 		 getS().setMaterial(mat);
 	}
-	
+
 	public Sphere getS() {
 		return s;
 	}

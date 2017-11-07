@@ -40,7 +40,7 @@ class Reader {			//reader class for to take input in faster manner
     static int nextInt() throws IOException {
         return Integer.parseInt( next() );
     }
-	
+
     static double nextDouble() throws IOException {
         return Double.parseDouble( next() );
     }
@@ -48,23 +48,23 @@ class Reader {			//reader class for to take input in faster manner
 
 
 public class Game implements Serializable {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private	Queue<Player> Players;
 	private Matrix matrix;
 //	private GridPane g;
-//	
+//
 //	public void setgridpane(GridPane g){
 //		this.g=g;
 //	}
-//	
+//
 //	public GridPane getGridPane(){
 //		return g;
 //	}
-//	
+//
 	public Queue<Player> getPlayers() {
 		return Players;
 	}
@@ -83,7 +83,7 @@ public class Game implements Serializable {
 			out.close();
 		}
 	}
-	
+
 	public static Game deserialize() throws FileNotFoundException, IOException, ClassNotFoundException{
 		ObjectInputStream in=null;
 		Game obj;
@@ -104,24 +104,19 @@ public class Game implements Serializable {
 		x=m;
 		y=n;
 		for(int i=0;i<x;i++){
-<<<<<<< HEAD
 			for(int j=0;j<y;j++){
 				this.matrix.board[i][j].setOwner(Color.BLACK);
 			}
-=======
-		for(int j=0;j<y;j++){
-			this.matrix.board[i][j].setOwner(Color.BLACK);
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 		}
 	}
 //		for(int i=0;i<k;i++){
 //			Players.add(i, new Player("A"+i,matrix));
-//		}	
-	
+//		}
+
 	public void addplayer(Color c){
 		Players.add(new Player(c,matrix));
 	}
-	
+
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException{
 		Game obj=new Game(9,6,2);
 		serialize(obj);
@@ -134,7 +129,7 @@ public class Game implements Serializable {
 			System.out.println("yo");
 		}
 	}
-	
+
 //	public static void main(String[] args) throws IOException {
 //		// TODO Auto-generated method stub
 //		Reader.init(System.in);
@@ -164,7 +159,7 @@ public class Game implements Serializable {
 //		}
 //		System.out.println(obj.Players.get(0).getColor());
 //	}
-//	
+//
 	public boolean isWinner(){
 		if (Players.size()==1){
 			return true;
@@ -180,8 +175,8 @@ public class Game implements Serializable {
 			System.out.println();
 		}
 	}
-	
-	
+
+
 	public void checkplayers() {
 		Queue<Player> jugaad=new LinkedList<Player>();
 		int loop=Players.size();
@@ -189,28 +184,10 @@ public class Game implements Serializable {
 			//System.out.println("size "+Players.size());
 			Player temp=Players.remove();
 			if(isActive(temp)){
-<<<<<<< HEAD
-				System.out.println("in loop "+temp.getColor()+" "+i);
-=======
-				//System.out.println("in loop "+temp.getColor()+" "+i);
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 				jugaad.add(temp);
 			}
 		}
 		Players=jugaad;
-<<<<<<< HEAD
-		System.out.println("Start no. of colors");
-		for (Player element : jugaad) {
-			  System.out.println(element.getColor());
-			}
-		System.out.println("end no. of colors");
-=======
-//		System.out.println("Start no. of colors");
-//		for (Player element : jugaad) {
-//			  System.out.println(element.getColor());
-//			}
-//		System.out.println("end no. of colors");
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 	}
 	boolean isActive(Player temp){
 		int points=0;
@@ -227,7 +204,7 @@ public class Game implements Serializable {
 		else{
 			return false;
 		}
-		
+
 	}
 
 }

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import java.util.ArrayList;
-=======
 package v1.oo;
-
-
+import java.util.ArrayList;
 import java.util.ArrayList;
 
 >>>>>>> f5587501c1dde75848ad30310ae140931737a179
@@ -14,30 +10,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-<<<<<<< HEAD
-=======
 import javafx.scene.shape.Sphere;
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 import javafx.util.Duration;
 
 class tile extends StackPane{
-	
+
 	Rectangle border;
 	Game g;
 	private Node link1;
 	private Node link2;
 	private Node link3;
 	private Node link4;
-<<<<<<< HEAD
 	private int Criticalmass;
 	transient private Color Owner;
 	private int orbs;
-=======
-		private int Criticalmass;
-		private Color Owner; 			
-		private int orbs;
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
-		
+
 
 	 public tile(Cell k,Game g,int cmass){
 		 this.Owner=Color.BLACK;
@@ -49,35 +36,24 @@ class tile extends StackPane{
 		 this.Criticalmass=cmass;
 		 getChildren().addAll(border);
 	 }
-	 
+
 	public void explode() {
 			// TODO Auto-generated method stub
 			try{
 				getChildren().remove(1);
 				}
 			catch(Exception e){
-				
+
 			}
-<<<<<<< HEAD
-			if (this.Criticalmass==2){
-				Color temp=this.Owner;
-				this.Owner=Color.BLACK;
-=======
 			Color temp=this.Owner;
 			this.Owner=Color.BLACK;
 			if (this.Criticalmass==2){
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
 				((tile) this.link2).addORB();
 			}
 			else if(this.Criticalmass==3){
-<<<<<<< HEAD
-				Color temp=this.Owner;
-				this.Owner=Color.BLACK;
-=======
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				//System.out.println("orbs no."+this.orbs);
@@ -87,11 +63,6 @@ class tile extends StackPane{
 				((tile) this.link3).addORB();
 			}
 			else if(this.Criticalmass==4){
-<<<<<<< HEAD
-				Color temp=this.Owner;
-				this.Owner=Color.BLACK;
-=======
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
@@ -105,11 +76,7 @@ class tile extends StackPane{
 				System.out.println("Code Gdbd hai");
 			}
 		}
-<<<<<<< HEAD
-		ArrayList<orb> createorblist(){
-=======
 		 ArrayList<orb> createorblist(){
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 			ArrayList<orb> a=new ArrayList<orb>();
 			for(int i=0;i<4;i++){
 				a.add(new orb(getOwner()));
@@ -126,12 +93,8 @@ class tile extends StackPane{
 			addorb.addanimation();
 			}
 			catch(Exception e){
-<<<<<<< HEAD
-			addorb=new animation(this.Owner,this.orbs);
-=======
 			 addorb=new animation(this.Owner,this.orbs);
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
-			 
+
 			// System.out.println(this.orbs +" present orbs");
 			}
 			getChildren().add(addorb.a);
@@ -146,39 +109,20 @@ class tile extends StackPane{
 //            m1.setOnFinished(e -> {
 //            	System.out.println("done");
 //            });
-<<<<<<< HEAD
-=======
-			//System.out.println("size of neighbour "+this.getnbrs().size());
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
+
 			if(this.isFull()){
 				ArrayList<tile> neighbouringCells=this.getnbrs();
 				ArrayList<orb> allSpheres =this.createorblist();
 				this.orbs=0;
 				ParallelTransition mainTransition = new ParallelTransition();
-<<<<<<< HEAD
-				System.out.println("size of neighbours"+getChildren().size());
-=======
-				//System.out.println("size of neighbours"+getChildren().size());
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 				getChildren().remove(1);
 				for (int i=0;i<neighbouringCells.size();i++)
-	            {	
+	            {
 					orb cur=allSpheres.get(i);
 	                tile neighbour = neighbouringCells.get(i);
 	                TranslateTransition move = new TranslateTransition();
 	                move.setDuration(Duration.seconds(0.25));
-<<<<<<< HEAD
-	                move.setNode(cur.getS());
-	                int moveX = GridPane.getRowIndex(neighbour)- GridPane.getRowIndex(this);
-	                int moveY = GridPane.getColumnIndex(neighbour)- GridPane.getColumnIndex(this);
-	                System.out.println("movex "+moveX);
-	                move.setToX(moveX*50);
-	                move.setToY(moveY*50);
-	                mainTransition.getChildren().add(move);
-	                neighbour.toBack();
-	                this.getChildren().add(cur.getS());
-=======
-	                move.setNode(cur.s);
+         					move.setNode(cur.s);
 	                int moveX = GridPane.getRowIndex(neighbour)- GridPane.getRowIndex(this);
 	                int moveY = GridPane.getColumnIndex(neighbour)- GridPane.getColumnIndex(this);
 	                System.out.println("moveX "+moveX);
@@ -188,7 +132,6 @@ class tile extends StackPane{
 	                mainTransition.getChildren().add(move);
 	                neighbour.toBack();
 	                this.getChildren().add(cur.s);
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 	            }
 	            mainTransition.play();
 	            mainTransition.setOnFinished(e->{
@@ -211,7 +154,7 @@ class tile extends StackPane{
 				a.add((tile) link4);
 			}
 			return a;
-			
+
 		}
 		public boolean isOwnedBy(Color i){
 			if( i==this.Owner){
@@ -226,7 +169,7 @@ class tile extends StackPane{
 			}
 			return false;
 		}
-			
+
 		public Node getLink1() {
 			return link1;
 		}
