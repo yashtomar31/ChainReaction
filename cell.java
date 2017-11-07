@@ -8,14 +8,9 @@ public class Cell implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Cell link1,link2,link3,link4;
-<<<<<<< HEAD
 	private int Criticalmass;	
 	transient private Color Owner=Color.BLACK;
 	private String Ownstr="Black";
-=======
-	private int Criticalmass;		//extra hai
-	private Color Owner; 			
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 	private int orbs;
 	
 	
