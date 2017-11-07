@@ -11,7 +11,6 @@ public class Cell implements Serializable{
 	private int Criticalmass;
 	transient private Color Owner=Color.BLACK;
 	private String Ownstr="Black";
-
 	private int orbs;
 
 

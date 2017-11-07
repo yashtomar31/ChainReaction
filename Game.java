@@ -170,7 +170,7 @@ public class Game implements Serializable {
 	public void show(){
 		for(int j=0;j<matrix.getM();j++){
 			for(int k=0;k<matrix.getN();k++){
-				System.out.print(matrix.getBoard()[j][k].getOwner()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
+				System.out.print(matrix.getBoard()[j][k].getOwnstr()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
 			}
 			System.out.println();
 		}
