@@ -104,14 +104,9 @@ public class Game implements Serializable {
 		x=m;
 		y=n;
 		for(int i=0;i<x;i++){
-<<<<<<< HEAD
 			for(int j=0;j<y;j++){
 				this.matrix.board[i][j].setOwner(Color.BLACK);
 			}
-=======
-		for(int j=0;j<y;j++){
-			this.matrix.board[i][j].setOwner(Color.BLACK);
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 		}
 	}
 //		for(int i=0;i<k;i++){
@@ -175,7 +170,7 @@ public class Game implements Serializable {
 	public void show(){
 		for(int j=0;j<matrix.getM();j++){
 			for(int k=0;k<matrix.getN();k++){
-				System.out.print(matrix.getBoard()[j][k].getOwner()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
+				System.out.print(matrix.getBoard()[j][k].getOwnstr()+"("+matrix.getBoard()[j][k].getOrbs()+")" +" ");
 			}
 			System.out.println();
 		}
@@ -189,28 +184,16 @@ public class Game implements Serializable {
 			//System.out.println("size "+Players.size());
 			Player temp=Players.remove();
 			if(isActive(temp)){
-<<<<<<< HEAD
 				System.out.println("in loop "+temp.getColor()+" "+i);
-=======
-				//System.out.println("in loop "+temp.getColor()+" "+i);
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 				jugaad.add(temp);
 			}
 		}
 		Players=jugaad;
-<<<<<<< HEAD
 		System.out.println("Start no. of colors");
 		for (Player element : jugaad) {
 			  System.out.println(element.getColor());
 			}
 		System.out.println("end no. of colors");
-=======
-//		System.out.println("Start no. of colors");
-//		for (Player element : jugaad) {
-//			  System.out.println(element.getColor());
-//			}
-//		System.out.println("end no. of colors");
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 	}
 	boolean isActive(Player temp){
 		int points=0;
