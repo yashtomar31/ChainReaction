@@ -21,7 +21,7 @@ import javafx.scene.input.MouseEvent;
 //import javafx.scene.layout.BorderPane;
 //import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+//import javafx.scene.la
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
@@ -72,7 +72,6 @@ public class Main extends Application {
 			 m=9;
 			 n=6;
 		 }
-		 g=new Game(m,n,noofplayer);
 		 game();
 	 }
 	 public static void menupaine(Stage primaryStage){
@@ -133,28 +132,29 @@ public class Main extends Application {
 	 
 	 static int grid_tile_row,grid_tile_coloumn;
 	 static GridPane gp;
-<<<<<<< HEAD
+	 private static boolean flag=false;
 	 
 	 
-=======
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 	 private static void game(){
-			Pane root=new Pane();
-			 gp=new GridPane();
+//			Pane root=new Pane();
+		 	g=new Game(m,n,noofplayer);	
+		 	 gp=new GridPane();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
 			 Button undo=new Button("UNDO");
 			 gp.add(undo, n+1, 1);
 			 undo.setOnMouseClicked(e -> {
-				try {
-					Undo();
-				} catch (Exception e1) {}
-			});
+				 nm=0;
+				 flag=true;
+				 game();
+			 }
+			 );
 			 for(int i=0;i<m;i++){
 				 for(int j=0;j<n;j++){
 					 g.getMatrix().board[i][j].setOwner(Color.BLACK);
 					 tile a=new tile(g.getMatrix().board[i][j],g,g.getMatrix().board[i][j].getCriticalmass());
 					 a.setOwner(Color.BLACK);
+					 
 					 a.setOnMouseClicked(e->{
 						try {
 							Buttonclick(e,a);
@@ -166,37 +166,74 @@ public class Main extends Application {
 							e1.printStackTrace();
 						}
 					});
-					 root.getChildren().add(a);
+//					 root.getChildren().add(a);
 					 gp.add(a,j,i);
 					 
 				 }	
 			 }
 			 setlinks(gp);
-			 g.addplayer(Color.RED);
 			 g.addplayer(Color.BLUE);
-			 ChoiceBox<String> ccb = new ChoiceBox<String>(); 
+			 g.addplayer(Color.RED);
+			 ChoiceBox<String> ccb = new ChoiceBox<String>();
+			 if(flag){
+					Game previous=null;
+					try {
+						previous = Game.deserialize();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					g=previous;
+//					Main temp=new Main();
+					for(int i=0;i<previous.x;i++){
+						for(int j=0;j<previous.y;j++){
+							int orbs= previous.getMatrix().getBoard()[i][j].getOrbs();
+							String owner= previous.getMatrix().getBoard()[i][j].getOwnstr();
+							tile pointer=(tile) Main.getNode(i, j, gp);
+							pointer.setOwner(Color.web(owner));
+//							pointer.getChildren().remove(1);
+							for(int k=0;k<orbs;k++){
+								pointer.addORB();
+							}
+						}
+					}
+			 }
 		     ccb.getItems().addAll ("Start game", "Exit");		     
 		     gp.add(ccb,n+1,0);
 			 Scene scgame = new Scene(gp);
 			 thestage.setScene(scgame);
 			 thestage.show();	 
 	 }
-<<<<<<< HEAD
 	 
-	 private static Object Undo() throws FileNotFoundException, ClassNotFoundException, IOException {
-		// TODO Auto-generated method stub
-		Game previous=Game.deserialize();
-		previous.show();
-		return null;
-	}
+//	 private static void Undo() throws FileNotFoundException, ClassNotFoundException, IOException {
+//		// TODO Auto-generated method stub
+//		Game previous=Game.deserialize();
+//		g=previous;
+//		Main temp=new Main(); 
+//		for(int i=0;i<previous.x;i++){
+//			for(int j=0;j<previous.y;j++){
+//				int orbs= previous.getMatrix().getBoard()[i][j].getOrbs();
+//				String owner= previous.getMatrix().getBoard()[i][j].getOwnstr();
+//				tile pointer=(tile) temp.getNode(i, j, gp);
+//				pointer.setOwner(Color.web(owner));
+////				pointer.getChildren().remove(1);
+//				for(int k=0;k<orbs;k++){
+//					pointer.addORB();
+//				}
+//			}
+//		}
+//		previous.show();
+//	}
 
 	static int nm=0;
 	 static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		 Game.serialize(g);
-=======
-	 static int nm=0;
-	 static void Buttonclick(MouseEvent e,tile a){
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 		 grid_tile_coloumn=GridPane.getColumnIndex(a);
 		 grid_tile_row=GridPane.getRowIndex(a);
 		// System.out.println(grid_tile_coloumn+" "+grid_tile_row);
@@ -210,7 +247,7 @@ public class Main extends Application {
 			System.out.println("taketurn error");
 		}
 		 g.getPlayers().add(temp);
-		 System.out.println("size a a aa a "+g.getPlayers().size());
+		 System.out.println("No. of players "+g.getPlayers().size());
 		 a.addORB();
 		 if(nm>1){//add no.ofplayers-1
 			 g.checkplayers();
@@ -221,49 +258,49 @@ public class Main extends Application {
 		 }
 	 }
 	 static void setlinks(GridPane gp){
-			Main akla=new Main();
+//			Main akla=new Main();
 			for(int i=1;i<m-1;i++){
 				for(int j=1;j<n-1;j++){//i,j
-					((tile) akla.getNode(i,j, gp)).setLink1(akla.getNode(i,j-1,gp));
-					((tile) akla.getNode(i,j, gp)).setLink2(akla.getNode(i+1,j,gp));//i+1,j
-					((tile) akla.getNode(i,j, gp)).setLink3(akla.getNode(i,j+1,gp));//i,j+1
-					((tile) akla.getNode(i,j, gp)).setLink4(akla.getNode(i-1,j,gp));//i-1,j
+					((tile) Main.getNode(i,j, gp)).setLink1(Main.getNode(i,j-1,gp));
+					((tile) Main.getNode(i,j, gp)).setLink2(Main.getNode(i+1,j,gp));//i+1,j
+					((tile) Main.getNode(i,j, gp)).setLink3(Main.getNode(i,j+1,gp));//i,j+1
+					((tile) Main.getNode(i,j, gp)).setLink4(Main.getNode(i-1,j,gp));//i-1,j
 				}
 			}
 			
 			for(int i=1;i<m-1;i++){//i,0
-				((tile) akla.getNode(i,0,gp)).setLink1(akla.getNode(i+1,0,gp));//i+1,0,1
-				((tile) akla.getNode(i,0,gp)).setLink2(akla.getNode(i,1,gp));//i,1,2
-				((tile) akla.getNode(i,0,gp)).setLink3(akla.getNode(i-1,0,gp));//i-1,0,3
+				((tile) Main.getNode(i,0,gp)).setLink1(Main.getNode(i+1,0,gp));//i+1,0,1
+				((tile) Main.getNode(i,0,gp)).setLink2(Main.getNode(i,1,gp));//i,1,2
+				((tile) Main.getNode(i,0,gp)).setLink3(Main.getNode(i-1,0,gp));//i-1,0,3
 				//i,n-1  
-				((tile) akla.getNode(i,n-1,gp)).setLink1(akla.getNode(i-1,n-1,gp));//i-1,n-1
-				((tile) akla.getNode(i,n-1,gp)).setLink2(akla.getNode(i,n-2,gp));//i+1,n-1
-				((tile) akla.getNode(i,n-1,gp)).setLink3(akla.getNode(i+1,n-1,gp));//i,n-2
+				((tile) Main.getNode(i,n-1,gp)).setLink1(Main.getNode(i-1,n-1,gp));//i-1,n-1
+				((tile) Main.getNode(i,n-1,gp)).setLink2(Main.getNode(i,n-2,gp));//i+1,n-1
+				((tile) Main.getNode(i,n-1,gp)).setLink3(Main.getNode(i+1,n-1,gp));//i,n-2
 			}
 			
 			for(int i=1;i<n-1;i++){//0,i
-				((tile) akla.getNode(0,i,gp)).setLink1(akla.getNode(0,i-1,gp));//0,i-1
-				((tile) akla.getNode(0,i,gp)).setLink2(akla.getNode(1,i,gp));//1,i
-				((tile) akla.getNode(0,i,gp)).setLink3(akla.getNode(0,i+1,gp));//0,i+1
+				((tile) Main.getNode(0,i,gp)).setLink1(Main.getNode(0,i-1,gp));//0,i-1
+				((tile) Main.getNode(0,i,gp)).setLink2(Main.getNode(1,i,gp));//1,i
+				((tile) Main.getNode(0,i,gp)).setLink3(Main.getNode(0,i+1,gp));//0,i+1
 				//m-1,i
-				((tile) akla.getNode(m-1,i,gp)).setLink1(akla.getNode(m-1,i-1,gp));//m-1,i-1
-				((tile) akla.getNode(m-1,i,gp)).setLink2(akla.getNode(m-2,i,gp));//m-1,i+1
-				((tile) akla.getNode(m-1,i,gp)).setLink3(akla.getNode(m-1,i+1,gp));//m-1,i
+				((tile) Main.getNode(m-1,i,gp)).setLink1(Main.getNode(m-1,i-1,gp));//m-1,i-1
+				((tile) Main.getNode(m-1,i,gp)).setLink2(Main.getNode(m-2,i,gp));//m-1,i+1
+				((tile) Main.getNode(m-1,i,gp)).setLink3(Main.getNode(m-1,i+1,gp));//m-1,i
 			}
 			
-			((tile) akla.getNode(0,0,gp)).setLink1(akla.getNode(1,0,gp));//
-			((tile) akla.getNode(0,0,gp)).setLink2(akla.getNode(0,1,gp));
+			((tile) Main.getNode(0,0,gp)).setLink1(Main.getNode(1,0,gp));//
+			((tile) Main.getNode(0,0,gp)).setLink2(Main.getNode(0,1,gp));
 			
-			((tile) akla.getNode(m-1,0,gp)).setLink1(akla.getNode(m-1,1,gp));
-			((tile) akla.getNode(m-1,0,gp)).setLink2(akla.getNode(m-2,0,gp));
+			((tile) Main.getNode(m-1,0,gp)).setLink1(Main.getNode(m-1,1,gp));
+			((tile) Main.getNode(m-1,0,gp)).setLink2(Main.getNode(m-2,0,gp));
 			
-			((tile) akla.getNode(0,n-1,gp)).setLink1(akla.getNode(0,n-2,gp));
-			((tile) akla.getNode(0,n-1,gp)).setLink2(akla.getNode(1,n-1,gp));
+			((tile) Main.getNode(0,n-1,gp)).setLink1(Main.getNode(0,n-2,gp));
+			((tile) Main.getNode(0,n-1,gp)).setLink2(Main.getNode(1,n-1,gp));
 			
-			((tile) akla.getNode(m-1,n-1,gp)).setLink1(akla.getNode(m-1,n-2,gp));
-			((tile) akla.getNode(m-1,n-1,gp)).setLink2(akla.getNode(m-2,n-1,gp));
+			((tile) Main.getNode(m-1,n-1,gp)).setLink1(Main.getNode(m-1,n-2,gp));
+			((tile) Main.getNode(m-1,n-1,gp)).setLink2(Main.getNode(m-2,n-1,gp));
 	 }
-	  Node getNode (final int row, final int column, GridPane gridPane) {
+	  static Node getNode (final int row, final int column, GridPane gridPane) {
 		    Node result = null;
 		    ObservableList<Node> childrens = gridPane.getChildren();
 
@@ -323,7 +360,7 @@ class animation{
 	void addanimation(){
 		 rt.setFromAngle(0);
 		 rt.setCycleCount(RotateTransition.INDEFINITE);
-		 rt.setInterpolator(Interpolator.LINEAR);
+		 rt.setInterpolator(Interpolator.EASE_BOTH);
 		 rt.setByAngle(360);
 	     rt.play();
 	 }
