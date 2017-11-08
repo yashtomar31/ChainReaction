@@ -1,8 +1,6 @@
 package v1.oo;
 import java.util.ArrayList;
 import java.util.ArrayList;
-
->>>>>>> f5587501c1dde75848ad30310ae140931737a179
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -24,14 +22,12 @@ class tile extends StackPane{
 	private int Criticalmass;
 	transient private Color Owner;
 	private int orbs;
-
-
+	
 	 public tile(Cell k,Game g,int cmass){
 		 this.Owner=Color.BLACK;
 		 this.g=g;
 		 border=new Rectangle(50,50);
 		 border.setFill(Color.BLACK);
-		 border.setStroke(Color.RED);
 		 this.Owner=null;
 		 this.Criticalmass=cmass;
 		 getChildren().addAll(border);
@@ -122,7 +118,7 @@ class tile extends StackPane{
 	                tile neighbour = neighbouringCells.get(i);
 	                TranslateTransition move = new TranslateTransition();
 	                move.setDuration(Duration.seconds(0.25));
-         					move.setNode(cur.s);
+         					move.setNode(cur.getS());
 	                int moveX = GridPane.getRowIndex(neighbour)- GridPane.getRowIndex(this);
 	                int moveY = GridPane.getColumnIndex(neighbour)- GridPane.getColumnIndex(this);
 	                System.out.println("moveX "+moveX);
@@ -131,7 +127,7 @@ class tile extends StackPane{
 	                move.setToY(moveX*50);
 	                mainTransition.getChildren().add(move);
 	                neighbour.toBack();
-	                this.getChildren().add(cur.s);
+	                this.getChildren().add(cur.getS());
 	            }
 	            mainTransition.play();
 	            mainTransition.setOnFinished(e->{

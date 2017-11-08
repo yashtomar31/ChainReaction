@@ -1,4 +1,4 @@
-
+package v1.oo;
 //import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -71,6 +71,9 @@ public class Main extends Application {
 			 m=9;
 			 n=6;
 		 }
+		 g=new Game(m,n,noofplayer);
+		 	g.addplayer(Color.RED);
+		      g.addplayer(Color.BLUE);
 		 game();
 	 }
 	 public static void menupaine(Stage primaryStage){
@@ -78,10 +81,12 @@ public class Main extends Application {
 		 GridPane gridPane=new GridPane();
 		ncb = new ChoiceBox<String>();
 	      ncb.getItems().addAll ("2","3" ,"4", "5", "6", "7","8");
+	      ncb.setValue("2");
 	    Text namegameplayer=new Text("No. of players");
 	    Text gridsize=new Text("Choose grid size");
 	    gridbox=new ChoiceBox<String>();
 	    gridbox.getItems().addAll("9x6","15x10");
+	    gridbox.setValue("9x6");
 	    Button Ngame = new Button("Start Game");
 	    Button Rgame = new Button("Resume Game");
 	    Button Settings = new Button("Settings");
@@ -132,11 +137,8 @@ public class Main extends Application {
 	 static int grid_tile_row,grid_tile_coloumn;
 	 static GridPane gp;
 	 private static boolean flag=false;
-
-
 	 private static void game(){
 //			Pane root=new Pane();
-		 	g=new Game(m,n,noofplayer);
 		 	 gp=new GridPane();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
@@ -153,7 +155,7 @@ public class Main extends Application {
 					 g.getMatrix().board[i][j].setOwner(Color.BLACK);
 					 tile a=new tile(g.getMatrix().board[i][j],g,g.getMatrix().board[i][j].getCriticalmass());
 					 a.setOwner(Color.BLACK);
-
+					 a.border.setStroke(g.getPlayers().peek().getColor());
 					 a.setOnMouseClicked(e->{
 						try {
 							Buttonclick(e,a);
@@ -171,8 +173,6 @@ public class Main extends Application {
 				 }
 			 }
 			 setlinks(gp);
-			 g.addplayer(Color.BLUE);
-			 g.addplayer(Color.RED);
 			 ChoiceBox<String> ccb = new ChoiceBox<String>();
 			 if(flag){
 					Game previous=null;
@@ -189,17 +189,29 @@ public class Main extends Application {
 						e1.printStackTrace();
 					}
 					g=previous;
-//					Main temp=new Main();
+					Main temp=new Main();
 					for(int i=0;i<previous.x;i++){
 						for(int j=0;j<previous.y;j++){
 							int orbs= previous.getMatrix().getBoard()[i][j].getOrbs();
 							String owner= previous.getMatrix().getBoard()[i][j].getOwnstr();
-							tile pointer=(tile) Main.getNode(i, j, gp);
+							tile pointer=(tile) temp.getNode(i, j, gp);
 							pointer.setOwner(Color.web(owner));
 //							pointer.getChildren().remove(1);
 							for(int k=0;k<orbs;k++){
 								pointer.addORB();
 							}
+							 pointer.setOnMouseClicked(e->{
+									try {
+										System.out.println("Backchod Billi");
+										Buttonclick(e,pointer);
+									} catch (FileNotFoundException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								});
 						}
 					}
 			 }
@@ -210,20 +222,19 @@ public class Main extends Application {
 			 thestage.show();
 	 }
 
-	 private static Object Undo() throws FileNotFoundException, ClassNotFoundException, IOException {
-		// TODO Auto-generated method stub
-		Game previous=Game.deserialize();
-		previous.show();
-		return null;
-	}
+//	 private static Object Undo() throws FileNotFoundException, ClassNotFoundException, IOException {
+//		// TODO Auto-generated method stub
+//		Game previous=Game.deserialize();
+//		previous.show();
+//		return null;
+//	}
 
 	static int nm=0;
 	 static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		 Game.serialize(g);
 		 grid_tile_coloumn=GridPane.getColumnIndex(a);
 		 grid_tile_row=GridPane.getRowIndex(a);
-		// System.out.println(grid_tile_coloumn+" "+grid_tile_row);
-		// System.out.println(a.getOwner()+" "+Color.BLACK);
+		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		 if(g.getPlayers().peek().getColor()==a.getOwner()||a.getOwner()==Color.BLACK){
 		 Player temp=g.getPlayers().remove();
 		 a.setOwner(temp.getColor());
@@ -244,13 +255,13 @@ public class Main extends Application {
 		 }
 	 }
 	 static void setlinks(GridPane gp){
-//			Main akla=new Main();
+			Main akla=new Main();
 			for(int i=1;i<m-1;i++){
 				for(int j=1;j<n-1;j++){//i,j
-					((tile) Main.getNode(i,j, gp)).setLink1(Main.getNode(i,j-1,gp));
-					((tile) Main.getNode(i,j, gp)).setLink2(Main.getNode(i+1,j,gp));//i+1,j
-					((tile) Main.getNode(i,j, gp)).setLink3(Main.getNode(i,j+1,gp));//i,j+1
-					((tile) Main.getNode(i,j, gp)).setLink4(Main.getNode(i-1,j,gp));//i-1,j
+					((tile) akla.getNode(i,j, gp)).setLink1(akla.getNode(i,j-1,gp));
+					((tile) akla.getNode(i,j, gp)).setLink2(akla.getNode(i+1,j,gp));//i+1,j
+					((tile) akla.getNode(i,j, gp)).setLink3(akla.getNode(i,j+1,gp));//i,j+1
+					((tile) akla.getNode(i,j, gp)).setLink4(akla.getNode(i-1,j,gp));//i-1,j
 				}
 			}
 
@@ -265,13 +276,13 @@ public class Main extends Application {
 			}
 
 			for(int i=1;i<n-1;i++){//0,i
-				((tile) Main.getNode(0,i,gp)).setLink1(Main.getNode(0,i-1,gp));//0,i-1
-				((tile) Main.getNode(0,i,gp)).setLink2(Main.getNode(1,i,gp));//1,i
-				((tile) Main.getNode(0,i,gp)).setLink3(Main.getNode(0,i+1,gp));//0,i+1
+				((tile) akla.getNode(0,i,gp)).setLink1(akla.getNode(0,i-1,gp));//0,i-1
+				((tile) akla.getNode(0,i,gp)).setLink2(akla.getNode(1,i,gp));//1,i
+				((tile) akla.getNode(0,i,gp)).setLink3(akla.getNode(0,i+1,gp));//0,i+1
 				//m-1,i
-				((tile) Main.getNode(m-1,i,gp)).setLink1(Main.getNode(m-1,i-1,gp));//m-1,i-1
-				((tile) Main.getNode(m-1,i,gp)).setLink2(Main.getNode(m-2,i,gp));//m-1,i+1
-				((tile) Main.getNode(m-1,i,gp)).setLink3(Main.getNode(m-1,i+1,gp));//m-1,i
+				((tile) akla.getNode(m-1,i,gp)).setLink1(akla.getNode(m-1,i-1,gp));//m-1,i-1
+				((tile) akla.getNode(m-1,i,gp)).setLink2(akla.getNode(m-2,i,gp));//m-1,i+1
+				((tile) akla.getNode(m-1,i,gp)).setLink3(akla.getNode(m-1,i+1,gp));//m-1,i
 			}
 
 			((tile) akla.getNode(0,0,gp)).setLink1(akla.getNode(1,0,gp));//
