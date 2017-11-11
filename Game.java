@@ -212,15 +212,33 @@ public class Game implements Serializable {
 	public void checkplayers() {
 		Queue<Player> jugaad=new LinkedList<Player>();
 		int loop=Players.size();
+		System.out.println("size"+" "+loop);
 		for(int i=0;i<loop;i++){
 			//System.out.println("size "+Players.size());
 			Player temp=Players.remove();
+			System.out.println(i+" "+temp.getColor());
 			if(isActive(temp)){
+				System.out.println(i+" "+temp.getColor());
 				jugaad.add(temp);
 			}
 		}
 		Players=jugaad;
 	}
+	
+	public void comeback2(){
+		Queue<Player> jugaad=new LinkedList<Player>();
+		int loop=Players.size();
+		System.out.println("size"+" "+loop);
+		for(int i=0;i<loop;i++){
+			//System.out.println("size "+Players.size());
+			Player temp=Players.remove();
+			System.out.println(i+" "+temp.getColor());
+			temp.setColor(Color.web(temp.getColstr()));
+			jugaad.add(temp);
+		}
+		Players=jugaad;
+	}
+	
 	boolean isActive(Player temp){
 		int points=0;
 		for (int i=0;i<x;i++){

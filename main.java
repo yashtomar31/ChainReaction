@@ -193,7 +193,9 @@ public class Main extends Application {
 					g=previous;
 					nm=g.getPlayers().size();
 					g.comeback();
+					g.comeback2();
 					Main temp=new Main();
+					changegridcolour(g.getPlayers().peek().getColor(),gp); 
 					for(int i=0;i<previous.x;i++){
 						for(int j=0;j<previous.y;j++){
 							int orbs= previous.getMatrix().getBoard()[i][j].getOrbs();
@@ -203,14 +205,12 @@ public class Main extends Application {
 							System.out.print(owner+" ");
 							pointer.setOwner(Color.web(owner));
 							System.out.print(pointer.getOwner()+ " ");
-//							pointer.getChildren().remove(1);
 							for(int k=0;k<orbs;k++){
 								pointer.addORB();
 							}
 							 pointer.setOnMouseClicked(e->{
 									try {
-										//System.out.println("Owner"+pointer.getOwner().toString());
-										//System.out.println("No. of Players : "+g.getPlayers().size());
+										System.out.println("No. of Players : "+g.getPlayers().size());
 										Buttonclick(e,pointer);
 									} catch (FileNotFoundException e1) {
 										// TODO Auto-generated catch block
@@ -292,8 +292,7 @@ public class Main extends Application {
 		 grid_tile_coloumn=GridPane.getColumnIndex(a);
 		 grid_tile_row=GridPane.getRowIndex(a);
 		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
-		System.out.println(Color.BLACK+" "+Color.web("0x000000ff")+" "+a.getOwner());
-		g.getPlayers().peek().setColor(Color.web(g.getPlayers().peek().getColstr()));
+		//g.getPlayers().peek().setColor(Color.web(g.getPlayers().peek().getColstr()));
 		 if(g.getPlayers().peek().getColor().equals(a.getOwner())||a.getOwner().equals(Color.BLACK)){
 			 System.out.println("he");
 		 Player temp=g.getPlayers().remove();
@@ -315,6 +314,7 @@ public class Main extends Application {
 		 nm++;
 		 changegridcolour(g.getPlayers().peek().getColor(),gp);
 		 }
+		 System.out.println("No. of players 2 "+g.getPlayers().size());
 		 Game.serialize2(g);
 	 }
 	 static void setlinks(GridPane gp){
