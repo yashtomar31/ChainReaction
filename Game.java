@@ -1,4 +1,3 @@
-package v1.oo;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -96,6 +95,31 @@ public class Game implements Serializable {
 		}
 		return obj;
 	}
+	
+	public static void serialize2(Game obj) throws FileNotFoundException, IOException{
+		ObjectOutputStream out=null;
+		try{
+			out=new ObjectOutputStream(new FileOutputStream("out2.ser"));
+			out.writeObject(obj);
+		}
+		finally{
+			out.close();
+		}
+	}
+
+	public static Game deserialize2() throws FileNotFoundException, IOException, ClassNotFoundException{
+		ObjectInputStream in=null;
+		Game obj;
+		try{
+			in=new ObjectInputStream(new FileInputStream("out2.ser"));
+			obj= (Game) in.readObject();
+		}
+		finally{
+			in.close();
+		}
+		return obj;
+	}
+	
 	int x,y;
 	public Game(int m,int n,int k) {
 		matrix=new Matrix(m,n);
@@ -113,6 +137,14 @@ public class Game implements Serializable {
 //			Players.add(i, new Player("A"+i,matrix));
 //		}
 
+	public void comeback(){
+		for(int i=0;i<this.matrix.getM();i++){
+			for(int j=0;j<this.matrix.getN();j++){
+				this.matrix.getBoard()[i][j].setOwner(Color.web(this.matrix.getBoard()[i][j].getOwnstr()));
+			}
+		}
+	}
+	
 	public void addplayer(Color c){
 		Players.add(new Player(c,matrix));
 	}

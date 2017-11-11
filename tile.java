@@ -1,6 +1,5 @@
-package v1.oo;
 import java.util.ArrayList;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -8,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Sphere;
+//import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 
 class tile extends StackPane{

@@ -1,4 +1,3 @@
-package v1.oo;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -16,6 +15,7 @@ public class Player implements Serializable {
 	
 	Player(Color c2,Matrix c){
 		this.color=c2;
+		this.colstr=color.toString();
 		this.curr=c;
 	}
 

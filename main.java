@@ -1,5 +1,3 @@
-package v1.oo;
-//import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javafx.animation.Interpolator;
@@ -108,6 +106,11 @@ public class Main extends Application {
 		primaryStage.show();
 		Settings.setOnAction(e->ButtonClicked(e));
 		Ngame.setOnAction(e->ngame(e));
+		Rgame.setOnAction(e->{
+//			flag2=true;
+			game();
+		});
+		
 
 
 
@@ -124,7 +127,6 @@ public class Main extends Application {
 	      ccb.getItems().addAll ("red", "blue", "green", "orange", "yellow","black");
 	      gridPane.add(ccb,1,i);
 	      gridPane.add(pc,0,i);
-
 	      }
 		 gridPane.setVgap(5);
 		 gridPane.setHgap(5);
@@ -137,6 +139,7 @@ public class Main extends Application {
 	 static int grid_tile_row,grid_tile_coloumn;
 	 static GridPane gp;
 	 private static boolean flag=false;
+//	 private static boolean flag2=false;
 	 private static void game(){
 //			Pane root=new Pane();
 		 	 gp=new GridPane();
@@ -145,7 +148,6 @@ public class Main extends Application {
 			 Button undo=new Button("UNDO");
 			 gp.add(undo, n+1, 1);
 			 undo.setOnMouseClicked(e -> {
-				 nm=0;
 				 flag=true;
 				 game();
 			 }
@@ -189,20 +191,26 @@ public class Main extends Application {
 						e1.printStackTrace();
 					}
 					g=previous;
+					nm=g.getPlayers().size();
+					g.comeback();
 					Main temp=new Main();
 					for(int i=0;i<previous.x;i++){
 						for(int j=0;j<previous.y;j++){
 							int orbs= previous.getMatrix().getBoard()[i][j].getOrbs();
 							String owner= previous.getMatrix().getBoard()[i][j].getOwnstr();
+							owner=owner.substring(0,8);
 							tile pointer=(tile) temp.getNode(i, j, gp);
+							System.out.print(owner+" ");
 							pointer.setOwner(Color.web(owner));
+							System.out.print(pointer.getOwner()+ " ");
 //							pointer.getChildren().remove(1);
 							for(int k=0;k<orbs;k++){
 								pointer.addORB();
 							}
 							 pointer.setOnMouseClicked(e->{
 									try {
-										System.out.println("Backchod Billi");
+										//System.out.println("Owner"+pointer.getOwner().toString());
+										//System.out.println("No. of Players : "+g.getPlayers().size());
 										Buttonclick(e,pointer);
 									} catch (FileNotFoundException e1) {
 										// TODO Auto-generated catch block
@@ -213,12 +221,60 @@ public class Main extends Application {
 									}
 								});
 						}
+						System.out.println();
 					}
 			 }
+//			 if(flag2){
+//					Game previous=null;
+//					try {
+//						previous = Game.deserialize2();
+//					} catch (FileNotFoundException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					} catch (ClassNotFoundException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					} catch (IOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//					g=previous;
+//					nm=g.getPlayers().size();
+//					Main temp=new Main();
+//					
+//					for(int i=0;i<previous.x;i++){
+//						for(int j=0;j<previous.y;j++){
+//							int orbs= previous.getMatrix().getBoard()[i][j].getOrbs();
+//							String owner= previous.getMatrix().getBoard()[i][j].getOwnstr();
+//							tile pointer=(tile) temp.getNode(i, j, gp);
+//							System.out.println(owner+" ");
+//							pointer.setOwner(Color.web(owner));
+//							System.out.println(pointer.getOwner()+ " ");
+////							pointer.getChildren().remove(1);
+//							for(int k=0;k<orbs;k++){
+//								pointer.addORB();
+//							}
+//							 pointer.setOnMouseClicked(e->{
+//									try {
+//										System.out.println("Backchod Billi");
+//										Buttonclick(e,pointer);
+//									} catch (FileNotFoundException e1) {
+//										// TODO Auto-generated catch block
+//										e1.printStackTrace();
+//									} catch (IOException e1) {
+//										// TODO Auto-generated catch block
+//										e1.printStackTrace();
+//									}
+//								});
+//						}
+//						System.out.println();
+//					}
+//			 }
 		     ccb.getItems().addAll ("Start game", "Exit");
 		     gp.add(ccb,n+1,0);
 			 Scene scgame = new Scene(gp);
 			 thestage.setScene(scgame);
+			 System.out.println("Hello");
 			 thestage.show();
 	 }
 
@@ -232,14 +288,20 @@ public class Main extends Application {
 	static int nm=0;
 	 static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		 Game.serialize(g);
+		 System.out.println("hello3");
 		 grid_tile_coloumn=GridPane.getColumnIndex(a);
 		 grid_tile_row=GridPane.getRowIndex(a);
 		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
-		 if(g.getPlayers().peek().getColor()==a.getOwner()||a.getOwner()==Color.BLACK){
+		System.out.println(Color.BLACK+" "+Color.web("0x000000ff")+" "+a.getOwner());
+		g.getPlayers().peek().setColor(Color.web(g.getPlayers().peek().getColstr()));
+		 if(g.getPlayers().peek().getColor().equals(a.getOwner())||a.getOwner().equals(Color.BLACK)){
+			 System.out.println("he");
 		 Player temp=g.getPlayers().remove();
 		 a.setOwner(temp.getColor());
 		 try {
+			 //System.out.println("Turn Tooked");
 			temp.takeTurn(grid_tile_row, grid_tile_coloumn);
+			//System.out.println("Hello4");
 		} catch (IOException e1) {
 			System.out.println("taketurn error");
 		}
@@ -253,6 +315,7 @@ public class Main extends Application {
 		 nm++;
 		 changegridcolour(g.getPlayers().peek().getColor(),gp);
 		 }
+		 Game.serialize2(g);
 	 }
 	 static void setlinks(GridPane gp){
 			Main akla=new Main();
