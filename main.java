@@ -165,15 +165,13 @@ public class Main extends Application {
 	 private static boolean flag=false;
 	 private static boolean flag2=false;
 	 
-	 private static Button undo;
 	 private static boolean disable=true;
 	 
 	 private static void game(){
-//			Pane root=new Pane();
 		 	 gp=new GridPane();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
-			 undo=new Button("UNDO");
+			 Button undo=new Button("UNDO");
 			 gp.add(undo, n+1, 1);
 			 undo.setOnMouseClicked(e -> {
 				 flag=true;

@@ -1,6 +1,5 @@
-package v1.oo;
 import java.util.ArrayList;
-
+//import java.util.ArrayList;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -8,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+//import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 
 class tile extends StackPane{
@@ -18,7 +18,7 @@ class tile extends StackPane{
 	private Node link2;
 	private Node link3;
 	private Node link4;
-	private final int Criticalmass;
+	private int Criticalmass;
 	transient private Color Owner;
 	private int orbs;
 	
@@ -35,60 +35,29 @@ class tile extends StackPane{
 	public void explode() {
 			// TODO Auto-generated method stub
 			try{
-				getChildren().remove(1,this.getChildren().size());
+				getChildren().remove(1);
 				}
 			catch(Exception e){
 
 			}
 			Color temp=this.Owner;
+			this.Owner=Color.BLACK;
 			if (this.Criticalmass==2){
-				if(this.orbs>2){
-					this.orbs=this.orbs-2;
-					animation addorb=new animation(this.Owner,this.orbs);
-					addorb.setcoordinates();
-					addorb.addanimation();
-					this.getChildren().add(addorb.a);
-				}
-				else{
-					this.orbs=0;
-					this.Owner=Color.BLACK;
-				}
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
 				((tile) this.link2).addORB();
 			}
 			else if(this.Criticalmass==3){
-				if(this.orbs>3){
-					this.orbs=this.orbs-3;
-					animation addorb=new animation(this.Owner,this.orbs);
-					addorb.setcoordinates();
-					addorb.addanimation();
-					this.getChildren().add(addorb.a);
-				}
-				else{
-					this.orbs=0;
-					this.Owner=Color.BLACK;
-				}
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
+				//System.out.println("orbs no."+this.orbs);
 				((tile) this.link2).setOwner(temp);
 				((tile) this.link2).addORB();
 				((tile) this.link3).setOwner(temp);
 				((tile) this.link3).addORB();
 			}
 			else if(this.Criticalmass==4){
-				if(this.orbs>4){
-					this.orbs=this.orbs-4;
-					animation addorb=new animation(this.Owner,this.orbs);
-					addorb.setcoordinates();
-					addorb.addanimation();
-					this.getChildren().add(addorb.a);
-				}
-				else{
-					this.orbs=0;
-					this.Owner=Color.BLACK;
-				}
 				((tile) this.link1).setOwner(temp);
 				((tile) this.link1).addORB();
 				((tile) this.link2).setOwner(temp);
@@ -102,82 +71,68 @@ class tile extends StackPane{
 				System.out.println("Code Gdbd hai");
 			}
 		}
+		 ArrayList<orb> createorblist(){
+			ArrayList<orb> a=new ArrayList<orb>();
+			for(int i=0;i<4;i++){
+				a.add(new orb(getOwner()));
+			}
+			return a;
+		}
 		public void addORB(){
 			animation addorb;
 			this.orbs++;
 			try{
 			getChildren().remove(1);
-			int temp=this.orbs%this.Criticalmass;
-			addorb=new animation(this.Owner,temp);
+			addorb=new animation(this.Owner,this.orbs);
 			addorb.setcoordinates();
 			addorb.addanimation();
 			}
-			catch(IndexOutOfBoundsException e){
+			catch(Exception e){
 			 addorb=new animation(this.Owner,this.orbs);
+
+			// System.out.println(this.orbs +" present orbs");
 			}
 			getChildren().add(addorb.a);
-			if(this.isgreater()){
-				ArrayList<tile> neighbouringCells=this.getnbrs();
-				ParallelTransition mainTransition = new ParallelTransition();
-				if(this.orbs==this.Criticalmass){
-				getChildren().remove(1,this.getChildren().size());
-				}
-				for (int i=0;i<this.Criticalmass;i++)
-	            {	
-					orb cur=new orb(this.Owner);
-	                tile neighbour = neighbouringCells.get(i);
-	                TranslateTransition move = new TranslateTransition();
-	                move.setDuration(Duration.seconds(3));
-         					move.setNode(cur.getS());
-	                int moveX = GridPane.getRowIndex(neighbour)- GridPane.getRowIndex(this);
-	                int moveY = GridPane.getColumnIndex(neighbour)- GridPane.getColumnIndex(this);
-	                move.setToX(moveY*50);
-	                move.setToY(moveX*50);
-	                mainTransition.getChildren().add(move);
-	                neighbour.toBack();
-	                this.getChildren().add(cur.getS());
-	                if(this.Criticalmass==2){
-	                	System.out.println(this.orbs);
-	                }
-	   
-	            }
-	            mainTransition.play();
-	            mainTransition.setOnFinished(e->{
-	            	});
-			}
+//			orb b=new orb(Color.RED);
+//			TranslateTransition m1 = new TranslateTransition();
+//			b.s.toFront();
+//			m1.setDuration(Duration.seconds(1));
+//            m1.setNode(b.s);
+//            m1.setToX(60);
+//            m1.setToY(0);
+//            m1.play();
+//            m1.setOnFinished(e -> {
+//            	System.out.println("done");
+//            });
+
 			if(this.isFull()){
 				ArrayList<tile> neighbouringCells=this.getnbrs();
+				ArrayList<orb> allSpheres =this.createorblist();
+				this.orbs=0;
 				ParallelTransition mainTransition = new ParallelTransition();
-				if(this.orbs==this.Criticalmass){
-				getChildren().remove(1,this.getChildren().size());
-				}
-				for (int i=0;i<this.Criticalmass;i++)
-	            {	
-					orb cur=new orb(this.Owner);
+				getChildren().remove(1);
+				for (int i=0;i<neighbouringCells.size();i++)
+	            {
+					orb cur=allSpheres.get(i);
 	                tile neighbour = neighbouringCells.get(i);
 	                TranslateTransition move = new TranslateTransition();
-	                move.setDuration(Duration.seconds(3));
+	                move.setDuration(Duration.seconds(0.25));
          					move.setNode(cur.getS());
 	                int moveX = GridPane.getRowIndex(neighbour)- GridPane.getRowIndex(this);
 	                int moveY = GridPane.getColumnIndex(neighbour)- GridPane.getColumnIndex(this);
+	                System.out.println("moveX "+moveX);
+	                System.out.println("moveY "+moveY);
 	                move.setToX(moveY*50);
 	                move.setToY(moveX*50);
 	                mainTransition.getChildren().add(move);
 	                neighbour.toBack();
 	                this.getChildren().add(cur.getS());
-	                if(this.Criticalmass==2){
-	                	System.out.println(this.orbs);
-	                }
-	   
 	            }
 	            mainTransition.play();
 	            mainTransition.setOnFinished(e->{
-					this.getChildren().remove(1, this.getChildren().size());;
-	            	this.explode();
-	            	});
-
+	            	this.getChildren().remove(1, this.getChildren().size());;
+	            	this.explode();});
 			}
-			
 		}
 		ArrayList<tile> getnbrs(){
 			ArrayList<tile> a =new ArrayList<tile>();
@@ -205,12 +160,6 @@ class tile extends StackPane{
 
 		public boolean isFull(){
 			if (this.Criticalmass==this.orbs){
-				return true;
-			}
-			return false;
-		}
-		public boolean isgreater(){
-			if(this.Criticalmass<this.orbs){
 				return true;
 			}
 			return false;

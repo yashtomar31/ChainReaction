@@ -243,7 +243,7 @@ public class Game implements Serializable {
 		int points=0;
 		for (int i=0;i<x;i++){
 			for(int j=0;j<y;j++){
-				if(this.getMatrix().getBoard()[i][j].getOwner().equals(temp.getColor())){
+				if(this.getMatrix().getBoard()[i][j].getOwner().equals(temp.getColor()) || temp.getTurns()==0){
 					points++;
 				}
 			}
