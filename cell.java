@@ -1,3 +1,4 @@
+package v1.oo;
 import java.io.Serializable;
 
 import javafx.scene.paint.Color;
@@ -36,31 +37,46 @@ public class Cell implements Serializable{
 
 	public void explode() {
 		// TODO Auto-generated method stub
+		Color temp=this.Owner;
 		if (this.Criticalmass==2){
-			this.orbs=0;
-			Color temp=this.Owner;
-			this.Owner=Color.BLACK;
+			if(this.orbs>2){
+				this.orbs=this.orbs-2;
+			}
+			else{
+				this.Owner=Color.BLACK;
+				this.orbs=0;
+				
+			}
 			this.link1.setOwner(temp);
 			this.link1.addORB();
 			this.link2.setOwner(temp);
 			this.link2.addORB();
 		}
 		else if(this.Criticalmass==3){
-			this.orbs=0;
-			Color temp=this.Owner;
-			this.Owner=Color.BLACK;
+			if(this.orbs>2){
+				this.orbs=this.orbs-3;
+			}
+			else{
+				this.Owner=Color.BLACK;
+				this.orbs=0;
+				
+			}
 			this.link1.setOwner(temp);
 			this.link1.addORB();
-			System.out.println("orbs no."+this.orbs);
 			this.link2.setOwner(temp);
 			this.link2.addORB();
 			this.link3.setOwner(temp);
 			this.link3.addORB();
 		}
 		else if(this.Criticalmass==4){
-			this.orbs=0;
-			Color temp=this.Owner;
-			this.Owner=Color.BLACK;
+			if(this.orbs>2){
+				this.orbs=this.orbs-4;
+			}
+			else{
+				this.Owner=Color.BLACK;
+				this.orbs=0;
+				
+			}
 			this.link1.setOwner(temp);
 			this.link1.addORB();
 			this.link2.setOwner(temp);

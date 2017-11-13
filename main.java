@@ -1,30 +1,29 @@
+package v1.oo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-//import javafx.beans.value.ChangeListener;
-//import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
-//import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
-//import javafx.scene.control.Label;
-//import javafx.scene.layout.BorderPane;
-//import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Sphere;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Main extends Application {
 
@@ -33,7 +32,6 @@ public class Main extends Application {
 	static Stage thestage;
 	static int noofplayer;
 	static ChoiceBox<String> ncb;
-	static ChoiceBox<String> gridbox;
 	static String grid;
 	static int m,n;
 	 public static void main(String[] args) {
@@ -46,29 +44,10 @@ public class Main extends Application {
 	}
 	 public static void ButtonClicked(javafx.event.ActionEvent e){
 		 noofplayer=Integer.parseInt((ncb.getValue().toString()));
-		 grid=gridbox.getValue().toString();
-		 if(grid.equals("15x10")){
-			 m=15;
-			 n=10;
-		 }
-		 else{
-			 m=9;
-			 n=6;
-		 }
-
 		 settings();
 	 }
 	 public static void ngame(javafx.event.ActionEvent e){
 		 noofplayer=Integer.parseInt((ncb.getValue().toString()));
-		 grid=gridbox.getValue().toString();
-		 if(grid.equals("15x10")){
-			 m=15;
-			 n=10;
-		 }
-		 else{
-			 m=9;
-			 n=6;
-		 }
 		 g=new Game(m,n,noofplayer);
 		 g.addplayer(Color.RED);
 		 g.addplayer(Color.BLUE);
@@ -103,38 +82,81 @@ public class Main extends Application {
 	 
 	 public static void menupaine(Stage primaryStage){
 		 thestage=primaryStage;
+		 AnchorPane bc=new AnchorPane();
+		 RadioButton b=new RadioButton();
+		 b.setText("9x6");
+		 RadioButton c=new RadioButton();
+		 c.setText("15x10");
+		 final ToggleGroup group = new ToggleGroup();
+		 b.setToggleGroup(group);
+		 c.setToggleGroup(group);
+		 b.setUserData("9x6");
+		 c.setUserData("15x10");
+		 b.setSelected(true);
+		 b.requestFocus();
+		 b.setAlignment(Pos.CENTER);
+		 b.setTextFill(Color.WHITE);
+		 c.setTextFill(Color.WHITE);
+		 m=9;
+		 n=6;
+		 group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+			 public void changed(ObservableValue<? extends Toggle> ov,
+								 Toggle old_toggle, Toggle new_toggle) {
+				 if (group.getSelectedToggle() != null) {
+
+					 if(group.getSelectedToggle().getUserData().toString().equals("15x10")){
+					 	m=15;
+					 	n=10;
+					 }
+					 else{
+					 	m=9;
+					 	n=6;
+					 }
+					 System.out.print(m+ " "+ n);
+				 }
+			 }
+		 });
+		 bc.setStyle("\"-fx-background-color: Beige;\"");
+		 Label ch=new Label("CHAIN REACTION");
+		 ch.setTextAlignment(TextAlignment.CENTER);
+		 ch.setFont(Font.font("Georgia",40));
+		 ch.setTextFill(Paint.valueOf("#ebe2e2"));
+		 bc.getChildren().add(ch);
+		 ch.setLayoutX(135);
+		 ch.setLayoutY(63);
 		 GridPane gridPane=new GridPane();
-		ncb = new ChoiceBox<String>();
-	      ncb.getItems().addAll ("2","3" ,"4", "5", "6", "7","8");
-	      ncb.setValue("2");
-	    Text namegameplayer=new Text("No. of players");
-	    Text gridsize=new Text("Choose grid size");
-	    gridbox=new ChoiceBox<String>();
-	    gridbox.getItems().addAll("9x6","15x10");
-	    gridbox.setValue("9x6");
-	    Button Ngame = new Button("Start Game");
-	    Button Rgame = new Button("Resume Game");
-	    Button Settings = new Button("Settings");
-	    gridPane.setMinSize(500, 500);
-	    gridPane.setPadding(new Insets(10, 10, 10, 10));
-	    gridPane.setAlignment(Pos.CENTER);
-	    gridPane.add(namegameplayer,0,0);
-	    gridPane.add(ncb,1,0);
-	    gridPane.add(gridsize,0,1);
-	    gridPane.add(gridbox,1,1);
-	    gridPane.add(Ngame,0,2);
-	    gridPane.add(Rgame,1,2);
-	    gridPane.add(Settings,2,2);
-	      gridPane.setVgap(5);
-	      gridPane.setHgap(5);
-	      gridPane.setStyle("-fx-background-color: BEIGE;");
-	    Scene SceneMenu = new Scene(gridPane);
-		primaryStage.setScene(SceneMenu	);
-		primaryStage.show();
-		Settings.setOnAction(e->ButtonClicked(e));
-		Ngame.setOnAction(e->ngame(e));
-		Rgame.setOnAction(e->rgame(e));
-		
+		 ncb = new ChoiceBox<String>();
+		 gridPane.add(ch,0,7,4,1);
+		 ncb.getItems().addAll ("2","3" ,"4", "5", "6", "7","8");
+		 ncb.setValue("2");
+		 Text namegameplayer=new Text("No. of players");
+		 Text gridsize=new Text("Choose grid size           ");
+		 gridsize.setFill(Color.WHITE);
+		 namegameplayer.setFill(Color.WHITE);
+		 Button Ngame = new Button("Start Game");
+		 Button Rgame = new Button("Resume Game");
+		 Button Settings = new Button("Settings");
+		 gridPane.setMinSize(500, 500);
+		 gridPane.setPadding(new Insets(10, 10, 10, 10));
+		 gridPane.setAlignment(Pos.CENTER);
+		 gridPane.add(namegameplayer,1,24);
+		 gridPane.add(ncb,2,24);
+		 gridPane.add(gridsize,1,32);
+		 gridPane.add(b,2,32);
+		 gridPane.add(c,3,32);
+		 gridPane.add(Ngame,0,48);
+		 gridPane.add(Rgame,2,48);
+		 gridPane.add(Settings,4,48);
+		 gridPane.setVgap(5);
+		 gridPane.setHgap(5);
+		 gridPane.setAlignment(Pos.TOP_CENTER);
+		 gridPane.setStyle("-fx-background-color: darkslategray;");
+		 Scene SceneMenu = new Scene(gridPane);
+		 primaryStage.setScene(SceneMenu	);
+		 primaryStage.show();
+		 Settings.setOnAction(e->ButtonClicked(e));
+		 Ngame.setOnAction(e->ngame(e));
+		 Rgame.setOnAction(e->rgame(e));
 
 
 
@@ -168,6 +190,7 @@ public class Main extends Application {
 	 private static boolean disable=true;
 	 
 	 private static void game(){
+//			Pane root=new Pane();
 		 	 gp=new GridPane();
 			 gp.setMinSize(m*50,(n+1)*50);
 			 gp.setAlignment(Pos.CENTER);
@@ -305,7 +328,14 @@ public class Main extends Application {
 			 thestage.show();
 	 }
 
-
+	 static void deactivatecell(){
+		 Main akla=new Main();
+		 for(int i=0;i<m;i++){
+			 for(int j=0;j<m;j++){
+				 akla.getNode(i,j,gp).setOnMouseClicked(null);
+			 }
+		 }
+	 }
 	 private static int nm=0;
 	 private static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		 disable=false;
@@ -323,7 +353,8 @@ public class Main extends Application {
 				 temp.takeTurn(grid_tile_row, grid_tile_coloumn);
 				 //System.out.println("Hello4");
 			 }
-			 catch (IOException e1) {
+			 catch (Exception e1) {
+				 deactivatecell();
 				 System.out.println("taketurn error");
 			 }
 			 g.getPlayers().add(temp);
@@ -409,63 +440,3 @@ public class Main extends Application {
 	 }
 }
 
-class animation{
-	Group a;
-	RotateTransition rt;
-
-	animation(Color c,int no){
-		this.a=new Group();
-		for(int i=0;i<no;i++){
-			orb o=new orb(c);
-			a.getChildren().add(o.getS());
-		}
-		this.rt=new RotateTransition(Duration.millis(2000), a);
-	}
-	void setcoordinates(){
-		int size=a.getChildren().size();
-		System.out.println(size);
-		if(size==2){
-			a.getChildren().get(1).setTranslateX(10);
-			a.getChildren().get(1).setTranslateY(10);
-			this.rt=new RotateTransition(Duration.millis(2000), a);
-		}
-		if(size==3){
-			a.getChildren().get(0).setTranslateX(0);
-			a.getChildren().get(0).setTranslateY(8);
-			a.getChildren().get(1).setTranslateX(+6.666);
-			a.getChildren().get(1).setTranslateY(-3.3333);
-			a.getChildren().get(2).setTranslateX(-6.666);
-			a.getChildren().get(2).setTranslateY(-3.3333);
-
-		}
-	}
-	void addanimation(){
-		 rt.setFromAngle(0);
-		 rt.setCycleCount(RotateTransition.INDEFINITE);
-		 rt.setInterpolator(Interpolator.LINEAR);
-		 rt.setByAngle(360);
-	     rt.play();
-	 }
-
-
-
-}
-class orb{
-
-	private Sphere s;
-
-	orb(Color c){
-		final PhongMaterial mat = new PhongMaterial();
-        mat.setDiffuseColor(c);
-		 setS(new Sphere());
-		 getS().setRadius(10);
-		 getS().setMaterial(mat);
-	}
-
-	public Sphere getS() {
-		return s;
-	}
-	public void setS(Sphere s) {
-		this.s = s;
-	}
-}
