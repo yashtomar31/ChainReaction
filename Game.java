@@ -123,9 +123,9 @@ public class Game implements Serializable {
 	
 	int x,y;
 	public Game(int m,int n,int k) {
-		matrix=new Matrix(m,n);
-		matrix.setCounter(k);
 		Players=new LinkedList<Player>();
+		matrix=new Matrix(m,n,Players);
+		matrix.setCounter(k);
 		x=m;
 		y=n;
 		for(int i=0;i<x;i++){
@@ -258,4 +258,15 @@ public class Game implements Serializable {
 
 	}
 
+}
+
+class WinnerException extends Exception{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public WinnerException(String s){
+		super(s);
+	}
 }

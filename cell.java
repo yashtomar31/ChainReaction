@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Queue;
 
 import javafx.scene.paint.Color;
 
@@ -12,6 +13,7 @@ public class Cell implements Serializable{
 	transient private Color Owner=Color.BLACK;
 	private String Ownstr="Black";
 	private int orbs;
+	private Queue<Player> Players;
 
 
 	public int getOrbs() {
@@ -22,7 +24,8 @@ public class Cell implements Serializable{
 		this.orbs = orbs;
 	}
 
-	public Cell(int cm){
+	public Cell(int cm,Queue<Player> Players){
+		this.Players=Players;
 		this.Criticalmass=cm;
 		this.Owner=null;
 	}
@@ -88,6 +91,10 @@ public class Cell implements Serializable{
 		else{
 			System.out.println("Code Gdbd hai");
 		}
+		
+//		if(Players.size()==1){
+//			throw new WinnerException("Jeet gya koi");
+//		}
 	}
 
 	public boolean isOwnedBy(Color i){

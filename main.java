@@ -135,7 +135,7 @@ public class Main extends Application {
 			}
 		});
 		bc.setStyle("\"-fx-background-color: Beige;\"");
-		Label ch=new Label("CHAIN REACTION");
+		Label ch=new Label("         CHAIN REACTION");
 		ch.setTextAlignment(TextAlignment.CENTER);
 		ch.setFont(Font.font("Georgia",40));
 		ch.setTextFill(Paint.valueOf("#ebe2e2"));
