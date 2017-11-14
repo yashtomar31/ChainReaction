@@ -393,12 +393,12 @@ public class Main extends Application {
 	private static int nm=0;
 	private static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		disable=false;
-		Game.serialize(g);
 		System.out.println("hello3");
 		grid_tile_coloumn=GridPane.getColumnIndex(a);
 		grid_tile_row=GridPane.getRowIndex(a);
 		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		if(g.getPlayers().peek().getColor().equals(a.getOwner())||a.getOwner().equals(Color.BLACK)){
+			Game.serialize(g);
 			System.out.println("he");
 			Player temp=g.getPlayers().remove();
 			a.setOwner(temp.getColor());
@@ -493,5 +493,6 @@ public class Main extends Application {
 		}
 	}
 }
+
 
 

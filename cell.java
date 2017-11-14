@@ -1,4 +1,3 @@
-package v1.oo;
 import java.io.Serializable;
 
 import javafx.scene.paint.Color;
