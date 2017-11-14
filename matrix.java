@@ -45,6 +45,7 @@ public class Matrix implements Serializable {
 		board[0][n-1]=new Cell(2,Players);
 		board[m-1][0]=new Cell(2,Players);
 		board[m-1][n-1]=new Cell(2,Players);
+		System.out.println("Yha tak playes hai "+Players.size());
 		
 		//linking of Cells
 		for(int i=1;i<m-1;i++){

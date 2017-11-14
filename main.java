@@ -12,12 +12,14 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 //import javafx.scene.shape.Rectangle;
@@ -56,9 +58,9 @@ public class Main extends Application {
 		noofplayer=Integer.parseInt((ncb.getValue().toString()));
 		g=new Game(m,n,noofplayer);
 		for(int i=0;i<noofplayer;i++){
-			System.out.println(i);
-			g.addplayer((Color)colorpicker.get(i));
-			System.out.println((Color)colorpicker.get(i));
+//			System.out.println(i);
+			g.addplayer((Color)colorpicker.get(i),i+1);
+//			System.out.println((Color)colorpicker.get(i));
 		}
 		game();
 	}
@@ -77,13 +79,13 @@ public class Main extends Application {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println(temp.x+" "+temp.y+" "+temp.getPlayers().size());
+//		System.out.println(temp.x+" "+temp.y+" "+temp.getPlayers().size());
 		noofplayer=temp.getPlayers().size();
 		m=temp.x;n=temp.y;
 		g=new Game(temp.x,temp.y,temp.getPlayers().size());
-		g.addplayer(Color.RED);
-		g.addplayer(Color.BLUE);
-		g.addplayer(Color.GREEN);
+//		g.addplayer(Color.RED);
+//		g.addplayer(Color.BLUE);
+//		g.addplayer(Color.GREEN);
 		flag2=true;
 		game();
 	}
@@ -135,7 +137,7 @@ public class Main extends Application {
 			}
 		});
 		bc.setStyle("\"-fx-background-color: Beige;\"");
-		Label ch=new Label("         CHAIN REACTION");
+		Label ch=new Label("        CHAIN REACTION");
 		ch.setTextAlignment(TextAlignment.CENTER);
 		ch.setFont(Font.font("Georgia",40));
 		ch.setTextFill(Paint.valueOf("#ebe2e2"));
@@ -318,7 +320,7 @@ public class Main extends Application {
 					}
 					pointer.setOnMouseClicked(e->{
 						try {
-							System.out.println("No. of Players : "+g.getPlayers().size());
+//							System.out.println("No. of Players : "+g.getPlayers().size());
 							Buttonclick(e,pointer);
 						} catch (FileNotFoundException e1) {
 							// TODO Auto-generated catch block
@@ -363,7 +365,7 @@ public class Main extends Application {
 					}
 					pointer.setOnMouseClicked(e->{
 						try {
-							System.out.println("No. of Players : "+g.getPlayers().size());
+//							System.out.println("No. of Players : "+g.getPlayers().size());
 							Buttonclick(e,pointer);
 						} catch (FileNotFoundException e1) {
 							// TODO Auto-generated catch block
@@ -401,7 +403,7 @@ public class Main extends Application {
 		gp.add(submit, n+3, 0);
 		Scene scgame = new Scene(gp);
 		thestage.setScene(scgame);
-		System.out.println("Hello");
+//		System.out.println("Hello");
 		thestage.show();
 	}
 
@@ -416,10 +418,10 @@ public class Main extends Application {
 	private static int nm=0;
 	private static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		disable=false;
-		System.out.println("hello3");
+//		System.out.println("hello3");
 		grid_tile_coloumn=GridPane.getColumnIndex(a);
 		grid_tile_row=GridPane.getRowIndex(a);
-		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
+//		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		if(g.getPlayers().peek().getColor().equals(a.getOwner())||a.getOwner().equals(Color.BLACK)){
 			Game.serialize(g);
 			System.out.println("he");
@@ -430,12 +432,15 @@ public class Main extends Application {
 				temp.takeTurn(grid_tile_row, grid_tile_coloumn);
 				//System.out.println("Hello4");
 			}
+			catch (WinnerException e1){
+				System.out.println(e1.getMessage());
+				DisplayError("Player : "+temp.getNo()+" wins");
+			}
 			catch (Exception e1) {
 				deactivatecell();
 				System.out.println("taketurn error");
 			}
 			g.getPlayers().add(temp);
-			System.out.println("No. of players "+g.getPlayers().size());
 			a.addORB();
 			if(nm>noofplayer){//add no.ofplayers-1
 				g.checkplayers();
@@ -444,9 +449,25 @@ public class Main extends Application {
 			nm++;
 			changegridcolour(g.getPlayers().peek().getColor(),gp);
 		}
-		System.out.println("No. of players 2 "+g.getPlayers().size());
+//		System.out.println("No. of players 2 "+g.getPlayers().size());
 		Game.serialize2(g);
 	}
+	
+	public static void DisplayError(String msg){
+    	Stage NewStage = new Stage();
+    	NewStage.setTitle("ERROR");
+    	Scene NewScene = new Scene(new Group(), 300, 200, Color.GRAY);
+    	Pane grid = new Pane();
+    	Text t = new Text(10, 40, "");
+        t.setText(msg);
+        t.setFill(Color.WHITE);
+        grid.getChildren().add(t);
+    	Group root = (Group)NewScene.getRoot();
+        root.getChildren().add(grid);
+        NewStage.setScene(NewScene);
+        NewStage.show();
+    }
+	
 	static void setlinks(GridPane gp){
 		Main akla=new Main();
 		for(int i=1;i<m-1;i++){

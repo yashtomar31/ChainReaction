@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import javafx.scene.paint.Color;
@@ -24,20 +25,30 @@ public class Cell implements Serializable{
 		this.orbs = orbs;
 	}
 
+	public Queue<Player> getPlayers() {
+		return Players;
+	}
+
+	public void setPlayers(Queue<Player> players) {
+		Players = players;
+	}
+
 	public Cell(int cm,Queue<Player> Players){
 		this.Players=Players;
 		this.Criticalmass=cm;
 		this.Owner=null;
 	}
 
-	public void addORB(){
+	public void addORB() throws WinnerException{
 		this.orbs++;
+//		System.out.println("Addinf orb: "+Players.size());
+//		this.Displayplayers();
 		if(this.isFull()){
 			this.explode();
 		}
 	}
 
-	public void explode() {
+	public void explode() throws WinnerException {
 		// TODO Auto-generated method stub
 		Color temp=this.Owner;
 		if (this.Criticalmass==2){
@@ -91,10 +102,43 @@ public class Cell implements Serializable{
 		else{
 			System.out.println("Code Gdbd hai");
 		}
-		
-//		if(Players.size()==1){
-//			throw new WinnerException("Jeet gya koi");
+		System.out.println("number of players : " + Players.size());
+		this.checkplayers();
+		System.out.println("Helloprefinal "+Players.size());
+		if(Players.size()==0){
+			System.out.println("Hellofinal");
+			throw new WinnerException("Jeet gya koi");
+		}
+	}
+//	
+//	public void Displayplayers(){
+//		int loop=Players.size();
+//		for(int i=0;i<loop;i++){
+//			Player temp=Players.remove();
+//			System.out.println(temp.getColor());
+//			Players.add(temp);
 //		}
+//	}
+//	
+	public void checkplayers() {
+		Queue<Player> jugaad=new LinkedList<Player>();
+		int loop=Players.size();
+		System.out.println("size"+" "+loop);
+		for(int i=0;i<loop;i++){
+			//System.out.println("size "+Players.size());
+			Player temp=Players.remove();
+			System.out.println(i+" "+temp.getColor());
+			System.out.println("yeh bachce hai "+i+" "+temp.getColor());
+			if(temp.isActive()){
+				System.out.println("yeh bach gaya "+i+" "+temp.getColor());
+				jugaad.add(temp);
+			}
+		}
+		loop=jugaad.size();
+		for(int i=0;i<loop;i++){
+			Player te=jugaad.remove();
+			Players.add(te);
+		}
 	}
 
 	public boolean isOwnedBy(Color i){

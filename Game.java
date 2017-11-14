@@ -55,16 +55,7 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private	Queue<Player> Players;
 	private Matrix matrix;
-//	private GridPane g;
-//
-//	public void setgridpane(GridPane g){
-//		this.g=g;
-//	}
-//
-//	public GridPane getGridPane(){
-//		return g;
-//	}
-//
+
 	public Queue<Player> getPlayers() {
 		return Players;
 	}
@@ -146,16 +137,18 @@ public class Game implements Serializable {
 		}
 	}
 	
-	public void addplayer(Color c){
-		Players.add(new Player(c,matrix));
+	public void addplayer(Color c,int n){
+		Players.add(new Player(c,matrix,n));
+		System.out.println("Gamelist: "+Players.size());
+		System.out.println("Celllist: " +this.matrix.board[5][5].getPlayers().size());
 	}
 
-	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException{
+	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, WinnerException{
 		Game obj=new Game(9,6,2);
 		serialize(obj);
-		obj.addplayer(Color.BLUE);
-		obj.addplayer(Color.RED);
-		obj.getPlayers().peek().takeTurn(1, 2);
+//		obj.addplayer(Color.BLUE);
+//		obj.addplayer(Color.RED);
+//		obj.getPlayers().peek().takeTurn(1, 2);
 		serialize(obj);
 		Game dese=deserialize();
 		if( dese.getMatrix().getM()==obj.getMatrix().getM()){
@@ -213,17 +206,21 @@ public class Game implements Serializable {
 	public void checkplayers() {
 		Queue<Player> jugaad=new LinkedList<Player>();
 		int loop=Players.size();
-		System.out.println("size"+" "+loop);
+//		System.out.println("size"+" "+loop);
 		for(int i=0;i<loop;i++){
 			//System.out.println("size "+Players.size());
 			Player temp=Players.remove();
-			System.out.println(i+" "+temp.getColor());
+//			System.out.println(i+" "+temp.getColor());
 			if(isActive(temp)){
 				System.out.println(i+" "+temp.getColor());
 				jugaad.add(temp);
 			}
 		}
-		Players=jugaad;
+		loop=jugaad.size();
+		for(int i=0;i<loop;i++){
+			Player te=jugaad.remove();
+			Players.add(te);
+		}
 	}
 	
 	public void comeback2(){
