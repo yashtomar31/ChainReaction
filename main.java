@@ -2,7 +2,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Queue;
+//import java.util.Queue;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -20,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+//import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -29,15 +29,17 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 
-	static Game g;
-	static Stage thestage;
-	static int noofplayer;
-	static ChoiceBox<String> ncb;
-	static String grid;
-	static int m,n;
-	static boolean settingFlag;
-	static boolean playerFlag;
-	static ArrayList<Paint> colorpicker=new ArrayList<Paint>();
+	private static Game g;
+	private static Stage thestage;
+	private static int noofplayer;
+	private static ChoiceBox<String> ncb;
+	private static int m,n;
+	private static boolean settingFlag;
+	private static boolean playerFlag;
+	private static ArrayList<Paint> colorpicker=new ArrayList<Paint>();
+	private static boolean submitflag;
+	private static String submitval;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -375,7 +377,28 @@ public class Main extends Application {
 			}
 		}
 		ccb.getItems().addAll ("Start game", "Exit");
+		if(submitflag){
+			ccb.setValue(submitval);
+		}
+		else{
+			ccb.setValue("Exit");
+		}
+		Button submit=new Button("SUBMIT");
+		submit.setOnMouseClicked(e ->{
+			submitval=ccb.getValue().toString();
+			submitflag=true;
+			if(submitval.equals("Exit")){
+				thestage.close();
+			}
+			else{
+				flag=false;
+				flag2=false;
+				submitflag=false;
+				menupaine(thestage);
+			}
+		});
 		gp.add(ccb,n+1,0);
+		gp.add(submit, n+3, 0);
 		Scene scgame = new Scene(gp);
 		thestage.setScene(scgame);
 		System.out.println("Hello");
