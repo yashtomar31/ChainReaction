@@ -41,7 +41,7 @@ public class Main extends Application {
 	private static ArrayList<Paint> colorpicker=new ArrayList<Paint>();
 	private static boolean submitflag;
 	private static String submitval;
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -54,7 +54,7 @@ public class Main extends Application {
 		noofplayer=Integer.parseInt((ncb.getValue().toString()));
 		settings();
 	}
-	public static void ngame(javafx.event.ActionEvent e){
+	public static void ngame(){
 		noofplayer=Integer.parseInt((ncb.getValue().toString()));
 		g=new Game(m,n,noofplayer);
 		for(int i=0;i<noofplayer;i++){
@@ -137,7 +137,7 @@ public class Main extends Application {
 			}
 		});
 		bc.setStyle("\"-fx-background-color: Beige;\"");
-		Label ch=new Label("        CHAIN REACTION");
+		Label ch=new Label(" CHAIN REACTION");
 		ch.setTextAlignment(TextAlignment.CENTER);
 		ch.setFont(Font.font("Georgia",40));
 		ch.setTextFill(Paint.valueOf("#ebe2e2"));
@@ -181,7 +181,7 @@ public class Main extends Application {
 		primaryStage.setScene(SceneMenu	);
 		primaryStage.show();
 		Settings.setOnAction(e->ButtonClicked(e));
-		Ngame.setOnAction(e->ngame(e));
+		Ngame.setOnAction(e->ngame());
 		Rgame.setOnAction(e->rgame(e));
 
 
@@ -201,7 +201,7 @@ public class Main extends Application {
 			orb akla=new orb((Color)colorpicker.get(i));
 			gridPane.add(akla.getS(),3,i);
 			ColorPicker ccb=new ColorPicker();
-					ccb.setOnAction(new EventHandler() {
+			ccb.setOnAction(new EventHandler() {
 				public void handle(Event t) {
 					orb bk=new orb(ccb.getValue());
 					gridPane.add(bk.getS(),3,gridPane.getRowIndex(ccb));
@@ -255,6 +255,7 @@ public class Main extends Application {
 		gp.setMinSize(m*50,(n+1)*50);
 		gp.setAlignment(Pos.CENTER);
 		Button undo=new Button("UNDO");
+		undo.setAlignment(Pos.CENTER);
 		gp.add(undo, n+1, 1);
 		undo.setOnMouseClicked(e -> {
 					flag=true;
@@ -378,36 +379,39 @@ public class Main extends Application {
 				}
 			}
 		}
-		ccb.getItems().addAll ("Start game", "Exit");
-		if(submitflag){
-			ccb.setValue(submitval);
-		}
-		else{
-			ccb.setValue("Exit");
-		}
-		Button submit=new Button("SUBMIT");
-		submit.setOnMouseClicked(e ->{
-			submitval=ccb.getValue().toString();
-			submitflag=true;
-			if(submitval.equals("Exit")){
-				thestage.close();
-			}
-			else{
-				flag=false;
-				flag2=false;
-				submitflag=false;
-				menupaine(thestage);
-			}
-		});
+		ccb.getItems().addAll ("Select Further option","Start game", "Exit");
+		ccb.setValue("Select Further option");
+		ccb.getSelectionModel().selectedIndexProperty()
+				.addListener(new ChangeListener<Number>() {
+					public void changed(ObservableValue ov, Number value, Number new_value) {
+
+						if(new_value.toString().equals("2")){
+							thestage.close();
+						}
+						else{
+							ngame();
+							nm=0;
+						}
+					}
+				});
+
 		gp.add(ccb,n+1,0);
-		gp.add(submit, n+3, 0);
 		Scene scgame = new Scene(gp);
+		scgame.setFill(Color.WHITE);
 		thestage.setScene(scgame);
 //		System.out.println("Hello");
 		thestage.show();
 	}
 
 	static void deactivatecell(){
+		Main akla=new Main();
+		for(int i=0;i<m;i++){
+			for(int j=0;j<m;j++){
+				akla.getNode(i,j,gp).setOnMouseClicked(null);
+			}
+		}
+	}
+	static void activatecell(){
 		Main akla=new Main();
 		for(int i=0;i<m;i++){
 			for(int j=0;j<m;j++){
@@ -452,22 +456,22 @@ public class Main extends Application {
 //		System.out.println("No. of players 2 "+g.getPlayers().size());
 		Game.serialize2(g);
 	}
-	
+
 	public static void DisplayError(String msg){
-    	Stage NewStage = new Stage();
-    	NewStage.setTitle("ERROR");
-    	Scene NewScene = new Scene(new Group(), 300, 200, Color.GRAY);
-    	Pane grid = new Pane();
-    	Text t = new Text(10, 40, "");
-        t.setText(msg);
-        t.setFill(Color.WHITE);
-        grid.getChildren().add(t);
-    	Group root = (Group)NewScene.getRoot();
-        root.getChildren().add(grid);
-        NewStage.setScene(NewScene);
-        NewStage.show();
-    }
-	
+		Stage NewStage = new Stage();
+		NewStage.setTitle("ERROR");
+		Scene NewScene = new Scene(new Group(), 300, 200, Color.GRAY);
+		Pane grid = new Pane();
+		Text t = new Text(10, 40, "");
+		t.setText(msg);
+		t.setFill(Color.WHITE);
+		grid.getChildren().add(t);
+		Group root = (Group)NewScene.getRoot();
+		root.getChildren().add(grid);
+		NewStage.setScene(NewScene);
+		NewStage.show();
+	}
+
 	static void setlinks(GridPane gp){
 		Main akla=new Main();
 		for(int i=1;i<m-1;i++){
@@ -537,6 +541,7 @@ public class Main extends Application {
 		}
 	}
 }
+
 
 
 
