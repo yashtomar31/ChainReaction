@@ -1,18 +1,18 @@
 //package v1.oo;
 import java.util.ArrayList;
 
-import javafx.animation.Interpolator;
+//import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
-import javafx.animation.RotateTransition;
+//import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
-import javafx.scene.Group;
+//import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
+//import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Sphere;
+//import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 
 class tile extends StackPane{
@@ -133,7 +133,7 @@ class tile extends StackPane{
 					orb cur=new orb(this.Owner);
 	                tile neighbour = neighbouringCells.get(i);
 	                TranslateTransition move = new TranslateTransition();
-	                move.setDuration(Duration.seconds(1));
+	                move.setDuration(Duration.seconds(0.5));
          					move.setNode(cur.getS());
 	                int moveX = GridPane.getRowIndex(neighbour)- GridPane.getRowIndex(this);
 	                int moveY = GridPane.getColumnIndex(neighbour)- GridPane.getColumnIndex(this);
@@ -255,63 +255,64 @@ class tile extends StackPane{
 			return Criticalmass;
 		}
 }
-class animation{
-	Group a;
-	RotateTransition rt;
-
-	animation(Color c,int no){
-		this.a=new Group();
-		for(int i=0;i<no;i++){
-			orb o=new orb(c);
-			a.getChildren().add(o.getS());
-		}
-		this.rt=new RotateTransition(Duration.millis(2000), a);
-	}
-	void setcoordinates(){
-		int size=a.getChildren().size();
-		System.out.println(size);
-		if(size==2){
-			a.getChildren().get(1).setTranslateX(10);
-			a.getChildren().get(1).setTranslateY(10);
-			this.rt=new RotateTransition(Duration.millis(2000), a);
-		}
-		if(size==3){
-			a.getChildren().get(0).setTranslateX(0);
-			a.getChildren().get(0).setTranslateY(8);
-			a.getChildren().get(1).setTranslateX(+6.666);
-			a.getChildren().get(1).setTranslateY(-3.3333);
-			a.getChildren().get(2).setTranslateX(-6.666);
-			a.getChildren().get(2).setTranslateY(-3.3333);
-
-		}
-	}
-	void addanimation(){
-		 rt.setFromAngle(0);
-		 rt.setCycleCount(RotateTransition.INDEFINITE);
-		 rt.setInterpolator(Interpolator.LINEAR);
-		 rt.setByAngle(360);
-	     rt.play();
-	 }
-
-
-
-}
-class orb{
-
-	private Sphere s;
-
-	orb(Color c){
-		final PhongMaterial mat = new PhongMaterial();
-        mat.setDiffuseColor(c);
-		 setS(new Sphere());
-		 getS().setRadius(10);
-		 getS().setMaterial(mat);
-	}
-
-	public Sphere getS() {
-		return s;
-	}
-	public void setS(Sphere s) {
-		this.s = s;
-	}
-}
+//class animation{
+//	Group a;
+//	RotateTransition rt;
+//
+//	animation(Color c,int no){
+//		this.a=new Group();
+//		for(int i=0;i<no;i++){
+//			orb o=new orb(c);
+//			a.getChildren().add(o.getS());
+//		}
+//		this.rt=new RotateTransition(Duration.millis(2000), a);
+//	}
+//	void setcoordinates(){
+//		int size=a.getChildren().size();
+//		System.out.println(size);
+//		if(size==2){
+//			a.getChildren().get(1).setTranslateX(10);
+//			a.getChildren().get(1).setTranslateY(10);
+//			this.rt=new RotateTransition(Duration.millis(2000), a);
+//		}
+//		if(size==3){
+//			a.getChildren().get(0).setTranslateX(0);
+//			a.getChildren().get(0).setTranslateY(8);
+//			a.getChildren().get(1).setTranslateX(+6.666);
+//			a.getChildren().get(1).setTranslateY(-3.3333);
+//			a.getChildren().get(2).setTranslateX(-6.666);
+//			a.getChildren().get(2).setTranslateY(-3.3333);
+//
+//		}
+//	}
+//	void addanimation(){
+//		 rt.setFromAngle(0);
+//		 rt.setCycleCount(RotateTransition.INDEFINITE);
+//		 rt.setInterpolator(Interpolator.LINEAR);
+//		 rt.setByAngle(360);
+//	     rt.play();
+//	 }
+//
+//
+//
+//}
+//class orb{
+//
+//	private Sphere s;
+//
+//	orb(Color c){
+//		final PhongMaterial mat = new PhongMaterial();
+//        mat.setDiffuseColor(c);
+//		 setS(new Sphere());
+//		 getS().setRadius(10);
+//		 getS().setMaterial(mat);
+//	}
+//
+//	public Sphere getS() {
+//		return s;
+//	}
+//	public void setS(Sphere s) {
+//		this.s = s;
+//	}
+//}
+//
