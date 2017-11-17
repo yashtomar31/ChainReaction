@@ -81,6 +81,11 @@ public class Main extends Application {
 	}
 
 
+	/**
+	 * @param e
+	 * Method is used ro resume the previous saved game, then initializes the game.
+	 * @author kshitiz
+	 */
 	public static void rgame(javafx.event.ActionEvent e){
 		Game temp=null;
 		try {
@@ -217,6 +222,7 @@ public class Main extends Application {
 	 *and update static variable colorpicker
 	 * @author yash
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void settings(){
 		GridPane gridPane=new GridPane();
 		gridPane.setStyle("-fx-background-color: darkslategray;");
@@ -232,6 +238,7 @@ public class Main extends Application {
 			gridPane.add(akla.getS(),3,i);
 			ColorPicker ccb=new ColorPicker();
 			ccb.setOnAction(new EventHandler() {
+				@SuppressWarnings("static-access")
 				public void handle(Event t) {
 					orb bk=new orb(ccb.getValue());
 					gridPane.add(bk.getS(),3,gridPane.getRowIndex(ccb));
@@ -423,7 +430,7 @@ public class Main extends Application {
 		ccb.setValue("Select Further option");
 		ccb.getSelectionModel().selectedIndexProperty()
 				.addListener(new ChangeListener<Number>() {
-					public void changed(ObservableValue ov, Number value, Number new_value) {
+					public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, Number value, Number new_value) {
 
 						if(new_value.toString().equals("2")){
 							thestage.close();
@@ -483,6 +490,7 @@ public class Main extends Application {
 //		System.out.println("hello3");
 		grid_tile_coloumn=GridPane.getColumnIndex(a);
 		grid_tile_row=GridPane.getRowIndex(a);
+		System.out.println("coordinate " + grid_tile_coloumn+ " "+grid_tile_row);
 //		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		if(g.getPlayers().peek().getColor().equals(a.getOwner())||a.getOwner().equals(Color.BLACK)){
 			Game.serialize(g);
@@ -505,11 +513,6 @@ public class Main extends Application {
 			}
 			g.getPlayers().add(temp);
 			a.addORB();
-
-
-
-
-
 			if(winnerflag){
 				DisplayError("Player : "+temp.getNo()+" wins");
 //				reset();

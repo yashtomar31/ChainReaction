@@ -8,6 +8,10 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import javafx.util.Duration;
 
+/**
+ * @author yash
+ *
+ */
 class animation{
 	Group a;
 	RotateTransition rt;
@@ -64,6 +68,10 @@ class animation{
 
 
 }
+/**
+ * @author yash
+ *
+ */
 class orb{
 
 	private Sphere s;

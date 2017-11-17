@@ -1,54 +1,28 @@
 //package v1.oo;
-import java.io.BufferedReader;
+//import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+//import java.io.InputStream;
+//import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.StringTokenizer;
+//import java.util.StringTokenizer;
 
 //import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-class Reader {			//reader class for to take input in faster manner
-	static BufferedReader reader;
-	static StringTokenizer tokenizer;
 
-	/** call this method to initialize reader for InputStream */
-	static void init(InputStream input) {
-		reader = new BufferedReader(
-				new InputStreamReader(input) );
-		tokenizer = new StringTokenizer("");
-	}
-
-	/** get next word */
-	static String next() throws IOException {
-		while ( ! tokenizer.hasMoreTokens() ) {
-			//TODO add check for of if necessary
-			tokenizer = new StringTokenizer(
-					reader.readLine() );
-		}
-		return tokenizer.nextToken();
-	}
-
-	static int nextInt() throws IOException {
-		return Integer.parseInt( next() );
-	}
-
-	static double nextDouble() throws IOException {
-		return Double.parseDouble( next() );
-	}
-}
-
-
+/**
+ * @author kshitiz
+ *
+ */
 public class Game implements Serializable {
 
 	/**
@@ -59,14 +33,6 @@ public class Game implements Serializable {
 	private Matrix matrix;
 	private ArrayList<String> arcolor=new ArrayList<String>();
 	private int noofplayer;
-
-	public Queue<Player> getPlayers() {
-		return Players;
-	}
-
-	public Matrix getMatrix() {
-		return matrix;
-	}
 
 	public static void serialize(Game obj) throws FileNotFoundException, IOException{
 		ObjectOutputStream out=null;
@@ -117,6 +83,13 @@ public class Game implements Serializable {
 	}
 
 	int x,y;
+	
+	/**
+	 * Construct Game object and initiaties a Game with board dimensions mXn and players k
+	 * @param m
+	 * @param n
+	 * @param k
+	 */
 	public Game(int m,int n,int k) {
 		Players=new LinkedList<Player>();
 		matrix=new Matrix(m,n,Players);
@@ -133,6 +106,12 @@ public class Game implements Serializable {
 //			Players.add(i, new Player("A"+i,matrix));
 //		}
 
+	
+	/**
+	 * This method is used after serializing the Game object, this is because the COLOR of javafx is non-serializable and
+	 * hence cannot be saved. 
+	 * @author kshitiz
+	 */
 	public void comeback(){
 		for(int i=0;i<this.matrix.getM();i++){
 			for(int j=0;j<this.matrix.getN();j++){
@@ -153,57 +132,23 @@ public class Game implements Serializable {
 		System.out.println("Gamelist: "+Players.size());
 		System.out.println("Celllist: " +this.matrix.board[5][5].getPlayers().size());
 	}
-
-	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, WinnerException{
-		Game obj=new Game(9,6,2);
-		serialize(obj);
-//		obj.addplayer(Color.BLUE);
-//		obj.addplayer(Color.RED);
-//		obj.getPlayers().peek().takeTurn(1, 2);
-		serialize(obj);
-		Game dese=deserialize();
-		if( dese.getMatrix().getM()==obj.getMatrix().getM()){
-			System.out.println("yo");
-		}
-	}
-
-	//	public static void main(String[] args) throws IOException {
-//		// TODO Auto-generated method stub
-//		Reader.init(System.in);
-//		System.out.println("Select grid");
-//		int x=Reader.nextInt();
-//		int y=Reader.nextInt();
-//		int play=Reader.nextInt();
-//		Game obj=new Game(x,y,play);
-//		for(int i=0;i<x;i++){
-//		obj.addplayer(Color.RED);
-//		obj.addplayer(Color.BLUE);
-//		while(!obj.isWinner()){
-//			for(int i=0;i<obj.Players.size();i++){
-//				//serialize(obj);
-//				boolean flag=true;
-//				while(flag){
-//				int a=Reader.nextInt();
-//				int b=Reader.nextInt();
-//				flag=obj.Players.get(i).takeTurn(a,b);
-//				}
-//				obj.checkplayers();
-//				obj.show();
-//				if(obj.Players.size()==1){
-//					break;
-//				}
-//			}
-//		}
-//		System.out.println(obj.Players.get(0).getColor());
-//	}
-//
+	
+	/**
+	 * This method return true if no. of players left in game is 1, and hence used for declaring winner in game
+	 * @return
+	 * @author kshitiz
+	 */
 	public boolean isWinner(){
 		if (Players.size()==1){
 			return true;
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Displays the current matrix in console, used for debugging 
+	 * @author kshitiz
+	 */
 	public void show(){
 		for(int j=0;j<matrix.getM();j++){
 			for(int k=0;k<matrix.getN();k++){
@@ -213,7 +158,12 @@ public class Game implements Serializable {
 		}
 	}
 
-
+	/**
+	 * This method checks if the players in the list are active of not(through is active method), and updates the
+	 * list accordingly
+	 * 
+	 * @author kshitiz
+	 */
 	public void checkplayers() {
 		Queue<Player> jugaad=new LinkedList<Player>();
 		int loop=Players.size();
@@ -223,7 +173,7 @@ public class Game implements Serializable {
 			Player temp=Players.remove();
 //			System.out.println(i+" "+temp.getColor());
 			if(isActive(temp)){
-				System.out.println(i+" "+temp.getColor());
+//				System.out.println(i+" "+temp.getColor());
 				jugaad.add(temp);
 			}
 		}
@@ -234,6 +184,11 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * This method is used after serializing the Game object, this is because the COLOR of javafx is non-serializable and
+	 * hence cannot be saved. This method helps Players to regain their color which is saved in their String attribute. 
+	 * @author kshitiz
+	 */
 	public void comeback2(){
 		Queue<Player> jugaad=new LinkedList<Player>();
 		int loop=Players.size();
@@ -241,13 +196,25 @@ public class Game implements Serializable {
 		for(int i=0;i<loop;i++){
 			//System.out.println("size "+Players.size());
 			Player temp=Players.remove();
-			System.out.println(i+" "+temp.getColor());
+//			System.out.println(i+" "+temp.getColor());
 			temp.setColor(Color.web(temp.getColstr()));
 			jugaad.add(temp);
 		}
-		Players=jugaad;
+		loop=jugaad.size();
+		for(int i=0;i<loop;i++){
+			//System.out.println("size "+Players.size());
+			Player temp=jugaad.remove();
+			Players.add(temp);
+		}
 	}
 
+	/**
+	 * Checks it temp player is active or not, it iterates over all the cells and checks each cell is it owned by the player or not
+	 * and returns true if yes and false otherwise
+	 * @param temp
+	 * @return
+	 * @author kshitiz
+	 */
 	boolean isActive(Player temp){
 		int points=0;
 		for (int i=0;i<x;i++){
@@ -265,6 +232,12 @@ public class Game implements Serializable {
 		}
 
 	}
+	
+
+	/**
+	 * setter and getter of Game
+	 * @return
+	 */
 
 	public void setPlayers(Queue<Player> players) {
 		Players = players;
@@ -316,6 +289,16 @@ public class Game implements Serializable {
 	public void setNoofplayer(int noofplayer) {
 		this.noofplayer = noofplayer;
 	}
+	
+	public Queue<Player> getPlayers() {
+		return Players;
+	}
+
+	public Matrix getMatrix() {
+		return matrix;
+	}
+
+	
 }
 
 class WinnerException extends Exception{

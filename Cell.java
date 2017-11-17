@@ -9,9 +9,7 @@ import javafx.scene.paint.Color;
  *
  */
 public class Cell implements Serializable{
-	/**
-	 *
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private Cell link1,link2,link3,link4;
 	private int Criticalmass;
@@ -37,12 +35,27 @@ public class Cell implements Serializable{
 		Players = players;
 	}
 
+	
+	/**
+	 * This constructs the new cell setting the Players playing in the game, sets the critical mass of the respective cell
+	 * @param cm
+	 * @param Players
+	 * @author kshitiz
+	 */
 	public Cell(int cm,Queue<Player> Players){
 		this.Players=Players;
 		this.Criticalmass=cm;
 		this.Owner=null;
 	}
 
+	/**
+	 * This method increases a orb in the respective cell, also checks if this the number of orbs is equals or greater than critical mass
+	 * and if yes calls the method explodes
+	 * 
+	 * @throws WinnerException
+	 * @author kshitiz
+	 */
+	
 	public void addORB() throws WinnerException{
 		this.orbs++;
 //		System.out.println("Addinf orb: "+Players.size());
@@ -52,6 +65,19 @@ public class Cell implements Serializable{
 		}
 	}
 
+	/**
+	 * This method is called when no. of obrs is equal or greater than the critical mass of the respective orb
+	 * .It first stores the Owner of the cell in temp variable. It first check that the no. of orbs are greater 
+	 * or equal to the critical mass of the cell. If it is greater than the critical mass this that no of orbs are 
+	 * removed and those orbs are distributed across its neighbors.If no. of orbs is exactly equals to the critical mass
+	 * cell is declared to be none by setting the color= BLACK. For distributing the orbs to the neighbors first the owner is 
+	 * set and then one orb is added to the respective neighbor. At the end it checks if the players in the game are 1 (O is checked
+	 * because the current player taking the turn is not included in the ongoing players list, and if no of players left is 1 then winner exception 
+	 * thrown to the parent method and winner is declared.
+	 * 
+	 * @throws WinnerException
+	 * @author kshitiz
+	 */
 	public void explode() throws WinnerException {
 		// TODO Auto-generated method stub
 		Color temp=this.Owner;
@@ -124,17 +150,25 @@ public class Cell implements Serializable{
 //		}
 //	}
 //	
+	
+	
+	/**
+	 * This method checks if the players in the list are active of not(through is active method), and updates the
+	 * list accordingly
+	 * 
+	 * @author kshitiz
+	 */
 	public void checkplayers() {
 		Queue<Player> jugaad=new LinkedList<Player>();
 		int loop=Players.size();
-		System.out.println("size"+" "+loop);
+//		System.out.println("size"+" "+loop);
 		for(int i=0;i<loop;i++){
 			//System.out.println("size "+Players.size());
 			Player temp=Players.remove();
-			System.out.println(i+" "+temp.getColor());
-			System.out.println("yeh bachce hai "+i+" "+temp.getColor());
+//			System.out.println(i+" "+temp.getColor());
+//			System.out.println("yeh bachce hai "+i+" "+temp.getColor());
 			if(temp.isActive()){
-				System.out.println("yeh bach gaya "+i+" "+temp.getColor());
+//				System.out.println("yeh bach gaya "+i+" "+temp.getColor());
 				jugaad.add(temp);
 			}
 		}
@@ -145,13 +179,26 @@ public class Cell implements Serializable{
 		}
 	}
 
+	
+	/**
+	 * Check if this cell is owned by the player of given color i or not
+	 * @param i
+	 * @return
+	 * @author kshitiz
+	 */
 	public boolean isOwnedBy(Color i){
 		if( i==this.Owner){
 			return true;
 		}
 		return false;
 	}
+	
 
+	/**
+	 * checks if the no. of orbs in cell is equal to cell's critical mass or not.
+	 * @author kshitiz
+	 * @return
+	 */
 	public boolean isFull(){
 		if (this.Criticalmass==this.orbs){
 			return true;
@@ -159,6 +206,11 @@ public class Cell implements Serializable{
 		return false;
 	}
 
+	/**
+	 * setter and getter of Cell
+	 * @return
+	 */
+		
 	public Cell getLink1() {
 		return link1;
 	}

@@ -14,21 +14,16 @@ public class Matrix implements Serializable {
 	private int counter;
 	public Cell[][] board;
 	
-	public void setCounter(int counter) {
-		this.counter = counter;
-	}
-	public Cell[][] getBoard() {
-		return board;
-	}
-	private int m,n;
-	
-	public int getM() {
-		return m;
-	}
-	public int getN() {
-		return n;
-	}
-	Matrix(int m,int n,Queue<Player> Players){
+	/**
+	 * @param m
+	 * @param n
+	 * @param Players
+	 * @author kshitiz
+	 * 
+	 * This is the constructor which construct the board of cells of dimension mXn, and passes the list of players in every cell
+	 * . This also links all the cells to one another
+	 */
+	public Matrix(int m,int n,Queue<Player> Players){
 		this.m=m;
 		this.n=n;
 		board=new Cell[m][n];
@@ -94,7 +89,28 @@ public class Matrix implements Serializable {
 		board[m-1][n-1].setLink2(board[m-2][n-1]);
 		
 	}
+	
+	/**
+	 * setter and getter of Matrix
+	 * @return
+	 */
+	
 	public int getCounter() {
 		return counter;
+	}
+	
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+	public Cell[][] getBoard() {
+		return board;
+	}
+	private int m,n;
+	
+	public int getM() {
+		return m;
+	}
+	public int getN() {
+		return n;
 	}
 }
