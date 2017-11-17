@@ -119,6 +119,7 @@ class tile extends StackPane{
 		else{
 			System.out.println("Code Gdbd hai");
 		}
+		
 	}
 
 	/**
@@ -185,7 +186,7 @@ class tile extends StackPane{
 			if(this.orbs==this.Criticalmass){
 				getChildren().remove(1,this.getChildren().size());
 			}
-			for (int i=0;i<1;i++)
+			for (int i=0;i<this.orbs%this.getCriticalmass();i++)
 			{
 				orb cur=new orb(this.Owner);
 				tile neighbour = neighbouringCells.get(i);

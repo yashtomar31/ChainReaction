@@ -34,6 +34,15 @@ public class Game implements Serializable {
 	private ArrayList<String> arcolor=new ArrayList<String>();
 	private int noofplayer;
 
+	
+	
+	/**
+	 * This method serializes the Game object in file out.ser
+	 * @param obj
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @author kshitiz
+	 */
 	public static void serialize(Game obj) throws FileNotFoundException, IOException{
 		ObjectOutputStream out=null;
 		try{
@@ -45,6 +54,14 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * This method helps to deserialize the object from file out.ser and returns the object 
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author kshitiz
+	 */
 	public static Game deserialize() throws FileNotFoundException, IOException, ClassNotFoundException{
 		ObjectInputStream in=null;
 		Game obj;
@@ -58,6 +75,13 @@ public class Game implements Serializable {
 		return obj;
 	}
 
+	/**
+	 * This method serializes the Game object in file out2.ser
+	 * @param obj
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @author kshitiz
+	 */
 	public static void serialize2(Game obj) throws FileNotFoundException, IOException{
 		ObjectOutputStream out=null;
 		try{
@@ -69,6 +93,15 @@ public class Game implements Serializable {
 		}
 	}
 
+
+	/**
+	 * This method helps to deserialize the object from file out.ser and returns the object 
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author kshitiz
+	 */
 	public static Game deserialize2() throws FileNotFoundException, IOException, ClassNotFoundException{
 		ObjectInputStream in=null;
 		Game obj;

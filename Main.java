@@ -29,6 +29,10 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
+/**
+ * @author kshitiz and yash
+ *
+ */
 public class Main extends Application {
 
 
@@ -83,7 +87,7 @@ public class Main extends Application {
 
 	/**
 	 * @param e
-	 * Method is used ro resume the previous saved game, then initializes the game.
+	 * Method is used resume the previous saved game, then initializes the game.
 	 * @author kshitiz
 	 */
 	public static void rgame(javafx.event.ActionEvent e){
@@ -297,8 +301,11 @@ public class Main extends Application {
 	 * This initializes grid
 	 * Have buttons like undo to undo move and drop down for new game and exit game
 	 * Here we make our grid with tiles as its element in grid and they are clickable and calls other method on click
-	 *
-	 *
+	 * Undo: If undo is clicked then its flag is enabled and a new game(GUI) is initialized and then previous game(Game object) is deserialized
+	 * and then game now continues from one turn before the undo is clicked.Methods like comeback and comeback2 helps to deseiralize the non-desiralizable 
+	 * attributes of game. 
+	 * Flag2 is enabled if the Resume button is clicked,a new game(GUI) is initialized and then previous game(Game object) is deserialized
+	 * and then game now continues from the point which the previous game was left.  
 	 * @author kshitiz,yash
 	 */
 	private static void game(){
@@ -479,6 +486,9 @@ public class Main extends Application {
 	/**
 	 *This function is called when a player clicks on tile
 	 * And when tile owner is equal to player or there is no owner then we call add orb method to add orb in it
+	 * After every 
+	 * After every time player takes turn it waits if winner exception is throw or not, if yes new dialogue box is 
+	 * called which displays the winner and game is ended from that point.
 	 * @param e
 	 * @param a
 	 * @throws FileNotFoundException
@@ -526,18 +536,6 @@ public class Main extends Application {
 			changegridcolour(g.getPlayers().peek().getColor(),gp);
 		}
 		Game.serialize2(g);
-	}
-
-	public static void reset(){
-		g=null;
-		noofplayer=0;
-		m=0;n=0;
-		settingFlag=false;
-		playerFlag=false;
-		flag=false;
-		flag2=false;
-		disable=false;
-		nm=0;
 	}
 
 	public static void DisplayError(String msg){
