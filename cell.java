@@ -4,6 +4,10 @@ import java.util.Queue;
 
 import javafx.scene.paint.Color;
 
+/**
+ * @author kshitiz
+ *
+ */
 public class Cell implements Serializable{
 	/**
 	 *

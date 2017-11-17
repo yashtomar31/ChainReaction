@@ -9,41 +9,43 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 //import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 class Reader {			//reader class for to take input in faster manner
-    static BufferedReader reader;
-    static StringTokenizer tokenizer;
+	static BufferedReader reader;
+	static StringTokenizer tokenizer;
 
-    /** call this method to initialize reader for InputStream */
-    static void init(InputStream input) {
-        reader = new BufferedReader(
-                     new InputStreamReader(input) );
-        tokenizer = new StringTokenizer("");
-    }
+	/** call this method to initialize reader for InputStream */
+	static void init(InputStream input) {
+		reader = new BufferedReader(
+				new InputStreamReader(input) );
+		tokenizer = new StringTokenizer("");
+	}
 
-    /** get next word */
-    static String next() throws IOException {
-        while ( ! tokenizer.hasMoreTokens() ) {
-            //TODO add check for of if necessary
-            tokenizer = new StringTokenizer(
-                   reader.readLine() );
-        }
-        return tokenizer.nextToken();
-    }
+	/** get next word */
+	static String next() throws IOException {
+		while ( ! tokenizer.hasMoreTokens() ) {
+			//TODO add check for of if necessary
+			tokenizer = new StringTokenizer(
+					reader.readLine() );
+		}
+		return tokenizer.nextToken();
+	}
 
-    static int nextInt() throws IOException {
-        return Integer.parseInt( next() );
-    }
+	static int nextInt() throws IOException {
+		return Integer.parseInt( next() );
+	}
 
-    static double nextDouble() throws IOException {
-        return Double.parseDouble( next() );
-    }
+	static double nextDouble() throws IOException {
+		return Double.parseDouble( next() );
+	}
 }
 
 
@@ -55,6 +57,8 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private	Queue<Player> Players;
 	private Matrix matrix;
+	private ArrayList<String> arcolor=new ArrayList<String>();
+	private int noofplayer;
 
 	public Queue<Player> getPlayers() {
 		return Players;
@@ -87,7 +91,7 @@ public class Game implements Serializable {
 		}
 		return obj;
 	}
-	
+
 	public static void serialize2(Game obj) throws FileNotFoundException, IOException{
 		ObjectOutputStream out=null;
 		try{
@@ -111,7 +115,7 @@ public class Game implements Serializable {
 		}
 		return obj;
 	}
-	
+
 	int x,y;
 	public Game(int m,int n,int k) {
 		Players=new LinkedList<Player>();
@@ -136,7 +140,14 @@ public class Game implements Serializable {
 			}
 		}
 	}
-	
+
+	/**
+	 * add player in queue
+	 * @param c
+	 * @param n
+	 * @author yash
+	 *
+	 */
 	public void addplayer(Color c,int n){
 		Players.add(new Player(c,matrix,n));
 		System.out.println("Gamelist: "+Players.size());
@@ -156,7 +167,7 @@ public class Game implements Serializable {
 		}
 	}
 
-//	public static void main(String[] args) throws IOException {
+	//	public static void main(String[] args) throws IOException {
 //		// TODO Auto-generated method stub
 //		Reader.init(System.in);
 //		System.out.println("Select grid");
@@ -222,7 +233,7 @@ public class Game implements Serializable {
 			Players.add(te);
 		}
 	}
-	
+
 	public void comeback2(){
 		Queue<Player> jugaad=new LinkedList<Player>();
 		int loop=Players.size();
@@ -236,7 +247,7 @@ public class Game implements Serializable {
 		}
 		Players=jugaad;
 	}
-	
+
 	boolean isActive(Player temp){
 		int points=0;
 		for (int i=0;i<x;i++){
@@ -255,11 +266,61 @@ public class Game implements Serializable {
 
 	}
 
+	public void setPlayers(Queue<Player> players) {
+		Players = players;
+	}
+	public Queue<Player> getPlayers(Queue<Player> players) {
+		return this.Players;
+	}
+
+	/**
+	 * To get arraylist of color present initially
+	 * @return
+	 * @author yash
+	 */
+	public ArrayList<Paint> getBc() {
+		ArrayList<Paint> a=new ArrayList<Paint>();
+		for(int i=0;i<arcolor.size();i++){
+			a.add(Paint.valueOf(arcolor.get(i)));
+		}
+		return a;
+	}
+
+	/**
+	 *
+	 * @param bc
+	 * set color string in string arraylist
+	 * it is used so that when new game is called so i have arraylist of color present initially
+	 * @author yash
+	 */
+	public void setBc(ArrayList<Paint> bc) {
+		for(int i=0;i<bc.size();i++){
+			this.arcolor.add(bc.get(i).toString());
+		}
+	}
+
+	/**
+	 * to get no. of players in game
+	 * @return
+	 * @author yash
+	 */
+	public int getNoofplayer() {
+		return noofplayer;
+	}
+
+	/**
+	 * to set no. of players in game
+	 * @param noofplayer
+	 * @author yash
+	 */
+	public void setNoofplayer(int noofplayer) {
+		this.noofplayer = noofplayer;
+	}
 }
 
 class WinnerException extends Exception{
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -267,3 +328,4 @@ class WinnerException extends Exception{
 		super(s);
 	}
 }
+

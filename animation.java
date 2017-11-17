@@ -1,4 +1,4 @@
-//package v1.oo;
+
 
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -12,6 +12,12 @@ class animation{
 	Group a;
 	RotateTransition rt;
 
+	/**
+	 * constructor to create group with orbs in it equal to no. of orbs passed in it
+	 * @param c
+	 * @param no
+	 * @author yash
+	 */
 	animation(Color c,int no){
 		this.a=new Group();
 		for(int i=0;i<no;i++){
@@ -20,6 +26,11 @@ class animation{
 		}
 		this.rt=new RotateTransition(Duration.millis(2000), a);
 	}
+
+	/**
+	 * set coordinates of orbs if no. of orbs in group is greater than 1
+	 * @author yash
+	 */
 	void setcoordinates(){
 		int size=a.getChildren().size();
 		if(size==2){
@@ -37,6 +48,11 @@ class animation{
 
 		}
 	}
+
+	/**
+	 * set orbs on animation
+	 * @author yash
+	 */
 	void addanimation(){
 		 rt.setFromAngle(0);
 		 rt.setCycleCount(RotateTransition.INDEFINITE);
@@ -52,6 +68,11 @@ class orb{
 
 	private Sphere s;
 
+	/**
+	 * create sphere of given color
+	 * @param c
+	 * @author yash
+	 */
 	orb(Color c){
 		final PhongMaterial mat = new PhongMaterial();
         mat.setDiffuseColor(c);
@@ -59,6 +80,11 @@ class orb{
 		 getS().setRadius(10);
 		 getS().setMaterial(mat);
 	}
+
+	/**
+	 * setter and getter of orbs
+	 * @return
+	 */
 
 	public Sphere getS() {
 		return s;

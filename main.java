@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+
 public class Main extends Application {
 
 
@@ -39,8 +40,8 @@ public class Main extends Application {
 	private static boolean settingFlag;
 	private static boolean playerFlag;
 	private static ArrayList<Paint> colorpicker=new ArrayList<Paint>();
-	private static boolean submitflag;
-	private static String submitval;
+//	private static boolean submitflag;
+//	private static String submitval;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -50,20 +51,35 @@ public class Main extends Application {
 		menupaine(primaryStage);
 
 	}
+
+	/**
+	 *
+	 * @param e
+	 * Method called when button is setting button is clicked and this takes us to new setting page
+	 * @author yash
+	 */
 	public static void ButtonClicked(javafx.event.ActionEvent e){
 		noofplayer=Integer.parseInt((ncb.getValue().toString()));
 		settings();
 	}
+
+	/**
+	 * Method called when a new game starts and it initializes the game
+	 * @author yash
+	 */
 	public static void ngame(){
 		noofplayer=Integer.parseInt((ncb.getValue().toString()));
 		g=new Game(m,n,noofplayer);
+		g.setNoofplayer(noofplayer);
 		for(int i=0;i<noofplayer;i++){
 //			System.out.println(i);
 			g.addplayer((Color)colorpicker.get(i),i+1);
 //			System.out.println((Color)colorpicker.get(i));
 		}
+		g.setBc(colorpicker);
 		game();
 	}
+
 
 	public static void rgame(javafx.event.ActionEvent e){
 		Game temp=null;
@@ -83,13 +99,20 @@ public class Main extends Application {
 		noofplayer=temp.getPlayers().size();
 		m=temp.x;n=temp.y;
 		g=new Game(temp.x,temp.y,temp.getPlayers().size());
-//		g.addplayer(Color.RED);
-//		g.addplayer(Color.BLUE);
-//		g.addplayer(Color.GREEN);
+		g.setPlayers(temp.getPlayers());
 		flag2=true;
 		game();
 	}
 
+	/**
+	 *
+	 * @param primaryStage
+	 *Method used to make menu page
+	 * here we can select to start game with selction of new game and have to select grid size and no. of player
+	 * Default no. of player as two default size of grid is 9x16
+	 * we can go to settings page to select color of players
+	 * @author yash
+	 */
 	public static void menupaine(Stage primaryStage){
 		if(!settingFlag){
 			colorpicker.add(Paint.valueOf("#CD5C5C"));
@@ -187,6 +210,13 @@ public class Main extends Application {
 
 
 	}
+
+	/**
+	 * Method used to make setting page
+	 * with colorpicker used so that we can select color and only returns when color are different for different player
+	 *and update static variable colorpicker
+	 * @author yash
+	 */
 	public static void settings(){
 		GridPane gridPane=new GridPane();
 		gridPane.setStyle("-fx-background-color: darkslategray;");
@@ -211,7 +241,6 @@ public class Main extends Application {
 			ccb.setValue((Color) colorpicker.get(i));
 			gridPane.add(ccb,1,i);
 			gridPane.add(pc,0,i);
-
 		}
 		gridPane.setVgap(5);
 		gridPane.setHgap(5);
@@ -231,6 +260,14 @@ public class Main extends Application {
 		thestage.show();
 
 	}
+
+	/**
+	 * to check if color in arraylist are same or not
+	 * @return
+	 * true if color in arraylist are same
+	 * @author yash
+	 */
+
 	static boolean checkrepeat(){
 		for(int i=0;i<noofplayer;i++){
 			for(int j=i+1;j<noofplayer;j++){
@@ -249,9 +286,16 @@ public class Main extends Application {
 
 	private static boolean disable=true;
 
+	/**
+	 * This initializes grid
+	 * Have buttons like undo to undo move and drop down for new game and exit game
+	 * Here we make our grid with tiles as its element in grid and they are clickable and calls other method on click
+	 *
+	 *
+	 * @author kshitiz,yash
+	 */
 	private static void game(){
 		gp=new GridPane();
-		System.out.print("adfakdfadhfjadv "+noofplayer);
 		gp.setMinSize(m*50,(n+1)*50);
 		gp.setAlignment(Pos.CENTER);
 		Button undo=new Button("UNDO");
@@ -271,14 +315,10 @@ public class Main extends Application {
 				tile a=new tile(g.getMatrix().board[i][j],g,g.getMatrix().board[i][j].getCriticalmass());
 				a.setOwner(Color.BLACK);
 				a.border.setStroke(g.getPlayers().peek().getColor());
-				a.setOnMouseClicked(e->{
+				a.setOnMouseClicked(e-> {
 					try {
-						Buttonclick(e,a);
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						Buttonclick(e, a);
+					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
 				});
@@ -379,7 +419,7 @@ public class Main extends Application {
 				}
 			}
 		}
-		ccb.getItems().addAll ("Select Further option","Start game", "Exit");
+		ccb.getItems().addAll ("Select Further option","New game", "Exit");
 		ccb.setValue("Select Further option");
 		ccb.getSelectionModel().selectedIndexProperty()
 				.addListener(new ChangeListener<Number>() {
@@ -389,37 +429,55 @@ public class Main extends Application {
 							thestage.close();
 						}
 						else{
-							ngame();
+							colorpicker=g.getBc();
+							flag=false;
+							ncb.setValue(String .valueOf(g.getNoofplayer()));
+							System.out.println("aadfadadadadadfadfadfda "+noofplayer);
+							flag2=false;
 							nm=0;
+							ngame();
+							undo.setDisable(true);
 						}
 					}
 				});
 
 		gp.add(ccb,n+1,0);
 		Scene scgame = new Scene(gp);
-		scgame.setFill(Color.WHITE);
+
 		thestage.setScene(scgame);
 //		System.out.println("Hello");
 		thestage.show();
 	}
 
-	static void deactivatecell(){
-		Main akla=new Main();
-		for(int i=0;i<m;i++){
-			for(int j=0;j<m;j++){
-				akla.getNode(i,j,gp).setOnMouseClicked(null);
-			}
-		}
-	}
-	static void activatecell(){
-		Main akla=new Main();
-		for(int i=0;i<m;i++){
-			for(int j=0;j<m;j++){
-				akla.getNode(i,j,gp).setOnMouseClicked(null);
-			}
-		}
-	}
+//	static void deactivatecell(){
+//		Main akla=new Main();
+//		for(int i=0;i<m;i++){
+//			for(int j=0;j<n;j++){
+//				akla.getNode(i,j,gp).setDisable(true);
+//			}
+//		}
+//	}
+//	static void activatecell(){
+//		Main akla=new Main();
+//		for(int i=0;i<m;i++){
+//			for(int j=0;j<n;j++){
+//				akla.getNode(i,j,gp).setDisable(false);
+//			}
+//		}
+//	}
+
+
 	private static int nm=0;
+
+	/**
+	 *This function is called when a player clicks on tile
+	 * And when tile owner is equal to player or there is no owner then we call add orb method to add orb in it
+	 * @param e
+	 * @param a
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @author yash kshitiz
+	 */
 	private static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		disable=false;
 //		System.out.println("hello3");
@@ -428,9 +486,10 @@ public class Main extends Application {
 //		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		if(g.getPlayers().peek().getColor().equals(a.getOwner())||a.getOwner().equals(Color.BLACK)){
 			Game.serialize(g);
-			System.out.println("he");
+			//System.out.println("he");
 			Player temp=g.getPlayers().remove();
 			a.setOwner(temp.getColor());
+			boolean winnerflag=false;
 			try {
 				//System.out.println("Turn Tooked");
 				temp.takeTurn(grid_tile_row, grid_tile_coloumn);
@@ -438,14 +497,24 @@ public class Main extends Application {
 			}
 			catch (WinnerException e1){
 				System.out.println(e1.getMessage());
-				DisplayError("Player : "+temp.getNo()+" wins");
+				winnerflag=true;
 			}
 			catch (Exception e1) {
-				deactivatecell();
+				//deactivatecell();
 				System.out.println("taketurn error");
 			}
 			g.getPlayers().add(temp);
 			a.addORB();
+
+
+
+
+
+			if(winnerflag){
+				DisplayError("Player : "+temp.getNo()+" wins");
+//				reset();
+				winnerflag=false;
+			}
 			if(nm>noofplayer){//add no.ofplayers-1
 				g.checkplayers();
 			}
@@ -453,24 +522,67 @@ public class Main extends Application {
 			nm++;
 			changegridcolour(g.getPlayers().peek().getColor(),gp);
 		}
-//		System.out.println("No. of players 2 "+g.getPlayers().size());
 		Game.serialize2(g);
 	}
 
+	public static void reset(){
+		g=null;
+		noofplayer=0;
+		m=0;n=0;
+		settingFlag=false;
+		playerFlag=false;
+		flag=false;
+		flag2=false;
+		disable=false;
+		nm=0;
+	}
+
 	public static void DisplayError(String msg){
-		Stage NewStage = new Stage();
-		NewStage.setTitle("ERROR");
-		Scene NewScene = new Scene(new Group(), 300, 200, Color.GRAY);
+		Stage Stage = new Stage();
+		Stage.setTitle("ERROR");
+		Scene New = new Scene(new Group(), 300, 200, Color.GRAY);
+		Button ok=new Button("OK");
+		Button NewGame=new Button("New Game");
+		ok.setOnMouseClicked(e ->{
+			thestage.close();
+			Stage.close();
+
+		});
+		ok.setLayoutX(120);
+		ok.setLayoutY(90);
+		NewGame.setLayoutX(120);
+		NewGame.setLayoutY(90);
+		ok.setAlignment(Pos.CENTER_LEFT);
+		NewGame.setAlignment(Pos.CENTER_RIGHT);
 		Pane grid = new Pane();
-		Text t = new Text(10, 40, "");
+		Text t = new Text(100, 75,"");
 		t.setText(msg);
 		t.setFill(Color.WHITE);
+		grid.getChildren().add(ok);
 		grid.getChildren().add(t);
-		Group root = (Group)NewScene.getRoot();
-		root.getChildren().add(grid);
-		NewStage.setScene(NewScene);
-		NewStage.show();
+		grid.getChildren().add(NewGame);
+		NewGame.setOnMouseClicked(e->{
+			colorpicker=g.getBc();
+			flag=false;
+			ncb.setValue(String .valueOf(g.getNoofplayer()));
+			System.out.println("aadfadadadadadfadfadfda "+noofplayer);
+			flag2=false;
+			nm=0;
+			ngame();
+
+		});
+		Group ro = (Group)New.getRoot();
+		ro.getChildren().add(grid);
+		Stage.setScene(New);
+		Stage.show();
 	}
+
+	/**
+	 * @param gp
+	 * used to set link between neighbours of cells
+	 * So that each cell knows about its neighbour
+	 * @author yash
+	 */
 
 	static void setlinks(GridPane gp){
 		Main akla=new Main();
@@ -515,6 +627,16 @@ public class Main extends Application {
 		((tile) akla.getNode(m-1,n-1,gp))	.setLink1(akla.getNode(m-1,n-2,gp));
 		((tile) akla.getNode(m-1,n-1,gp)).setLink2(akla.getNode(m-2,n-1,gp));
 	}
+
+	/**
+	 *
+	 * @param row
+	 * @param column
+	 * @param gridPane
+	 * it is used to return a node from gridpane with given coordinate
+	 * @return
+	 * @author yash
+	 */
 	Node getNode (final int row, final int column, GridPane gridPane) {
 		Node result = null;
 		ObservableList<Node> childrens = gridPane.getChildren();
@@ -529,6 +651,13 @@ public class Main extends Application {
 		return result;
 	}
 
+	/**
+	 * it used to change gridcolor according to player turn
+	 * it turns grid color with same as present player color
+	 * @param g
+	 * @param gp
+	 * @author yash
+	 */
 	static void changegridcolour(Color g,GridPane gp){
 		ObservableList<Node> children = gp.getChildren();
 		for(Node node:children){
@@ -541,6 +670,7 @@ public class Main extends Application {
 		}
 	}
 }
+
 
 
 

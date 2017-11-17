@@ -2,6 +2,10 @@
 import java.io.Serializable;
 import java.util.Queue;
 
+/**
+ * @author kshitiz
+ *
+ */
 public class Matrix implements Serializable {
 	/**
 	 * 
@@ -93,13 +97,4 @@ public class Matrix implements Serializable {
 	public int getCounter() {
 		return counter;
 	}
-//	public static void main(String[] args) throws IOException{
-//			//Scanner scan = new Scanner(System.in);
-//		//int m=scan.nextInt();
-//		//int n=scan.nextInt();
-//		//Matrix a =new Matrix(m,n);
-//	}
-
-	
-
 }
