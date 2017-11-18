@@ -270,6 +270,7 @@ public class Game implements Serializable {
 
 	/**
 	 * setter and getter of Game
+	 * @author yash
 	 */
 
 	public void setPlayers(Queue<Player> players) {
@@ -281,7 +282,7 @@ public class Game implements Serializable {
 
 	/**
 	 * To get arraylist of color present initially
-	 * @return
+	 * @return Return ArrayList of colors that initially player selected
 	 * @author yash
 	 */
 	public ArrayList<Paint> getBc() {
@@ -294,7 +295,7 @@ public class Game implements Serializable {
 
 	/**
 	 *
-	 * @param bc
+	 * @param bc Puts ArrayList of colors that initially player selected
 	 * set color string in string arraylist
 	 * it is used so that when new game is called so i have arraylist of color present initially
 	 * @author yash
@@ -307,7 +308,7 @@ public class Game implements Serializable {
 
 	/**
 	 * to get no. of players in game
-	 * @return
+	 * @return Returns no of players initially a player selected
 	 * @author yash
 	 */
 	public int getNoofplayer() {
@@ -316,7 +317,7 @@ public class Game implements Serializable {
 
 	/**
 	 * to set no. of players in game
-	 * @param noofplayer
+	 * @param noofplayer puts no of players initially a player selected
 	 * @author yash
 	 */
 	public void setNoofplayer(int noofplayer) {

@@ -18,8 +18,8 @@ class animation{
 
 	/**
 	 * constructor to create group with orbs in it equal to no. of orbs passed in it
-	 * @param c
-	 * @param no
+	 * @param c Color of which orbs is drawn
+	 * @param no No of orbs in it
 	 * @author yash
 	 */
 	animation(Color c,int no){
@@ -78,7 +78,7 @@ class orb{
 
 	/**
 	 * create sphere of given color
-	 * @param c
+	 * @param c Passes color in it
 	 * @author yash
 	 */
 	orb(Color c){
@@ -91,7 +91,7 @@ class orb{
 
 	/**
 	 * setter and getter of orbs
-	 * @return
+	 * @return Returns sphere from orb
 	 */
 
 	public Sphere getS() {

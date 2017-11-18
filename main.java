@@ -29,6 +29,10 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
+/**
+ * @author kshitiz and yash
+ *
+ */
 public class Main extends Application {
 
 
@@ -54,7 +58,7 @@ public class Main extends Application {
 
 	/**
 	 *
-	 * @param e
+	 * @param e Action event is passed
 	 * Method called when button is setting button is clicked and this takes us to new setting page
 	 * @author yash
 	 */
@@ -81,6 +85,10 @@ public class Main extends Application {
 	}
 
 
+	/**
+	 * Method is used resume the previous saved game, then initializes the game.
+	 * @author kshitiz
+	 */
 	public static void rgame(javafx.event.ActionEvent e){
 		Game temp=null;
 		try {
@@ -106,7 +114,7 @@ public class Main extends Application {
 
 	/**
 	 *
-	 * @param primaryStage
+	 * @param primaryStage Stage for which has to be drawn
 	 *Method used to make menu page
 	 * here we can select to start game with selction of new game and have to select grid size and no. of player
 	 * Default no. of player as two default size of grid is 9x16
@@ -217,6 +225,7 @@ public class Main extends Application {
 	 *and update static variable colorpicker
 	 * @author yash
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void settings(){
 		GridPane gridPane=new GridPane();
 		gridPane.setStyle("-fx-background-color: darkslategray;");
@@ -232,6 +241,7 @@ public class Main extends Application {
 			gridPane.add(akla.getS(),3,i);
 			ColorPicker ccb=new ColorPicker();
 			ccb.setOnAction(new EventHandler() {
+				@SuppressWarnings("static-access")
 				public void handle(Event t) {
 					orb bk=new orb(ccb.getValue());
 					gridPane.add(bk.getS(),3,gridPane.getRowIndex(ccb));
@@ -263,7 +273,7 @@ public class Main extends Application {
 
 	/**
 	 * to check if color in arraylist are same or not
-	 * @return
+	 * @return True if color repeats
 	 * true if color in arraylist are same
 	 * @author yash
 	 */
@@ -290,8 +300,11 @@ public class Main extends Application {
 	 * This initializes grid
 	 * Have buttons like undo to undo move and drop down for new game and exit game
 	 * Here we make our grid with tiles as its element in grid and they are clickable and calls other method on click
-	 *
-	 *
+	 * Undo: If undo is clicked then its flag is enabled and a new game(GUI) is initialized and then previous game(Game object) is deserialized
+	 * and then game now continues from one turn before the undo is clicked.Methods like comeback and comeback2 helps to deseiralize the non-desiralizable 
+	 * attributes of game. 
+	 * Flag2 is enabled if the Resume button is clicked,a new game(GUI) is initialized and then previous game(Game object) is deserialized
+	 * and then game now continues from the point which the previous game was left.  
 	 * @author kshitiz,yash
 	 */
 	private static void game(){
@@ -423,7 +436,7 @@ public class Main extends Application {
 		ccb.setValue("Select Further option");
 		ccb.getSelectionModel().selectedIndexProperty()
 				.addListener(new ChangeListener<Number>() {
-					public void changed(ObservableValue ov, Number value, Number new_value) {
+					public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, Number value, Number new_value) {
 
 						if(new_value.toString().equals("2")){
 							thestage.close();
@@ -472,24 +485,31 @@ public class Main extends Application {
 	/**
 	 *This function is called when a player clicks on tile
 	 * And when tile owner is equal to player or there is no owner then we call add orb method to add orb in it
-	 * @param e
-	 * @param a
+	 * After every 
+	 * After every time player takes turn it waits if winner exception is throw or not, if yes new dialogue box is 
+	 * called which displays the winner and game is ended from that point.
+	 * @param e Action event
+	 * @param a Tile on which it is clicked
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @author yash kshitiz
 	 */
+	
+
+	public static boolean winnerflag=false;
+	
 	private static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		disable=false;
 //		System.out.println("hello3");
 		grid_tile_coloumn=GridPane.getColumnIndex(a);
 		grid_tile_row=GridPane.getRowIndex(a);
+		System.out.println("coordinate " + grid_tile_coloumn+ " "+grid_tile_row);
 //		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		if(g.getPlayers().peek().getColor().equals(a.getOwner())||a.getOwner().equals(Color.BLACK)){
 			Game.serialize(g);
 			//System.out.println("he");
 			Player temp=g.getPlayers().remove();
 			a.setOwner(temp.getColor());
-			boolean winnerflag=false;
 			try {
 				//System.out.println("Turn Tooked");
 				temp.takeTurn(grid_tile_row, grid_tile_coloumn);
@@ -497,7 +517,6 @@ public class Main extends Application {
 			}
 			catch (WinnerException e1){
 				System.out.println(e1.getMessage());
-				winnerflag=true;
 			}
 			catch (Exception e1) {
 				//deactivatecell();
@@ -505,16 +524,6 @@ public class Main extends Application {
 			}
 			g.getPlayers().add(temp);
 			a.addORB();
-
-
-
-
-
-			if(winnerflag){
-				DisplayError("Player : "+temp.getNo()+" wins");
-//				reset();
-				winnerflag=false;
-			}
 			if(nm>noofplayer){//add no.ofplayers-1
 				g.checkplayers();
 			}
@@ -523,21 +532,18 @@ public class Main extends Application {
 			changegridcolour(g.getPlayers().peek().getColor(),gp);
 		}
 		Game.serialize2(g);
+		if(winnerflag){
+			Display("Player : "+g.getPlayers().peek().getNo()+" wins");
+//			reset();
+			winnerflag=false;
+		}
 	}
 
-	public static void reset(){
-		g=null;
-		noofplayer=0;
-		m=0;n=0;
-		settingFlag=false;
-		playerFlag=false;
-		flag=false;
-		flag2=false;
-		disable=false;
-		nm=0;
-	}
-
-	public static void DisplayError(String msg){
+	/**
+	 * @param msg Message to be displayed when dialogue box appears
+	 * @author kshitiz
+	 */
+	public static void Display(String msg){
 		Stage Stage = new Stage();
 		Stage.setTitle("ERROR");
 		Scene New = new Scene(new Group(), 300, 200, Color.GRAY);
@@ -548,9 +554,9 @@ public class Main extends Application {
 			Stage.close();
 
 		});
-		ok.setLayoutX(120);
+		ok.setLayoutX(80);
 		ok.setLayoutY(90);
-		NewGame.setLayoutX(120);
+		NewGame.setLayoutX(140);
 		NewGame.setLayoutY(90);
 		ok.setAlignment(Pos.CENTER_LEFT);
 		NewGame.setAlignment(Pos.CENTER_RIGHT);
@@ -578,7 +584,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * @param gp
+	 * @param gp gridpane which has to be linked
 	 * used to set link between neighbours of cells
 	 * So that each cell knows about its neighbour
 	 * @author yash
@@ -630,11 +636,11 @@ public class Main extends Application {
 
 	/**
 	 *
-	 * @param row
-	 * @param column
-	 * @param gridPane
+	 * @param row row number
+	 * @param column column number
+	 * @param gridPane gridpane from which node has to be found
 	 * it is used to return a node from gridpane with given coordinate
-	 * @return
+	 * @return 	Node of given row and column no.
 	 * @author yash
 	 */
 	Node getNode (final int row, final int column, GridPane gridPane) {
@@ -654,8 +660,8 @@ public class Main extends Application {
 	/**
 	 * it used to change gridcolor according to player turn
 	 * it turns grid color with same as present player color
-	 * @param g
-	 * @param gp
+	 * @param g Color to which it has to be changed
+	 * @param gp grid pane to be changed 
 	 * @author yash
 	 */
 	static void changegridcolour(Color g,GridPane gp){

@@ -58,7 +58,7 @@ public class Main extends Application {
 
 	/**
 	 *
-	 * @param e
+	 * @param e Action event is passed
 	 * Method called when button is setting button is clicked and this takes us to new setting page
 	 * @author yash
 	 */
@@ -114,7 +114,7 @@ public class Main extends Application {
 
 	/**
 	 *
-	 * @param primaryStage
+	 * @param primaryStage Stage for which has to be drawn
 	 *Method used to make menu page
 	 * here we can select to start game with selction of new game and have to select grid size and no. of player
 	 * Default no. of player as two default size of grid is 9x16
@@ -273,7 +273,7 @@ public class Main extends Application {
 
 	/**
 	 * to check if color in arraylist are same or not
-	 * @return
+	 * @return True if color repeats
 	 * true if color in arraylist are same
 	 * @author yash
 	 */
@@ -488,8 +488,8 @@ public class Main extends Application {
 	 * After every 
 	 * After every time player takes turn it waits if winner exception is throw or not, if yes new dialogue box is 
 	 * called which displays the winner and game is ended from that point.
-	 * @param e
-	 * @param a
+	 * @param e Action event
+	 * @param a Tile on which it is clicked
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @author yash kshitiz
@@ -584,7 +584,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * @param gp
+	 * @param gp gridpane which has to be linked
 	 * used to set link between neighbours of cells
 	 * So that each cell knows about its neighbour
 	 * @author yash
@@ -636,11 +636,11 @@ public class Main extends Application {
 
 	/**
 	 *
-	 * @param row
-	 * @param column
-	 * @param gridPane
+	 * @param row row number
+	 * @param column column number
+	 * @param gridPane gridpane from which node has to be found
 	 * it is used to return a node from gridpane with given coordinate
-	 * @return
+	 * @return 	Node of given row and column no.
 	 * @author yash
 	 */
 	Node getNode (final int row, final int column, GridPane gridPane) {
@@ -660,8 +660,8 @@ public class Main extends Application {
 	/**
 	 * it used to change gridcolor according to player turn
 	 * it turns grid color with same as present player color
-	 * @param g
-	 * @param gp
+	 * @param g Color to which it has to be changed
+	 * @param gp grid pane to be changed 
 	 * @author yash
 	 */
 	static void changegridcolour(Color g,GridPane gp){

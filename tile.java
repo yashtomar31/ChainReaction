@@ -28,9 +28,9 @@ class tile extends StackPane{
 	 * made stackpane as clickable object
 	 * owner is null
 	 * and each tile is of size 50x50
-	 * @param k
-	 * @param g
-	 * @param cmass
+	 * @param k its cell that a tile mimics
+	 * @param g its game in which tile is there
+	 * @param cmass critical mass of the tile
 	 * @author yash
 	 */
 	public tile(Cell k,Game g,int cmass){
@@ -210,7 +210,7 @@ class tile extends StackPane{
 
 	/**
 	 * arraylist to get neighbours of cell
-	 * @return
+	 * @return Return neighbour f cell
 	 * @author yash
 	 */
 	ArrayList<tile> getnbrs(){
@@ -233,8 +233,8 @@ class tile extends StackPane{
 
 	/**
 	 * to check if cell owner is same as color passed
-	 * @param i
-	 * @return
+	 * @param i Puts color of player
+	 * @return True if owner has same color as tile else false
 	 * @author yash
 	 */
 	public boolean isOwnedBy(Color i){
@@ -246,7 +246,7 @@ class tile extends StackPane{
 
 	/**
 	 * true if critical mass is equal to this orbs
-	 * @return
+	 * @return Returns true if this orbs are equal to critical mass
 	 * @author yash
 	 */
 	public boolean isFull(){
@@ -258,7 +258,7 @@ class tile extends StackPane{
 
 	/**
 	 * true if this orbs is greater than critical mass
-	 * @return
+	 * @return Returns True if this orbs size is greater than critical mass
 	 * @author yash
 	 */
 	public boolean isgreater(){
@@ -270,7 +270,7 @@ class tile extends StackPane{
 
 	/**
 	 * setters and getters of parameters
-	 * @return
+	 * @return Returns link of neighbour
 	 * @author yash
 	 */
 	public Node getLink1() {
