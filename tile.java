@@ -173,6 +173,13 @@ class tile extends StackPane{
 				}
 
 			}
+			Main abs=new Main();
+			try {
+				abs.playsound();
+			}
+			catch(Exception e4){
+				System.out.println("Sound file not found");
+			}
 			mainTransition.play();
 			mainTransition.setOnFinished(e->{
 				this.getChildren().remove(1, this.getChildren().size());;

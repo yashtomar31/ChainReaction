@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 //import javafx.scene.shape.Rectangle;
@@ -71,6 +74,17 @@ public class Main extends Application {
 	 * Method called when a new game starts and it initializes the game
 	 * @author yash
 	 */
+	/**
+	 * Function to add sound in game
+	 * @author yash
+	 */
+	static public void  playsound(){
+		String musicFile = "C:\\Users\\Yash Tomar\\IdeaProjects\\ChainReaction\\src\\Blop.mp3";
+
+		Media sound = new Media(new File(musicFile).toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(sound);
+		mediaPlayer.play();
+	}
 	public static void ngame(){
 		noofplayer=Integer.parseInt((ncb.getValue().toString()));
 		g=new Game(m,n,noofplayer);
@@ -506,6 +520,12 @@ public class Main extends Application {
 		System.out.println("coordinate " + grid_tile_coloumn+ " "+grid_tile_row);
 //		System.out.println(grid_tile_coloumn+" "+grid_tile_row);
 		if(g.getPlayers().peek().getColor().equals(a.getOwner())||a.getOwner().equals(Color.BLACK)){
+			try {
+				playsound();
+			}
+			catch(Exception e2){
+				System.out.println("Sound File not found");
+			}
 			Game.serialize(g);
 			//System.out.println("he");
 			Player temp=g.getPlayers().remove();
@@ -516,6 +536,7 @@ public class Main extends Application {
 				//System.out.println("Hello4");
 			}
 			catch (WinnerException e1){
+				winnerflag=true;
 				System.out.println(e1.getMessage());
 			}
 			catch (Exception e1) {
@@ -661,7 +682,7 @@ public class Main extends Application {
 	 * it used to change gridcolor according to player turn
 	 * it turns grid color with same as present player color
 	 * @param g Color to which it has to be changed
-	 * @param gp grid pane to be changed 
+	 * @param gp grid pane to be changed
 	 * @author yash
 	 */
 	static void changegridcolour(Color g,GridPane gp){
