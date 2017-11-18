@@ -19,27 +19,11 @@ public class Cell implements Serializable{
 	private Queue<Player> Players;
 
 
-	public int getOrbs() {
-		return orbs;
-	}
-
-	public void setOrbs(int orbs) {
-		this.orbs = orbs;
-	}
-
-	public Queue<Player> getPlayers() {
-		return Players;
-	}
-
-	public void setPlayers(Queue<Player> players) {
-		Players = players;
-	}
-
 	
 	/**
 	 * This constructs the new cell setting the Players playing in the game, sets the critical mass of the respective cell
-	 * @param cm
-	 * @param Players
+	 * @param cm Critical mass of the cell
+	 * @param Players List of Players playing in game
 	 * @author kshitiz
 	 */
 	public Cell(int cm,Queue<Player> Players){
@@ -132,9 +116,9 @@ public class Cell implements Serializable{
 		else{
 			System.out.println("Code Gdbd hai");
 		}
-		System.out.println("number of players : " + Players.size());
+//		System.out.println("number of players : " + Players.size());
 		this.checkplayers();
-		System.out.println("Helloprefinal "+Players.size());
+//		System.out.println("Helloprefinal "+Players.size());
 		if(Players.size()==0){
 			System.out.println("Hellofinal");
 			throw new WinnerException("Jeet gya koi");
@@ -182,8 +166,8 @@ public class Cell implements Serializable{
 	
 	/**
 	 * Check if this cell is owned by the player of given color i or not
-	 * @param i
-	 * @return
+	 * @param i Color value which is checked if it is same to that of the cell or not
+	 * @return boolean value (if the cell owner is i or not)
 	 * @author kshitiz
 	 */
 	public boolean isOwnedBy(Color i){
@@ -197,7 +181,7 @@ public class Cell implements Serializable{
 	/**
 	 * checks if the no. of orbs in cell is equal to cell's critical mass or not.
 	 * @author kshitiz
-	 * @return
+	 * @return boolean value (if the cell is full or not)
 	 */
 	public boolean isFull(){
 		if (this.Criticalmass==this.orbs){
@@ -210,6 +194,24 @@ public class Cell implements Serializable{
 	 * setter and getter of Cell
 	 * @return
 	 */
+	
+
+	public int getOrbs() {
+		return orbs;
+	}
+
+	public void setOrbs(int orbs) {
+		this.orbs = orbs;
+	}
+
+	public Queue<Player> getPlayers() {
+		return Players;
+	}
+
+	public void setPlayers(Queue<Player> players) {
+		Players = players;
+	}
+
 		
 	public Cell getLink1() {
 		return link1;

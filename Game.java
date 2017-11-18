@@ -38,7 +38,7 @@ public class Game implements Serializable {
 	
 	/**
 	 * This method serializes the Game object in file out.ser
-	 * @param obj
+	 * @param obj This is the object to be serialized
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @author kshitiz
@@ -56,7 +56,7 @@ public class Game implements Serializable {
 
 	/**
 	 * This method helps to deserialize the object from file out.ser and returns the object 
-	 * @return
+	 * @return Returns the Deserialized object
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
@@ -77,7 +77,7 @@ public class Game implements Serializable {
 
 	/**
 	 * This method serializes the Game object in file out2.ser
-	 * @param obj
+	 * @param obj This is the object to be serialized
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @author kshitiz
@@ -96,7 +96,7 @@ public class Game implements Serializable {
 
 	/**
 	 * This method helps to deserialize the object from file out.ser and returns the object 
-	 * @return
+	 * @return Returns the Deserialized object
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
@@ -119,9 +119,10 @@ public class Game implements Serializable {
 	
 	/**
 	 * Construct Game object and initiaties a Game with board dimensions mXn and players k
-	 * @param m
-	 * @param n
-	 * @param k
+	 * @param m Dimension of board
+	 * @param n Dimension of board
+	 * @param k Number of Players
+	 * @author kshitiz
 	 */
 	public Game(int m,int n,int k) {
 		Players=new LinkedList<Player>();
@@ -155,8 +156,8 @@ public class Game implements Serializable {
 
 	/**
 	 * add player in queue
-	 * @param c
-	 * @param n
+	 * @param c Color of the PLayer
+	 * @param n Player's serial number in game
 	 * @author yash
 	 *
 	 */
@@ -168,7 +169,7 @@ public class Game implements Serializable {
 	
 	/**
 	 * This method return true if no. of players left in game is 1, and hence used for declaring winner in game
-	 * @return
+	 * @return boolean value (is there is a winner or not)
 	 * @author kshitiz
 	 */
 	public boolean isWinner(){
@@ -244,8 +245,8 @@ public class Game implements Serializable {
 	/**
 	 * Checks it temp player is active or not, it iterates over all the cells and checks each cell is it owned by the player or not
 	 * and returns true if yes and false otherwise
-	 * @param temp
-	 * @return
+	 * @param temp Player to be checked if it is active or not
+	 * @return Returns Boolean value (is the input player is active or not
 	 * @author kshitiz
 	 */
 	boolean isActive(Player temp){
@@ -269,7 +270,6 @@ public class Game implements Serializable {
 
 	/**
 	 * setter and getter of Game
-	 * @return
 	 */
 
 	public void setPlayers(Queue<Player> players) {

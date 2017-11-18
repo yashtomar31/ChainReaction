@@ -86,7 +86,6 @@ public class Main extends Application {
 
 
 	/**
-	 * @param e
 	 * Method is used resume the previous saved game, then initializes the game.
 	 * @author kshitiz
 	 */
@@ -495,6 +494,10 @@ public class Main extends Application {
 	 * @throws IOException
 	 * @author yash kshitiz
 	 */
+	
+
+	public static boolean winnerflag=false;
+	
 	private static void Buttonclick(MouseEvent e,tile a) throws FileNotFoundException, IOException{
 		disable=false;
 //		System.out.println("hello3");
@@ -507,7 +510,6 @@ public class Main extends Application {
 			//System.out.println("he");
 			Player temp=g.getPlayers().remove();
 			a.setOwner(temp.getColor());
-			boolean winnerflag=false;
 			try {
 				//System.out.println("Turn Tooked");
 				temp.takeTurn(grid_tile_row, grid_tile_coloumn);
@@ -515,7 +517,6 @@ public class Main extends Application {
 			}
 			catch (WinnerException e1){
 				System.out.println(e1.getMessage());
-				winnerflag=true;
 			}
 			catch (Exception e1) {
 				//deactivatecell();
@@ -523,11 +524,6 @@ public class Main extends Application {
 			}
 			g.getPlayers().add(temp);
 			a.addORB();
-			if(winnerflag){
-				DisplayError("Player : "+temp.getNo()+" wins");
-//				reset();
-				winnerflag=false;
-			}
 			if(nm>noofplayer){//add no.ofplayers-1
 				g.checkplayers();
 			}
@@ -536,9 +532,18 @@ public class Main extends Application {
 			changegridcolour(g.getPlayers().peek().getColor(),gp);
 		}
 		Game.serialize2(g);
+		if(winnerflag){
+			Display("Player : "+g.getPlayers().peek().getNo()+" wins");
+//			reset();
+			winnerflag=false;
+		}
 	}
 
-	public static void DisplayError(String msg){
+	/**
+	 * @param msg Message to be displayed when dialogue box appears
+	 * @author kshitiz
+	 */
+	public static void Display(String msg){
 		Stage Stage = new Stage();
 		Stage.setTitle("ERROR");
 		Scene New = new Scene(new Group(), 300, 200, Color.GRAY);
@@ -549,9 +554,9 @@ public class Main extends Application {
 			Stage.close();
 
 		});
-		ok.setLayoutX(120);
+		ok.setLayoutX(80);
 		ok.setLayoutY(90);
-		NewGame.setLayoutX(120);
+		NewGame.setLayoutX(140);
 		NewGame.setLayoutY(90);
 		ok.setAlignment(Pos.CENTER_LEFT);
 		NewGame.setAlignment(Pos.CENTER_RIGHT);

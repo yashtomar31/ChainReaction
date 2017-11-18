@@ -15,13 +15,14 @@ public class Matrix implements Serializable {
 	public Cell[][] board;
 	
 	/**
-	 * @param m
-	 * @param n
-	 * @param Players
-	 * @author kshitiz
 	 * 
 	 * This is the constructor which construct the board of cells of dimension mXn, and passes the list of players in every cell
 	 * . This also links all the cells to one another
+	 * @param m Dimension of board
+	 * @param n Dimension of board
+	 * @param Players List of players that are playing in game
+	 * @author kshitiz
+	 * 
 	 */
 	public Matrix(int m,int n,Queue<Player> Players){
 		this.m=m;
@@ -92,7 +93,6 @@ public class Matrix implements Serializable {
 	
 	/**
 	 * setter and getter of Matrix
-	 * @return
 	 */
 	
 	public int getCounter() {

@@ -119,7 +119,6 @@ class tile extends StackPane{
 		else{
 			System.out.println("Code Gdbd hai");
 		}
-		
 	}
 
 	/**
